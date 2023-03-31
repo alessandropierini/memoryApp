@@ -1,15 +1,17 @@
 import { StyleSheet, Text, View, TouchableOpacity, useWindowDimensions, Image } from 'react-native'
 import Logo from '../../../assets/m__mLogoColors.png'
 import LogoCompleto from '../../../assets/m__memoryLogoColors.png'
-import React from 'react'
+import React, { useContext } from 'react'
 import CustomButton from '../../components/customButton'
 import CustomInput from '../../components/customInput'
 import { useForm } from 'react-hook-form'
+import { AuthContext } from '../../context/AuthContext'
 
 const mainColor = '#1B6094'
 const EMAIL_REGEX = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/
 
 const SignUpScreen = ({ navigation }) => {
+  const { signup } = useContext(AuthContext)
 
 
   const { control, handleSubmit, formState: { errors }, watch } = useForm()
@@ -22,6 +24,13 @@ const SignUpScreen = ({ navigation }) => {
 
   const onSignUpPressed = (data) => {
     console.log(data)
+    username = data.username
+    name = data.displayName
+    email = data.email
+    password = data.password
+    signup(username, name, email, password)
+    console.log(`user: ${username}, name: ${name}, email: ${email} pass: ${password}`)
+
   }
 
   return (

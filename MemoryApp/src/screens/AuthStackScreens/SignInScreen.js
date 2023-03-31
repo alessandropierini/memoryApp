@@ -17,7 +17,7 @@ const SignInScreen = ({ navigation }) => {
     username = data.username
     password = data.password
     login(username, password)
-    console.log(`user: ${this.username}, pass: ${this.password}`)
+    console.log(`user: ${username}, pass: ${password}`)
   }
 
   const onSignUpPressed = () => {

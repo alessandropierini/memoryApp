@@ -12,22 +12,40 @@ export const AuthProvider = ({ children }) => {
 
     const login = (username, password) => {
         setIsLoading(true)
-        axios.post(`${BASE_URL}/signup`, {
+        axios.post(`${BASE_URL}/signin`, {
             username,
             password
         }).then(res => {
-            console.log(res)
-            // let userInfo = res
-            // setUserInfo(userInfo)
-            // setUserToken(userInfo.token)
-            // AsyncStorage.setItem('userInfo', JSON.stringify(userInfo))
-            // AsyncStorage.setItem('userToken', userInfo.token)
+            console.log(res.data)
+            let userInfo = res.data
+            setUserInfo(userInfo)
+            setUserToken(userInfo.token)
+            AsyncStorage.setItem('userInfo', JSON.stringify(userInfo))
+            AsyncStorage.setItem('userToken', userInfo.token)
 
         }).catch(e => {
-            console.log(`login error: ${e}`)
+            console.log(`login error: ${e.response.data.msg}`)
         })
-        setUserToken('adsfasdf')
         setIsLoading(false)
+    }
+
+    const signup = (username, name, email, password) => {
+        setIsLoading(true)
+        axios.post(`${BASE_URL}/signup`, {
+            username,
+            name,
+            email,
+            password
+        }).then(res => {
+            console.log(res.data)
+            let userInfo = res.data
+            setUserInfo(userInfo)
+            setUserToken(userInfo.token)
+            AsyncStorage.setItem('userInfo', JSON.stringify(userInfo))
+            AsyncStorage.setItem('userToken', userInfo.token)
+        }).catch(e => {
+            console.log(`Register error: ${e.response.data.msg}`)
+        })
     }
 
     const logout = () => {
@@ -62,7 +80,7 @@ export const AuthProvider = ({ children }) => {
     }, [])
 
     return (
-        <AuthContext.Provider value={{ login, logout, isLoading, userToken }}>
+        <AuthContext.Provider value={{ login, signup, logout, isLoading, userToken }}>
             {children}
         </AuthContext.Provider>
     )
