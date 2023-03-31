@@ -1,19 +1,23 @@
+import React, { useContext } from 'react'
 import { SafeAreaView, StyleSheet, Text, View, useWindowDimensions, Image, TouchableOpacity } from 'react-native'
 import Logo from '../../../assets/m__mLogoColors.png'
 import LogoCompleto from '../../../assets/m__memoryLogoColors.png'
-import React from 'react'
 import CustomButton from '../../components/customButton'
 import CustomInput from '../../components/customInput'
 import { useForm } from 'react-hook-form'
-
-const mainColor = '#1B6094'
+import { mainColor } from '../../config/config'
+import { AuthContext } from '../../context/AuthContext'
 
 const SignInScreen = ({ navigation }) => {
+  const { login } = useContext(AuthContext)
   const { control, handleSubmit, formState: { errors } } = useForm()
 
   const { height } = useWindowDimensions()
   const onSignInPressed = (data) => {
-    console.log(data)
+    username = data.username
+    password = data.password
+    login(username, password)
+    console.log(`user: ${this.username}, pass: ${this.password}`)
   }
 
   const onSignUpPressed = () => {
@@ -23,7 +27,6 @@ const SignInScreen = ({ navigation }) => {
   return (
     <View style={styles.root}>
       <Image source={Logo} style={[styles.logo, { height: height * 0.3, marginTop: height * 0.15, marginBottom: height * 0.05 }]} resizeMode="contain" />
-
       <CustomInput
         name="username"
         placeholder="Username"
@@ -41,12 +44,12 @@ const SignInScreen = ({ navigation }) => {
           required: 'Password is required',
         }}
       />
-      <View style={{padding: 10}}/>
-      <CustomButton text="Sign In" onPress={handleSubmit(onSignInPressed)}/>
+      <View style={{ padding: 10 }} />
+      <CustomButton text="Sign In" onPress={handleSubmit(onSignInPressed)} />
 
 
       <TouchableOpacity onPress={onSignUpPressed}>
-        <Text style={{color: mainColor, padding: 5, marginBottom: 45 }}>Don't have an account? <Text style={styles.text}>Sign Up here!</Text></Text>
+        <Text style={{ color: mainColor, padding: 5, marginBottom: 45 }}>Don't have an account? <Text style={styles.text}>Sign Up here!</Text></Text>
       </TouchableOpacity>
 
       <Image source={LogoCompleto} style={[styles.logo, { height: height * 0.2 }]} resizeMode="contain" />

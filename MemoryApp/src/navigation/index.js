@@ -1,17 +1,27 @@
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useContext } from 'react'
+import { SafeAreaView, StyleSheet, Text, View, ActivityIndicator } from 'react-native'
 import AuthStack from './navigationFiles/AuthStack'
 import { NavigationContainer } from '@react-navigation/native'
 import { enableScreens } from 'react-native-screens';
 import HomeTabs from './navigationFiles/HomeTabs';
-enableScreens(false);
+import { AuthContext } from '../context/AuthContext';
 
 
 const Navigation = () => {
+
+    const { isLoading, userToken } = useContext(AuthContext)
+
+    if (isLoading) {
+        return (
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <ActivityIndicator size={'large'} />
+            </View>
+        )
+    }
+
     return (
         <NavigationContainer styles={{}}>
-            {/* <AuthStack /> */}
-            <HomeTabs />
+            {userToken !== null ? <HomeTabs /> : <AuthStack />}
         </NavigationContainer>
     )
 }

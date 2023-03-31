@@ -1,7 +1,6 @@
 import { StyleSheet, Text, ScrollView, RefreshControl, View } from 'react-native'
 import React, { useState } from 'react'
-
-const mainColor = '#1B6094'
+import { mainColor } from '../../config/config'
 
 const HomeScreen = () => {
 

@@ -1,22 +1,21 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import { createStackNavigator } from '@react-navigation/stack'
-import React from 'react'
+import React, { useContext } from 'react'
 
 import ProfileScreen from '../../screens/ProfileStackScreens/ProfileScreen'
 import PostScreen from '../../screens/SharedScreens/PostScreen'
 import EditProfileScreen from '../../screens/ProfileStackScreens/EditProfileScreen'
 import SavedScreen from '../../screens/SharedScreens/SavedScreen'
 import logo from '../../../assets/m__mLogoColors.png'
+import { AuthContext } from '../../context/AuthContext'
 
 
 const Stack = createStackNavigator()
 
 const ProfileStack = () => {
 
-  const onMenuPressed = () => {
-    console.warn('menu')
-  }
+const { logout } = useContext(AuthContext)
 
   return (
     <Stack.Navigator>
@@ -30,7 +29,7 @@ const ProfileStack = () => {
           fontSize: 24,
         },
         headerRight: () => (
-          <TouchableOpacity onPress={onMenuPressed}>
+          <TouchableOpacity onPress={() => {logout()}}>
             <Ionicons
               style={{ color: 'black', marginRight: 10 }}
               name={"menu"}
