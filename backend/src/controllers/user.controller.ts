@@ -22,6 +22,7 @@ export const signUp = async (req: Request, res: Response): Promise<Response> => 
     if(user) {
         return res.status(400).json({msg: 'The user already exist'});
     }
+    //guardar usuario
     const Newuser = new User(req.body);
     await Newuser.save();
     return res.status(201).json({Newuser, msg:'User registered succesfully', token: createToken(Newuser)});
