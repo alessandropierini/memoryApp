@@ -26,6 +26,7 @@
     "react-native": "0.71.4",
     "react-native-gesture-handler": "~2.9.0",
     "react-native-reanimated": "~2.14.4",
+    "react-native-snap-carousel": "^3.9.1",
     "react-native-web": "~0.18.10"
   },
   "devDependencies": {

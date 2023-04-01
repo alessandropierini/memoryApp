@@ -6,7 +6,7 @@ import { Ionicons } from '@expo/vector-icons'
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import CustomButton from '../../components/customButton'
-import { mainColor, defaultAvatar, mainTextColor, mainBackground, loaderColor, detailsColor } from '../../config/config'
+import { mainColor, defaultAvatar, mainTextColor, mainBackground, loaderColor, detailsColor, ScreenHeight } from '../../config/config'
 import BottomSheetOptions from '../../components/BottomSheetOptions'
 
 const ProfileScreen = ({ navigation }) => {
@@ -14,7 +14,7 @@ const ProfileScreen = ({ navigation }) => {
   const { userInfo, logout } = useContext(AuthContext)
 
   const BottomSheetModalRef = useRef(null)
-  const snapPoints = ["25", "40%"]
+  const snapPoints = ["40%"]
   const onMenuPressed = () => {
     BottomSheetModalRef.current?.present()
   }
@@ -77,7 +77,7 @@ const ProfileScreen = ({ navigation }) => {
       }>
       <View style={styles.userInfoSection}>
         <View style={styles.container}>
-          <View style={{ paddingRight: 5 }}>
+          <View style={{ paddingRight: 0 }}>
             <Image
               style={{ height: 100, width: 100, borderRadius: 100, borderColor: 'white', borderWidth: 2 }}
               source={{ uri: defaultAvatar }}
@@ -132,7 +132,7 @@ const ProfileScreen = ({ navigation }) => {
           text="New Moment"
           onPress={onNewMomentPressed}
         />
-        <View style={{paddingTop: 130}}>
+        <View style={{paddingTop: "30%"}}>
           <BottomSheetOptions
             icon="ios-exit-outline"
             text="Logout"
@@ -177,52 +177,17 @@ const styles = StyleSheet.create({
     paddingTop: 5,
     paddingBottom: 1,
   },
-  title: {
-    fontSize: 24,
-    fontWeight: mainTextColor,
-  },
   followInfo: {
     alignItems: 'center',
     paddingHorizontal: 10
-  },
-  root: {
-    alignItems: 'center',
-    padding: 5,
-  },
-  bio: {
-    flex: 5,
-    marginTop: 20,
-    marginBottom: 1,
-    fontSize: 14,
-    lineHeight: 14,
-    fontWeight: '500',
-    color: mainTextColor,
-  },
-  rightCont: {
-    flex: 1,
-    paddingBottom: 6,
-    marginLeft: 5,
-    flexDirection: 'column',
-    justifyContent: 'center',
-  },
-  nameCont: {
-    flexDirection: 'row',
-    alignSelf: 'center',
-    paddingLeft: 0
-
   },
   topCont: {
     flex: 1,
     alignItems: 'center'
   },
-  nameText: {
-    color: mainTextColor,
-    marginRight: 5,
-    fontSize: 24,
-    fontWeight: 'bold',
-  },
   idText: {
     marginLeft: 0,
     color: mainTextColor,
+    fontWeight: 'bold',
   },
 })

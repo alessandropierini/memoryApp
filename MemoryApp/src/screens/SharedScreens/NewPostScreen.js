@@ -1,22 +1,24 @@
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
-import { StyleSheet, Text, View, ScrollView, Dimensions, TouchableOpacity, Alert, Image, TextInput } from 'react-native'
-import React, { useState } from 'react'
-
-import { mainBackground } from '../../config/config'
-import CustomButton from '../../components/customButton'
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Alert, Image, TextInput } from 'react-native'
+import Carousel from 'react-native-snap-carousel'
 import * as ImagePicker from 'expo-image-picker'
+import React, { useContext, useState } from 'react'
 import moment from 'moment'
 
-const ScreenWidth = Dimensions.get('window').width
+import { mainBackground, ScreenWidth, imageWidth, imageHeight } from '../../config/config'
+import CustomButton from '../../components/customButton'
+import ImageSlider from '../../components/ImageSlider'
+import { AuthContext } from '../../context/AuthContext'
 
-const imageHeight = 1920/5
-const imageWidth = 1080/5
+const NewPostScreen = ({ navigation }) => {
 
-const NewPostScreen = () => {
+  const { setIsLoading } = useContext(AuthContext)
 
   const [caption, setCaption] = useState("")
   const onPostPressed = () => {
+    setIsLoading(true)
     if (!caption.trim().length) {
+      setIsLoading(false)
       Alert.alert(
         'Error',
         'Empty caption!',
@@ -24,16 +26,28 @@ const NewPostScreen = () => {
           { text: 'Close', style: 'close' },
         ]
       )
+    } else if (images.length < 1) {
+      setIsLoading(false)
+      Alert.alert(
+        'Error',
+        `You haven't selected an image!`,
+        [
+          { text: 'Close', style: 'close' },
+        ]
+      )
     } else {
+      setIsLoading(false)
       var trimmedCaption = caption.trim()
       var instant = moment()
-      console.log({ trimmedCaption, instant })
-      // nav.navigate('HomeScreen')
+      console.log({ trimmedCaption, instant, images })
+      navigation.navigate('HomeStack', { screen: 'Home' })      
       this.textInput.clear()
       setImage(null)
+      setImages([])
     }
   }
 
+  const [images, setImages] = useState([])
   const [image, setImage] = useState(null)
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -42,15 +56,25 @@ const NewPostScreen = () => {
       allowsEditing: false,
       aspect: [2, 3],
       quality: 1,
-      allowsMultipleSelection: true, 
+      allowsMultipleSelection: true,
       selectionLimit: 4
     })
-    setImage(result.assets[0].uri);
-    console.log(result.assets.length())
+    setImage(result.assets[0].uri); //check if obsolete
+    {
+      result.assets.map((image) => (
+        images.push(image.uri)
+      )
+      )
+      console.log(images)
+    }
+  }
+  const renderSlider = ({ item, index }) => {
+    return <ImageSlider data={item} />
   }
 
   const onImagePressed = () => {
     setImage(false)
+    setImages([])
   }
 
   return (
@@ -61,32 +85,21 @@ const NewPostScreen = () => {
 
       <View style={{ alignItems: 'center', position: 'relative' }}>
         {image ?
-          <View style={{
-            height: imageHeight,
-            width: imageWidth,
-            borderRadius: 10,
-            marginTop: 10,
-            marginLeft: 10,
-            marginRight: 10,
-            marginBottom: 15,
-            flex: 1,
-            alignItems: 'center',
-            justifyContent: 'center',
-
-          }}>
-            <Image
-              source={{
-                uri: image
-              }}
-              style={[styles.imageButton, { position: 'absolute' }]}
+          <View style={{ paddingTop: 25 }}>
+            <Carousel
+              ref={(c) => { this._carousel = c; }}
+              data={images}
+              renderItem={renderSlider}
+              sliderWidth={ScreenWidth}
+              itemWidth={ScreenWidth - 200}
             />
             <TouchableOpacity
               onPress={onImagePressed}
               style={{
                 position: 'absolute',
                 alignSelf: 'flex-end',
-                paddingBottom: 435,
                 paddingRight: 10,
+                paddingTop: 10
 
               }}>
               <MaterialCommunityIcons name="close" size={30} color={'white'} style={{
@@ -118,8 +131,8 @@ const NewPostScreen = () => {
         />
       </View>
       <View style={styles.button}>
-          <CustomButton text="Post this Now!" type="PRIMARY" onPress={onPostPressed} />
-        </View>
+        <CustomButton text="Post this Now!" type="PRIMARY" onPress={onPostPressed} />
+      </View>
     </ScrollView>
   )
 }
@@ -128,38 +141,39 @@ export default NewPostScreen
 
 const styles = StyleSheet.create({
   root: {
-      alignItems: 'center',
+    alignItems: 'center',
+    paddingTop: 10
   },
   searchText: {
-      flex: 2,
-      backgroundColor: 'white',
-      paddingLeft: 25,
-      textAlignVertical: 'top',
-      height: 120,
-      width: ScreenWidth,
-      marginBottom: 12,
-      color: 'black',
-      paddingTop: 15,
-      paddingRight: 25,
-      fontSize: 18,
-      marginTop: 10,
-      paddingBottom: 25
+    flex: 2,
+    backgroundColor: 'white',
+    paddingLeft: 25,
+    textAlignVertical: 'top',
+    height: 120,
+    width: ScreenWidth,
+    marginBottom: 12,
+    color: 'black',
+    paddingTop: 15,
+    paddingRight: 25,
+    fontSize: 18,
+    marginTop: 10,
+    paddingBottom: 25
   },
   button: {
-      alignItems: 'center',
-      paddingBottom: 25
+    alignItems: 'center',
+    paddingBottom: 25
   },
   imageButton: {
-      backgroundColor: '#d9d9d9',
-      height: imageHeight,
-      width: imageWidth,
-      borderRadius: 10,
-      marginTop: 10,
-      marginLeft: 10,
-      marginRight: 10,
-      marginBottom: 15,
-      flex: 1,
-      alignItems: 'center',
-      justifyContent: 'center'
+    backgroundColor: '#d9d9d9',
+    height: imageHeight,
+    width: imageWidth,
+    borderRadius: 10,
+    marginTop: 10,
+    marginLeft: 10,
+    marginRight: 10,
+    marginBottom: 15,
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
   },
 })
