@@ -1,7 +1,6 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
-
-const mainColor = '#1B6094'
+import { buttonColor, buttonTextColor, mainColor } from '../config/config'
 
 const CustomButton = ({ onPress, text, type = "PRIMARY" }) => {
   return (
@@ -44,6 +43,15 @@ const styles = StyleSheet.create({
   container_FOLLOW2: {
     backgroundColor: 'black',
     width: '50%',
+  },
+  container_EDITPROFILE: {
+    backgroundColor: buttonColor,
+    width: '100%',
+  },
+  text_EDITPROFILE: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: buttonTextColor
   },
   text_FOLLOW: {
     fontSize: 16,

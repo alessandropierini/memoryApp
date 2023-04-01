@@ -29,11 +29,13 @@ const SignInScreen = ({ navigation }) => {
     <ScrollView>
       <View style={styles.root}>
 
-        <Image source={Logo} style={[styles.logo, { height: height * 0.3, marginTop: height * 0.15, marginBottom: height * 0.05 }]} resizeMode="contain" />
+        <Image source={Logo} style={[styles.logo, { height: height * 0.2, marginTop: height * 0.15, marginBottom: height * 0.075 }]} resizeMode="contain" />
         <CustomInput
           name="username"
           placeholder="Username"
           control={control}
+          autoCapitalize='none'
+
           rules={{
             required: 'Username is required'
           }}
@@ -41,13 +43,14 @@ const SignInScreen = ({ navigation }) => {
         <CustomInput
           name="password"
           placeholder="Password"
+          autoCapitalize='none'
           control={control}
           secureTextEntry
           rules={{
             required: 'Password is required',
           }}
         />
-        <View style={{ padding: 10 }} />
+        <View style={{ padding: 15 }} />
         <CustomButton text="Sign In" onPress={handleSubmit(onSignInPressed)} />
 
 

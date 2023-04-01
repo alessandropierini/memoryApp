@@ -1,6 +1,6 @@
 import { StyleSheet, Text, ScrollView, RefreshControl, View } from 'react-native'
 import React, { useState } from 'react'
-import { mainColor } from '../../config/config'
+import { loaderColor, mainBackground, mainColor } from '../../config/config'
 
 const HomeScreen = () => {
 
@@ -14,9 +14,10 @@ const HomeScreen = () => {
 
   return (
     <ScrollView
+    style={{backgroundColor: mainBackground}}
       showsVerticalScrollIndicator={false}
       refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} style={{ backgroundColor: 'white' }} title="Pull to refresh" tintColor={'gray'} titleColor={'gray'} />
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} style={{ backgroundColor: mainBackground }} title="Pull to refresh" tintColor={loaderColor} titleColor={loaderColor} />
       }>
       <Text>HomeScreen</Text>
     </ScrollView>

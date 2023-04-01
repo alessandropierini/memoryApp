@@ -3,7 +3,7 @@ import React, { useState, useContext } from 'react'
 import { AuthContext } from '../../context/AuthContext'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import CustomButton from '../../components/customButton'
-import { mainColor, defaultAvatar, mainTextColor } from '../../config/config'
+import { mainColor, defaultAvatar, mainTextColor, mainBackground, loaderColor, detailsColor } from '../../config/config'
 
 const ProfileScreen = ({ navigation }) => {
 
@@ -23,9 +23,10 @@ const ProfileScreen = ({ navigation }) => {
 
   return (
     <ScrollView
+    style={{backgroundColor: mainBackground}}
       showsVerticalScrollIndicator={false}
       refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} style={{ backgroundColor: 'white' }} title="Pull to refresh" tintColor={mainColor} titleColor={mainColor} />
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} style={{ backgroundColor: mainBackground }} title="Pull to refresh" tintColor={loaderColor} titleColor={loaderColor} />
       }>
       <View style={styles.userInfoSection}>
         <View style={styles.container}>
@@ -61,7 +62,7 @@ const ProfileScreen = ({ navigation }) => {
           </View>
         </View>
         <View style={{ alignItems: 'center', flex: 1, paddingBottom: 10 }}>
-          <CustomButton text="Edit Profile" onPress={onEditPressed} type="FOLLOW2" />
+          <CustomButton text="Edit Profile" onPress={onEditPressed} type="EDITPROFILE" />
         </View>
       </View>
     </ScrollView>
@@ -74,7 +75,9 @@ const styles = StyleSheet.create({
   userInfoSection: {
     paddingHorizontal: 30,
     marginBottom: 25,
-    backgroundColor: 'white'
+    backgroundColor: 'white',
+    borderBottomColor: detailsColor,
+    borderBottomWidth: 0.25
   },
   container: {
     flexDirection: 'row',

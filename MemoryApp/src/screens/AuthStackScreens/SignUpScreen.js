@@ -44,26 +44,30 @@ const SignUpScreen = ({ navigation }) => {
         <CustomInput
           name="username"
           placeholder="Username"
+          autoCapitalize='none'
           control={control}
           rules={{
             required: 'Username is required',
-            minLength: { value: 7, message: 'Username must be at least 7 characters long' },
+            minLength: { value: 3, message: 'Username must be at least 3 characters long' },
             maxLength: { value: 13, message: 'Username must be less than 13 characters long' }
           }}
         />
         <CustomInput
           name="displayName"
           placeholder="Display Name"
+          autoCapitalize='none'
           control={control}
           rules={{
-            required: 'Username is required',
-            minLength: { value: 3, message: 'Name must be at least 7 characters long' },
+            required: 'Display name is required',
+            minLength: { value: 3, message: 'Name must be at least 3 characters long' },
             maxLength: { value: 25, message: 'Name must be less than 25 characters long' }
           }}
         />
         <CustomInput
           name="email"
           placeholder="email"
+          autoCapitalize='none'
+          keyboardType='email-address'
           control={control}
           rules={{
             required: 'Email is required',
@@ -74,11 +78,12 @@ const SignUpScreen = ({ navigation }) => {
           name="password"
           placeholder="Password"
           control={control}
+          autoCapitalize='none'
           secureTextEntry
           rules={{
             required: 'Password is required',
             minLength: { value: 7, message: 'Password must be at least 7 characters long' },
-            maxLength: { value: 13, message: 'Password must be less than 13 characters long' }
+            maxLength: { value: 13, message: 'Password must be less than 13 characters long' },
           }}
         />
         <CustomInput
@@ -86,6 +91,7 @@ const SignUpScreen = ({ navigation }) => {
           placeholder="Confirm password"
           control={control}
           secureTextEntry
+          autoCapitalize='none'
           rules={{
             required: 'Please confirm your password',
             minLength: { value: 7, message: 'Password must be at least 7 characters long' },

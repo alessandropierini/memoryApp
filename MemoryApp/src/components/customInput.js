@@ -4,7 +4,7 @@ import { Controller } from 'react-hook-form'
 
 const mainColor = '#1B6094'
 
-const CustomInput = ({ control, name, rules = {}, placeholder, secureTextEntry }) => {
+const CustomInput = ({ control, name, rules = {}, placeholder, secureTextEntry, autoCapitalize, keyboardType = "default" }) => {
     return (
         <Controller
             control={control}
@@ -26,6 +26,8 @@ const CustomInput = ({ control, name, rules = {}, placeholder, secureTextEntry }
                             placeholder={placeholder}
                             style={styles.input}
                             secureTextEntry={secureTextEntry}
+                            autoCapitalize={autoCapitalize}
+                            keyboardType={keyboardType}
                         />
                     </View>
                     {error && (

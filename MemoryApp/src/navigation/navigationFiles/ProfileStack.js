@@ -9,6 +9,7 @@ import EditProfileScreen from '../../screens/ProfileStackScreens/EditProfileScre
 import SavedScreen from '../../screens/SharedScreens/SavedScreen'
 import logo from '../../../assets/m__mLogoColors.png'
 import { AuthContext } from '../../context/AuthContext'
+import { mainBackground } from '../../config/config'
 
 
 const Stack = createStackNavigator()
@@ -20,11 +21,19 @@ const ProfileStack = () => {
     logout()
   }
 
-const { logout, userInfo } = useContext(AuthContext)
+  const { logout, userInfo } = useContext(AuthContext)
 
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{
+      headerBackTitleVisible: true,
+      headerTintColor: 'black',
+    }}>
       <Stack.Screen name="Profile" component={ProfileScreen} options={{
+        headerStyle: {
+          backgroundColor: mainBackground,
+          shadowColor: 'transparent', // this covers iOS
+          elevation: 0, // this covers Android
+        },
         headerLeft: () => (
           <Image style={{ width: 30, marginLeft: 13, marginBottom: 6 }} source={logo} resizeMode="contain" />
         ),
@@ -44,7 +53,13 @@ const { logout, userInfo } = useContext(AuthContext)
         )
       }} />
       <Stack.Screen name="ProfilePost" component={PostScreen} />
-      <Stack.Screen name="EditProfile" component={EditProfileScreen} />
+      <Stack.Screen name="EditProfile" component={EditProfileScreen} options = {{
+        title: 'Edit Profile',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+          fontSize: 24,
+        },
+      }}/>
       <Stack.Screen name="ProfileSaved" component={SavedScreen} />
     </Stack.Navigator>
   )
