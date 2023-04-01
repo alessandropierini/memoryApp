@@ -1,7 +1,6 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native'
-import { Ionicons } from '@expo/vector-icons'
 import { createStackNavigator } from '@react-navigation/stack'
-import React, { useContext } from 'react'
+import React, { useContext, useRef } from 'react'
 
 import ProfileScreen from '../../screens/ProfileStackScreens/ProfileScreen'
 import PostScreen from '../../screens/SharedScreens/PostScreen'
@@ -15,11 +14,6 @@ import { mainBackground } from '../../config/config'
 const Stack = createStackNavigator()
 
 const ProfileStack = () => {
-
-  const onMenuPressed = () => {
-    console.log(userInfo)
-    logout()
-  }
 
   const { logout, userInfo } = useContext(AuthContext)
 
@@ -42,24 +36,15 @@ const ProfileStack = () => {
           fontWeight: 'bold',
           fontSize: 24,
         },
-        headerRight: () => (
-          <TouchableOpacity onPress={onMenuPressed}>
-            <Ionicons
-              style={{ color: 'black', marginRight: 10 }}
-              name={"menu"}
-              size={27}
-            />
-          </TouchableOpacity>
-        )
       }} />
       <Stack.Screen name="ProfilePost" component={PostScreen} />
-      <Stack.Screen name="EditProfile" component={EditProfileScreen} options = {{
+      <Stack.Screen name="EditProfile" component={EditProfileScreen} options={{
         title: 'Edit Profile',
         headerTitleStyle: {
           fontWeight: 'bold',
           fontSize: 24,
         },
-      }}/>
+      }} />
       <Stack.Screen name="ProfileSaved" component={SavedScreen} />
     </Stack.Navigator>
   )

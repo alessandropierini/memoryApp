@@ -1,13 +1,45 @@
-import { StyleSheet, Text, View, ScrollView, RefreshControl, Image } from 'react-native'
-import React, { useState, useContext } from 'react'
+import { StyleSheet, Text, View, ScrollView, RefreshControl, Image, TouchableOpacity, Alert } from 'react-native'
+import React, { useState, useContext, useEffect, useRef } from 'react'
 import { AuthContext } from '../../context/AuthContext'
+import { BottomSheetModal, BottomSheetModalProvider } from '@gorhom/bottom-sheet'
+import { Ionicons } from '@expo/vector-icons'
+
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import CustomButton from '../../components/customButton'
 import { mainColor, defaultAvatar, mainTextColor, mainBackground, loaderColor, detailsColor } from '../../config/config'
+import BottomSheetOptions from '../../components/BottomSheetOptions'
 
 const ProfileScreen = ({ navigation }) => {
 
-  const { userInfo } = useContext(AuthContext)
+  const { userInfo, logout } = useContext(AuthContext)
+
+  const BottomSheetModalRef = useRef(null)
+  const snapPoints = ["25", "40%"]
+  const onMenuPressed = () => {
+    BottomSheetModalRef.current?.present()
+  }
+
+  const onLogoutPressed = () => {
+      Alert.alert(
+          'Warning',
+          'Are you sure you want to log out?',
+          [
+              { text: 'Cancel', style: 'cancel' },
+              { text: "Log out", onPress: () => {
+                BottomSheetModalRef.current?.close()
+                logout()
+              } }]
+      )
+  }
+
+  
+  const onNewMemoryPressed = () => {
+    BottomSheetModalRef.current?.close()
+    navigation.navigate('NewPostScreen')
+  }
+  const onNewMomentPressed = () => {
+    console.log('memory')
+  }
 
   const [refreshing, setRefreshing] = React.useState(false)
   const onRefresh = React.useCallback(() => {
@@ -18,12 +50,27 @@ const ProfileScreen = ({ navigation }) => {
   }, [])
 
   const onEditPressed = () => {
+    BottomSheetModalRef.current?.close()
     navigation.navigate('EditProfile')
   }
 
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity onPress={onMenuPressed}>
+          <Ionicons
+            style={{ color: 'black', marginRight: 10 }}
+            name={"menu"}
+            size={27}
+          />
+        </TouchableOpacity>
+      )
+    })
+  })
+
   return (
     <ScrollView
-    style={{backgroundColor: mainBackground}}
+      style={{ backgroundColor: mainBackground }}
       showsVerticalScrollIndicator={false}
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} style={{ backgroundColor: mainBackground }} title="Pull to refresh" tintColor={loaderColor} titleColor={loaderColor} />
@@ -65,17 +112,62 @@ const ProfileScreen = ({ navigation }) => {
           <CustomButton text="Edit Profile" onPress={onEditPressed} type="EDITPROFILE" />
         </View>
       </View>
+
+      <BottomSheetModal
+        ref={BottomSheetModalRef}
+        index={0}
+        snapPoints={snapPoints}
+        style={styles.bottomsheet}
+        backgroundStyle={{ borderRadius: 10 }}
+        enablePanDownToClose={true}
+        enableTouchOutsideToClose={true}
+      >
+        <BottomSheetOptions
+          icon="add-circle-sharp"
+          text="New Memory"
+          onPress={onNewMemoryPressed}
+        />
+        <BottomSheetOptions
+          icon="ios-hourglass-outline"
+          text="New Moment"
+          onPress={onNewMomentPressed}
+        />
+        <View style={{paddingTop: 130}}>
+          <BottomSheetOptions
+            icon="ios-exit-outline"
+            text="Logout"
+            onPress={onLogoutPressed}
+            borderPosition='TOP'
+          />
+        </View>
+      </BottomSheetModal>
+
     </ScrollView>
+
+
+
+
   )
 }
 
 export default ProfileScreen
 
 const styles = StyleSheet.create({
+  bottomsheet: {
+    backgroundColor: mainBackground,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 12,
+    },
+    shadowOpacity: 0.58,
+    shadowRadius: 16.00,
+    elevation: 24,
+  },
   userInfoSection: {
     paddingHorizontal: 30,
     marginBottom: 25,
-    backgroundColor: 'white',
+    backgroundColor: mainBackground,
     borderBottomColor: detailsColor,
     borderBottomWidth: 0.25
   },
