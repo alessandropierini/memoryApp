@@ -17,11 +17,11 @@ export const AuthProvider = ({ children }) => {
             password
         }).then(res => {
             console.log(res.data)
-            let userInfo = res.data
+            let userInfo = res.data.user
             setUserInfo(userInfo)
-            setUserToken(userInfo.token)
+            setUserToken(res.data.token)
             AsyncStorage.setItem('userInfo', JSON.stringify(userInfo))
-            AsyncStorage.setItem('userToken', userInfo.token)
+            AsyncStorage.setItem('userToken', res.data.token)
 
         }).catch(e => {
             console.log(`login error: ${e.response.data.msg}`)
@@ -38,14 +38,15 @@ export const AuthProvider = ({ children }) => {
             password
         }).then(res => {
             console.log(res.data)
-            let userInfo = res.data
+            let userInfo = res.data.Newuser
             setUserInfo(userInfo)
-            setUserToken(userInfo.token)
+            setUserToken(res.data.token)
             AsyncStorage.setItem('userInfo', JSON.stringify(userInfo))
-            AsyncStorage.setItem('userToken', userInfo.token)
+            AsyncStorage.setItem('userToken', res.data.token)
         }).catch(e => {
             console.log(`Register error: ${e.response.data.msg}`)
         })
+        setIsLoading(false)
     }
 
     const logout = () => {
@@ -67,7 +68,6 @@ export const AuthProvider = ({ children }) => {
                 setUserInfo(userInfo)
                 setUserToken(userToken)
             }
-
             setUserToken(userToken)
             setIsLoading(false)
         } catch (e) {
@@ -80,7 +80,7 @@ export const AuthProvider = ({ children }) => {
     }, [])
 
     return (
-        <AuthContext.Provider value={{ login, signup, logout, isLoading, userToken }}>
+        <AuthContext.Provider value={{ login, signup, logout, isLoading, userToken, userInfo }}>
             {children}
         </AuthContext.Provider>
     )

@@ -15,7 +15,12 @@ const Stack = createStackNavigator()
 
 const ProfileStack = () => {
 
-const { logout } = useContext(AuthContext)
+  const onMenuPressed = () => {
+    console.log(userInfo)
+    logout()
+  }
+
+const { logout, userInfo } = useContext(AuthContext)
 
   return (
     <Stack.Navigator>
@@ -23,13 +28,13 @@ const { logout } = useContext(AuthContext)
         headerLeft: () => (
           <Image style={{ width: 30, marginLeft: 13, marginBottom: 6 }} source={logo} resizeMode="contain" />
         ),
-        title: "Your Profile",
+        title: `${userInfo.name}`,
         headerTitleStyle: {
           fontWeight: 'bold',
           fontSize: 24,
         },
         headerRight: () => (
-          <TouchableOpacity onPress={() => {logout()}}>
+          <TouchableOpacity onPress={onMenuPressed}>
             <Ionicons
               style={{ color: 'black', marginRight: 10 }}
               name={"menu"}
