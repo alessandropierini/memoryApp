@@ -36,6 +36,7 @@ const EditProfileScreen = ({ navigation }) => {
   }
 
   const [image, setImage] = useState(defaultAvatar)
+  const [imageChosen, setImageChosen] = useState(false)
   const onImagePressed = async () => {
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -45,11 +46,13 @@ const EditProfileScreen = ({ navigation }) => {
       quality: 1,
     })
     setImage(result.assets[0].uri)
+    setImageChosen(true)
     console.log(image)
   }
 
   const onCancelImagePressed = () => {
     setImage(defaultAvatar)
+    setImageChosen(false)
   }
 
   const onUpdateImagePressed = async () => {
@@ -80,22 +83,22 @@ const EditProfileScreen = ({ navigation }) => {
       <View>
         <TouchableOpacity style={{ position: 'relative' }} onPress={onImagePressed} >
           <Image
-            style={{ height: imageSize, width: imageSize, borderRadius: imageSize, borderColor: mainColor, borderWidth: 5, opacity: 1, marginBottom: 18, }}
+            style={{ height: imageSize, width: imageSize, borderRadius: imageSize, borderColor: mainColor, borderWidth: 5, opacity: 1, marginBottom: imageChosen ? 16 : 40} }
             source={{ uri: image }}
           />
           <MaterialCommunityIcons name="image" size={40} color={mainColor} style={{ position: 'absolute', paddingLeft: 80, paddingTop: 84 }} />
         </TouchableOpacity>
       </View>
-
-      <View style={{ flexDirection: 'row', paddingBottom: 10 }}>
-        <TouchableOpacity onPress={onUpdateImagePressed}>
-          <Text style={{ fontWeight: 'bold' }}>Update Image</Text>
-        </TouchableOpacity>
-        <Text style={{ paddingHorizontal: 5 }}>|</Text>
-        <TouchableOpacity onPress={onCancelImagePressed}>
-          <Text>Clear Image</Text>
-        </TouchableOpacity>
-      </View>
+      {imageChosen &&
+        <View style={{ flexDirection: 'row', paddingBottom: 10 }}>
+          <TouchableOpacity onPress={onUpdateImagePressed}>
+            <Text style={{ fontWeight: 'bold' }}>Update Image</Text>
+          </TouchableOpacity>
+          <Text style={{ paddingHorizontal: 5 }}>|</Text>
+          <TouchableOpacity onPress={onCancelImagePressed}>
+            <Text>Clear Image</Text>
+          </TouchableOpacity>
+        </View>}
 
       <CustomInput
         name="username"
