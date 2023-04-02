@@ -1,10 +1,10 @@
-import { View, Text, Image, StyleSheet, useWindowDimensions, ScrollView, TouchableOpacity } from 'react-native'
+import { View, Text, Image, StyleSheet, useWindowDimensions, ScrollView, TouchableOpacity, Alert } from 'react-native'
 import * as ImagePicker from 'expo-image-picker';
 import React, { useState, useContext } from 'react'
 import { useForm } from 'react-hook-form'
 import CustomButton from '../../components/customButton';
 import CustomInput from '../../components/customInput';
-import { defaultAvatar, mainBackground, mainColor } from '../../config/config';
+import { defaultAvatar, mainBackground, mainColor, firebase, storageBucket_1, storageBucket_2 } from '../../config/config';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { AuthContext } from '../../context/AuthContext'
 
@@ -13,13 +13,14 @@ const EMAIL_REGEX = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~
 
 const EditProfileScreen = ({ navigation }) => {
 
-  const { userInfo } = useContext(AuthContext)
+  const { userInfo, setIsLoading } = useContext(AuthContext)
   const imageSize = 120
+
 
   const { control, handleSubmit, formState: { errors }, watch } = useForm({
     defaultValues: {
       username: userInfo.username,
-      name: userInfo.displayName,
+      name: userInfo.name,
       email: userInfo.email,
       password: '',
       passwordRepeat: ''
@@ -41,9 +42,32 @@ const EditProfileScreen = ({ navigation }) => {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [1, 1],
-      quality: 0.5,
+      quality: 1,
     })
-    setImage(result.assets[0].uri);
+    setImage(result.assets[0].uri)
+    console.log(image)
+  }
+
+  const onCancelImagePressed = () => {
+    setImage(defaultAvatar)
+  }
+
+  const onUpdateImagePressed = async () => {
+    const response = await fetch(image)
+    const blob = await response.blob()
+    const filename = image.substring(image.lastIndexOf('/') + 1)
+    var ref = firebase.storage().ref().child(filename).put(blob)
+
+    try {
+      await ref
+    } catch (e) {
+      console.log(e)
+    }
+    var imageURI = storageBucket_1 + filename + storageBucket_2
+    console.log(imageURI)
+    Alert.alert(
+      'Profile updated!'
+    )
   }
 
   return (
@@ -63,6 +87,16 @@ const EditProfileScreen = ({ navigation }) => {
         </TouchableOpacity>
       </View>
 
+      <View style={{ flexDirection: 'row', paddingBottom: 10 }}>
+        <TouchableOpacity onPress={onUpdateImagePressed}>
+          <Text style={{ fontWeight: 'bold' }}>Update Image</Text>
+        </TouchableOpacity>
+        <Text style={{ paddingHorizontal: 5 }}>|</Text>
+        <TouchableOpacity onPress={onCancelImagePressed}>
+          <Text>Clear Image</Text>
+        </TouchableOpacity>
+      </View>
+
       <CustomInput
         name="username"
         placeholder="Username"
@@ -75,8 +109,8 @@ const EditProfileScreen = ({ navigation }) => {
       />
 
       <CustomInput
-        name="displayName"
-        placeholder="Display name"
+        name="name"
+        placeholder="Name"
         control={control}
         rules={{
           required: 'Name is required',

@@ -5,7 +5,7 @@ import * as ImagePicker from 'expo-image-picker'
 import React, { useContext, useState } from 'react'
 import moment from 'moment'
 
-import { mainBackground, ScreenWidth, imageWidth, imageHeight } from '../../config/config'
+import { mainBackground, ScreenWidth, imageWidth, imageHeight, firebase, storageBucket_1, storageBucket_2 } from '../../config/config'
 import CustomButton from '../../components/customButton'
 import ImageSlider from '../../components/ImageSlider'
 import { AuthContext } from '../../context/AuthContext'
@@ -14,8 +14,32 @@ const NewPostScreen = ({ navigation }) => {
 
   const { setIsLoading } = useContext(AuthContext)
 
+  const [uploading, setUploading] = useState(false)
+
+  const [images, setImages] = useState([])
+  const [image, setImage] = useState(null)
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: false,
+      aspect: [2, 3],
+      quality: 1,
+      allowsMultipleSelection: true,
+      selectionLimit: 2
+    })
+    setImage(result.assets[0].uri); //check if obsolete
+    console.log(result.assets[0].uri); //check if obsolete
+    {
+      result.assets.map((image) => (
+        images.push(image.uri)
+      )
+      )
+    }
+  }
+
   const [caption, setCaption] = useState("")
-  const onPostPressed = () => {
+  const onPostPressed = async () => {
     setIsLoading(true)
     if (!caption.trim().length) {
       setIsLoading(false)
@@ -36,42 +60,37 @@ const NewPostScreen = ({ navigation }) => {
         ]
       )
     } else {
+      setUploading(true)
+      const response = await fetch(image)
+      const blob = await response.blob()
+      const filename = image.substring(image.lastIndexOf('/') + 1)
+      var ref = firebase.storage().ref().child(filename).put(blob)
+
+      try {
+        await ref
+      } catch (e) {
+        console.log(e)
+      }
       setIsLoading(false)
+
+      setUploading(false)
       var trimmedCaption = caption.trim()
       var instant = moment()
-      console.log({ trimmedCaption, instant, images })
-      navigation.navigate('HomeStack', { screen: 'Home' })      
+      var imageURI = storageBucket_1 + filename + storageBucket_2
+      console.log({ trimmedCaption, instant, imageURI })
+      navigation.navigate('HomeStack', { screen: 'Home' })
       this.textInput.clear()
       setImage(null)
       setImages([])
     }
   }
 
-  const [images, setImages] = useState([])
-  const [image, setImage] = useState(null)
-  const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: false,
-      aspect: [2, 3],
-      quality: 1,
-      allowsMultipleSelection: true,
-      selectionLimit: 4
-    })
-    setImage(result.assets[0].uri); //check if obsolete
-    {
-      result.assets.map((image) => (
-        images.push(image.uri)
-      )
-      )
-      console.log(images)
-    }
-  }
+
   const renderSlider = ({ item, index }) => {
     return <ImageSlider data={item} />
   }
 
+  //X button resets images
   const onImagePressed = () => {
     setImage(false)
     setImages([])
