@@ -1,17 +1,18 @@
 import { StyleSheet, Text, View, ScrollView, RefreshControl, Image, TouchableOpacity, Alert } from 'react-native'
 import React, { useState, useContext, useEffect, useRef } from 'react'
 import { AuthContext } from '../../context/AuthContext'
-import { BottomSheetModal, BottomSheetModalProvider } from '@gorhom/bottom-sheet'
+import { BottomSheetModal } from '@gorhom/bottom-sheet'
 import { Ionicons } from '@expo/vector-icons'
-
+import * as ImagePicker from 'expo-image-picker'
+import moment from 'moment'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import CustomButton from '../../components/customButton'
-import { mainColor, defaultAvatar, mainTextColor, mainBackground, loaderColor, detailsColor, ScreenHeight } from '../../config/config'
+import { mainColor, defaultAvatar, mainTextColor, mainBackground, loaderColor, detailsColor, ScreenHeight, firebase, storageBucket_1, storageBucket_2 } from '../../config/config'
 import BottomSheetOptions from '../../components/BottomSheetOptions'
 
 const ProfileScreen = ({ navigation }) => {
 
-  const { userInfo, logout } = useContext(AuthContext)
+  const { userInfo, logout, setIsLoading } = useContext(AuthContext)
 
   const BottomSheetModalRef = useRef(null)
   const snapPoints = ["40%"]
@@ -20,25 +21,68 @@ const ProfileScreen = ({ navigation }) => {
   }
 
   const onLogoutPressed = () => {
-      Alert.alert(
-          'Warning',
-          'Are you sure you want to log out?',
-          [
-              { text: 'Cancel', style: 'cancel' },
-              { text: "Log out", onPress: () => {
-                BottomSheetModalRef.current?.close()
-                logout()
-              } }]
-      )
+    Alert.alert(
+      'Warning',
+      'Are you sure you want to log out?',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: "Log out", onPress: () => {
+            BottomSheetModalRef.current?.close()
+            logout()
+          }
+        }]
+    )
   }
 
-  
+
   const onNewMemoryPressed = () => {
     BottomSheetModalRef.current?.close()
     navigation.navigate('NewPostScreen')
   }
-  const onNewMomentPressed = () => {
-    console.log('memory')
+
+  const [image, setImage] = useState(null)
+  const onNewMomentPressed = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [9, 16],
+      quality: 0.5,
+    })
+    setImage(result.assets[0].uri)
+    console.log(image)
+    Alert.alert(
+      'New Moment',
+      'Do you want to upload this moment?',
+      [{
+        text: 'Yes',
+        onPress: () => imageUpload(),
+        style: 'close',
+      }, {
+        text: 'No',
+        style: 'close'
+      }]
+
+    )
+  }
+
+  const imageUpload = async () => {
+    setIsLoading(true)
+    const response = await fetch(image)
+    const blob = await response.blob()
+    const filename = image.substring(image.lastIndexOf('/') + 1)
+    var ref = firebase.storage().ref().child(filename).put(blob)
+    try {
+      await ref
+    } catch (e) {
+      console.log(e)
+    }
+    setIsLoading(false)
+    var instant = moment()
+    var imageURI = storageBucket_1 + filename + storageBucket_2
+    console.log({ instant, imageURI, userInfo })
+    setImage(null)
   }
 
   const [refreshing, setRefreshing] = React.useState(false)
@@ -132,7 +176,7 @@ const ProfileScreen = ({ navigation }) => {
           text="New Moment"
           onPress={onNewMomentPressed}
         />
-        <View style={{paddingTop: "30%"}}>
+        <View style={{ paddingTop: "30%" }}>
           <BottomSheetOptions
             icon="ios-exit-outline"
             text="Logout"

@@ -19,3 +19,38 @@ export const defaultAvatar = "https://thumbs.dreamstime.com/b/default-avatar-pro
 
 //Axios config
 export const BASE_URL = "https://memoryapp-production.up.railway.app"
+
+//Firebase config
+export const storageBucket_1 = "https://firebasestorage.googleapis.com/v0/b/test-c3a5c.appspot.com/o/"
+export const storageBucket_2 = "?alt=media&token"
+
+
+// Import the functions you need from the SDKs you need
+import firebase from 'firebase/compat/app'
+import 'firebase/compat/auth'
+import 'firebase/compat/firestore'
+import 'firebase/compat/storage'
+
+
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyB4CyOxTj7vOiYBup_sNs7qSp-Zg2eNFVY",
+  authDomain: "test-c3a5c.firebaseapp.com",
+  projectId: "test-c3a5c",
+  storageBucket: "test-c3a5c.appspot.com",
+  messagingSenderId: "883771530892",
+  appId: "1:883771530892:web:65497125a3c783321ba5a9",
+  measurementId: "G-3GPR1H8BVH"
+};
+
+if(!firebase.apps.length){
+    firebase.initializeApp(firebaseConfig)
+}
+
+export { firebase }
