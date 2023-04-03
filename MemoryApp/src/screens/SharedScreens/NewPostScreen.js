@@ -12,7 +12,7 @@ import { AuthContext } from '../../context/AuthContext'
 
 const NewPostScreen = ({ navigation }) => {
 
-  const { setIsLoading } = useContext(AuthContext)
+  const { setIsLoading, userInfo } = useContext(AuthContext)
 
   const [uploading, setUploading] = useState(false)
 
@@ -26,16 +26,17 @@ const NewPostScreen = ({ navigation }) => {
       aspect: [2, 3],
       quality: 1,
       allowsMultipleSelection: true,
-      selectionLimit: 2
+      selectionLimit: 1
     })
     setImage(result.assets[0].uri); //check if obsolete
-    console.log(result.assets[0].uri); //check if obsolete
+    // console.log(result.assets[0].uri); //check if obsolete
     {
       result.assets.map((image) => (
         images.push(image.uri)
       )
       )
     }
+    console.log(images[0])
   }
 
   const [caption, setCaption] = useState("")
@@ -61,23 +62,31 @@ const NewPostScreen = ({ navigation }) => {
       )
     } else {
       setUploading(true)
-      const response = await fetch(image)
+      const response = await fetch(images[0])
       const blob = await response.blob()
-      const filename = image.substring(image.lastIndexOf('/') + 1)
+      const filename = images[0].substring(images[0].lastIndexOf('/') + 1)
       var ref = firebase.storage().ref().child(filename).put(blob)
+
+      // const response2 = await fetch(images[1])
+      // const blob2 = await response2.blob()
+      // const filename2 = images[1].substring(images[1].lastIndexOf('/') + 1)
+      // var ref2 = firebase.storage().ref().child(filename2).put(blob2)
 
       try {
         await ref
+        // await ref2
       } catch (e) {
         console.log(e)
       }
+
       setIsLoading(false)
 
       setUploading(false)
       var trimmedCaption = caption.trim()
       var instant = moment()
       var imageURI = storageBucket_1 + filename + storageBucket_2
-      console.log({ trimmedCaption, instant, imageURI })
+      // var imageURI2 = storageBucket_1 + filename2 + storageBucket_2
+      console.log({ trimmedCaption, instant, imageURI, userInfo })
       navigation.navigate('HomeStack', { screen: 'Home' })
       this.textInput.clear()
       setImage(null)
