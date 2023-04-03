@@ -1,9 +1,12 @@
 import cors from 'cors';
-import express from 'express';
+import express, {Application} from 'express';
 import morgan from 'morgan';
 import path from 'path'
 
 import authRoutes from './routes/auth.routes'
+
+import multer from 'multer';
+const upload = multer({ dest: './uploads'})
 
 //inicializacion
 const app = express();
@@ -20,7 +23,7 @@ app.use(express.json());
 /*app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*")
     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE")
-    res.header("Access-Control-Allow-Headers", "X-access-token, Origin, X-Requested-With, Content-Type, Accept")
+    res.header("Access-Control-Allow-Headers", "x-access-token, Origin, X-Requested-With, Content-Type, Accept")
 })*/
 
 //routes
