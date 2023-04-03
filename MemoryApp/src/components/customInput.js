@@ -16,7 +16,7 @@ const CustomInput = ({ control, name, rules = {}, placeholder, secureTextEntry, 
                         borderColor: error ? 'red' : mainColor,
                         borderWidth: error ? 2 : 1,
                         backgroundColor: error ? '#ffdcd1' : 'white',
-                        marginVertical: error ? 5 : 13,
+                        marginVertical: error ? 4 : 14,
 
                     }]}>
                         <TextInput

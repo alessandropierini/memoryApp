@@ -20,13 +20,15 @@ const LaunchScreen = ({ navigation }) => {
 
 
   return (
-    <View style={styles.root}>
-      <Image source={Logo} style={[styles.logo, { height: height * 0.3, marginBottom: height * 0.1, marginTop: height * 0.15, marginBottom: height * 0.2 }]} resizeMode="contain" />
-      <CustomButton text="Sign In" onPress={onSignInPressed} />
-      <CustomButton text="Sign Up" type="SECONDARY" onPress={onSignUpPressed} />
-      <View style={{marginBottom: 30}}/>
-      <Image source={LogoCompleto} style={[styles.logo, { height: height * 0.2 }]} resizeMode="contain" />
-    </View>
+    <ScrollView>
+      <View style={styles.root}>
+        <Image source={Logo} style={[styles.logo, { height: height * 0.3, marginBottom: '15%', marginTop: '15%' }]} resizeMode="contain" />
+        <CustomButton text="Sign In" onPress={onSignInPressed} />
+        <CustomButton text="Sign Up" type="SECONDARY" onPress={onSignUpPressed} />
+        <View style={{ marginBottom: '35%' }} />
+        <Image source={LogoCompleto} style={[styles.logo, { height: height * 0.2 }]} resizeMode="contain" />
+      </View>
+    </ScrollView>
   )
 }
 

@@ -39,7 +39,7 @@ const SignUpScreen = ({ navigation }) => {
     <ScrollView>
 
       <View style={styles.root}>
-        <Image source={Logo} style={[styles.logo, { height: height * 0.15, marginTop: height * 0.05, marginBottom: height * 0.005 }]} resizeMode="contain" />
+        <Image source={Logo} style={[styles.logo, { height: height * 0.15, marginTop: '5%', marginBottom: '5%' }]} resizeMode="contain" />
 
         <CustomInput
           name="username"
@@ -101,14 +101,14 @@ const SignUpScreen = ({ navigation }) => {
           }}
         />
 
-        <View style={{ padding: 30 }} />
+        <View style={{ padding: '2%' }} />
         <CustomButton text="Sign Up" onPress={handleSubmit(onSignUpPressed)} />
 
         <TouchableOpacity onPress={onSignInPressed}>
-          <Text style={{ color: mainColor, padding: 5, marginBottom: 80 }}>Have an account? <Text style={styles.text}>Sign In here!</Text></Text>
+          <Text style={{ color: mainColor, padding: 5, marginBottom: 0 }}>Have an account? <Text style={styles.text}>Sign In here!</Text></Text>
         </TouchableOpacity>
 
-        <Image source={LogoCompleto} style={[styles.logo, { height: height * 0.2 }]} resizeMode="contain" />
+        {/* <Image source={LogoCompleto} style={[styles.logo, { height: height * 0.2 }]} resizeMode="contain" /> */}
       </View>
     </ScrollView>
   )

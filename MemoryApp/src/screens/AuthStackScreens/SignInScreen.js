@@ -29,7 +29,7 @@ const SignInScreen = ({ navigation }) => {
     <ScrollView>
       <View style={styles.root}>
 
-        <Image source={Logo} style={[styles.logo, { height: height * 0.2, marginTop: height * 0.15, marginBottom: height * 0.075 }]} resizeMode="contain" />
+        <Image source={Logo} style={[styles.logo, { height: height * 0.3, marginBottom: '1%', marginTop: '15%' }]} resizeMode="contain" />
         <CustomInput
           name="username"
           placeholder="Username"
@@ -50,12 +50,12 @@ const SignInScreen = ({ navigation }) => {
             required: 'Password is required',
           }}
         />
-        <View style={{ padding: 15 }} />
+        <View style={{ padding: '5%' }} />
         <CustomButton text="Sign In" onPress={handleSubmit(onSignInPressed)} />
 
 
         <TouchableOpacity onPress={onSignUpPressed}>
-          <Text style={{ color: mainColor, padding: 5, marginBottom: 45 }}>Don't have an account? <Text style={styles.text}>Sign Up here!</Text></Text>
+          <Text style={{ color: mainColor, padding: 5, marginBottom: '3%' }}>Don't have an account? <Text style={styles.text}>Sign Up here!</Text></Text>
         </TouchableOpacity>
 
         <Image source={LogoCompleto} style={[styles.logo, { height: height * 0.2 }]} resizeMode="contain" />
