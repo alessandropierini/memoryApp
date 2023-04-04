@@ -1,15 +1,37 @@
-import {Schema, model, Document} from 'mongoose';
+import {model, Schema, Document } from 'mongoose'
 
-const schema = new Schema({
-    title: String,
-    description: String,
-    imagePath: String,
-});
+export interface IPost extends Document {
+    image: String,
+    caption: String,
+    time: String,
+    owner: String,
+    }
+    
+    const postSchema = new Schema ({
+    image: {
+    type: String,
+    unique:false,
+    required:true,
+    trim:true,
+    },
+    caption: {
+    type: String,
+    unique:false,
+    required:true,
+    trim:true,
+    },
+    time: {
+    type: String,
+    unique:false,
+    required:true,
+    trim:true,
+    },
+    owner: {
+    type: String,
+    unique:true,
+    required:true,
+    trim:true,
+    }
+    });
 
-interface IPhoto extends Document {
-    title: string;
-    description: string;
-    imagePath: string;
-}
-
-export default model<IPhoto>('Photo', schema);
+    export default model<IPost>('Post', postSchema);
