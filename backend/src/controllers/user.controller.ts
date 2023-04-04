@@ -48,3 +48,12 @@ export const signIn = async (req: Request, res: Response): Promise<Response> => 
         msg: 'The user or password are incorrect'
     });
 }
+
+export const SearchUser = async (req: Request, res: Response): Promise<Response> => {
+    const user:any = await User.findOne({_id:req.body._id});
+    console.log(req.body)
+    if (!user) {
+        return res.status(400).json({ msg: "The user dont exists"});
+    }
+    return res.status(200).json(user);
+};
