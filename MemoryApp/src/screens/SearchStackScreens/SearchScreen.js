@@ -28,6 +28,8 @@ const SearchScreen = ({ navigation }) => {
           placeholder='Search'
           style={styles.searchText}
           onChangeText={searchUser}
+          autoCorrect={false}
+          autoFocus={true}
         />
       )
     })
@@ -59,7 +61,7 @@ const SearchScreen = ({ navigation }) => {
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} style={{ backgroundColor: mainBackground }} title="Pull to refresh" tintColor={loaderColor} titleColor={loaderColor} />
       }>
       {
-        users ?.map(dat => <SearchCard username = {dat.username} name= {dat.name}/>)
+        users ?.map(dat => <SearchCard username = {dat.username} name= {dat.name} navigation={navigation}/>)
       }
     </ScrollView>
   )
