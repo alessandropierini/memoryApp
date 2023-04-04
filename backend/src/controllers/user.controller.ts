@@ -50,7 +50,7 @@ export const signIn = async (req: Request, res: Response): Promise<Response> => 
 }
 
 export const SearchUser = async (req: Request, res: Response): Promise<Response> => {
-    const user:any = await User.findOne({_id:req.body._id});
+    const user:any = await User.find({});
     console.log(req.body)
     if (!user) {
         return res.status(400).json({ msg: "The user dont exists"});
