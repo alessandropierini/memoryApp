@@ -5,6 +5,9 @@ import * as ImagePicker from 'expo-image-picker'
 import React, { useContext, useState } from 'react'
 import moment from 'moment'
 
+import axios from 'axios'
+import { BASE_URL } from '../../config/config'
+
 import { mainBackground, ScreenWidth, imageWidth, imageHeight, firebase, storageBucket_1, storageBucket_2 } from '../../config/config'
 import CustomButton from '../../components/customButton'
 import ImageSlider from '../../components/ImageSlider'
@@ -79,12 +82,23 @@ const NewPostScreen = ({ navigation }) => {
         console.log(e)
       }
 
-      setIsLoading(false)
-
-      setUploading(false)
       var trimmedCaption = caption.trim()
       var instant = moment()
       var imageURI = storageBucket_1 + filename + storageBucket_2
+
+      axios.post(`${BASE_URL}/newpost`, {
+        image: imageURI,
+        caption: trimmedCaption,
+        time: instant,
+        owner: userInfo._id
+      }).then(res => {
+        console.log(res.data)
+      }).catch(e => {
+        console.log(`Post error: ${e.response.data.msg}`)
+      })
+      setIsLoading(false)
+      setUploading(false)
+
       // var imageURI2 = storageBucket_1 + filename2 + storageBucket_2
       console.log({ trimmedCaption, instant, imageURI, userInfo })
       navigation.navigate('HomeStack', { screen: 'Home' })
