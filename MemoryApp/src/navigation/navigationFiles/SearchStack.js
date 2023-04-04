@@ -22,12 +22,7 @@ const SearchStack = () => {
         headerLeft: () => (
           <Image style={{ width: 30, marginLeft: 13, marginBottom: 6 }} source={logo} resizeMode="contain" />
         ),
-        headerTitle: () => (
-          <TextInput
-            placeholder='Search'
-            style={styles.searchText}
-          />
-        )
+        
       }}
       />
       <Stack.Screen name="SearchUserProfile" component={UserProfileScreen} />
@@ -39,15 +34,5 @@ const SearchStack = () => {
 export default SearchStack
 
 const styles = StyleSheet.create({
-  searchText: {
-    flex: 1,
-    textAlignVertical: 'center',
-    width: ScreenWidth - 65,
-    borderColor: mainColor,
-    borderWidth: 1,
-    paddingLeft: 10,
-    marginLeft: 20,
-    marginBottom: 8,
-    borderRadius: 20
-  },
+
 })
