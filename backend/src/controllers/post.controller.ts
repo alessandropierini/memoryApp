@@ -1,5 +1,5 @@
 import { Request, Response} from 'express'
-import Post, {IPost} from '../models/post'
+import Post, {IPost} from '../models/Post'
 
 
 export const newPost = async (req: Request, res: Response): Promise<Response> => {
