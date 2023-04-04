@@ -1,13 +1,16 @@
 import { StyleSheet, Text, View, Image } from 'react-native'
-import React from 'react'
+import React, { useContext } from 'react'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import { mainColor, defaultAvatar } from '../config/config'
 import { TouchableOpacity } from 'react-native-gesture-handler'
+import { AuthContext } from '../context/AuthContext'
 
-const SearchCard = ({ username, name }) => {
+const SearchCard = ({ username, name, navigation }) => {
+
+  const { userInfo } = useContext(AuthContext)
 
   return (
-    <TouchableOpacity onPress={() => console.log('test')}>
+    <TouchableOpacity onPress={() => {navigation.navigate("SearchUserProfile", {name, username })}}>
       <View style={styles.container}>
         <View style={styles.leftCont}>
           <Image
