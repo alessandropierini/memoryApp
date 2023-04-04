@@ -1,5 +1,8 @@
 import { Request, Response} from 'express'
 import Post, {IPost} from '../models/post'
+import user from '../models/user';
+import User from '../models/user'
+
 
 
 export const newPost = async (req: Request, res: Response): Promise<Response> => {
@@ -10,9 +13,11 @@ export const newPost = async (req: Request, res: Response): Promise<Response> =>
 
 export const allPosts = async (req: Request, res: Response): Promise<Response> => {
     const post:any = await Post.find({});
+    const user:any = await User.find({});
     console.log(req.body)
     if (!post) {
-        return res.status(400).json({ msg: "The post dont exists"});
+        return res.status(400).json({ msg: "The posts dont exists"});
     }
-    return res.status(200).json(post);
+    return res.status(200).json({post,user});
 };
+
