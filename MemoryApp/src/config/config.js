@@ -14,8 +14,10 @@ export const ScreenHeight = Dimensions.get('window').height
 export const imageHeight = 1920 / 6
 export const imageWidth = 1080 / 6
 
+export const profSize = 40
+
 //Default Avatar
-export const defaultAvatar = "https://thumbs.dreamstime.com/b/default-avatar-profile-vector-user-profile-default-avatar-profile-vector-user-profile-profile-179376714.jpg"
+export const defaultAvatar = "https://png.pngtree.com/element_our/20200610/ourmid/pngtree-default-avatar-image_2238788.jpg"
 
 //Axios config
 export const BASE_URL = "https://memoryapp-production.up.railway.app"

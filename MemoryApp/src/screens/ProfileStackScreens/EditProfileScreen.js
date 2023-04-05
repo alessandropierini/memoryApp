@@ -2,9 +2,12 @@ import { View, Text, Image, StyleSheet, useWindowDimensions, ScrollView, Touchab
 import * as ImagePicker from 'expo-image-picker';
 import React, { useState, useContext } from 'react'
 import { useForm } from 'react-hook-form'
+
 import CustomButton from '../../components/customButton';
 import CustomInput from '../../components/customInput';
-import { defaultAvatar, mainBackground, mainColor, firebase, storageBucket_1, storageBucket_2 } from '../../config/config';
+
+import axios from 'axios';
+import { defaultAvatar, mainBackground, mainColor, firebase, storageBucket_1, storageBucket_2, BASE_URL } from '../../config/config';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { AuthContext } from '../../context/AuthContext'
 
@@ -16,23 +19,25 @@ const EditProfileScreen = ({ navigation }) => {
   const { userInfo, setIsLoading } = useContext(AuthContext)
   const imageSize = 120
 
-
   const { control, handleSubmit, formState: { errors }, watch } = useForm({
     defaultValues: {
       username: userInfo.username,
       name: userInfo.name,
       email: userInfo.email,
-      password: '',
-      passwordRepeat: ''
     }
   })
   const pwd = watch('password')
 
   const onUpdatePressed = (data) => {
     console.log(data)
-    if (errors) { } else {
-      console.warn('edited')
-    }
+    axios.post(`${BASE_URL}/edituser`, {
+      _id: userInfo._id,
+      username: data.username,
+      name: data.name,
+      email: data.email
+    }).then(res => {
+      console.log(res.data)
+    })
   }
 
   const [image, setImage] = useState(defaultAvatar)
@@ -83,7 +88,7 @@ const EditProfileScreen = ({ navigation }) => {
       <View>
         <TouchableOpacity style={{ position: 'relative' }} onPress={onImagePressed} >
           <Image
-            style={{ height: imageSize, width: imageSize, borderRadius: imageSize, borderColor: mainColor, borderWidth: 5, opacity: 1, marginBottom: imageChosen ? 16 : 40} }
+            style={{ height: imageSize, width: imageSize, borderRadius: imageSize, borderColor: mainColor, borderWidth: 5, opacity: 1, marginBottom: imageChosen ? 16 : 40 }}
             source={{ uri: image }}
           />
           <MaterialCommunityIcons name="image" size={40} color={mainColor} style={{ position: 'absolute', paddingLeft: 80, paddingTop: 84 }} />
@@ -132,33 +137,12 @@ const EditProfileScreen = ({ navigation }) => {
         }}
       />
 
-      <CustomInput
-        name="password"
-        placeholder="New password"
-        control={control}
-        secureTextEntry
-        rules={{
-          required: 'Password is required',
-          minLength: { value: 7, message: 'Password must be at least 7 characters long' },
-          maxLength: { value: 13, message: 'Password must be less than 13 characters long' }
-        }}
-      />
 
-      <CustomInput
-        name="passwordRepeat"
-        placeholder="Confirm new password"
-        control={control}
-        secureTextEntry
-        rules={{
-          required: 'Please confirm your password',
-          minLength: { value: 7, message: 'Password must be at least 7 characters long' },
-          maxLength: { value: 13, message: 'Password must be less than 13 characters long' },
-          validate: value =>
-            value === pwd || 'Passwords do not match'
-        }}
-      />
-      <View style={{ marginTop: 10, width: 250, alignItems: 'center' }}>
+      <View style={{ marginTop: 10, width: '100%', alignItems: 'center' }}>
         <CustomButton text="Update Now!" onPress={handleSubmit(onUpdatePressed)} />
+      </View>
+      <View style={{ width: '80%', alignItems: 'center', marginTop: '50%' }}>
+        <CustomButton text="Account Information" onPress={() => { navigation.navigate('EditInfo') }} type="FOLLOW2" />
       </View>
     </ScrollView>
   )

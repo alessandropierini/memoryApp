@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
   },
   container_FOLLOW2: {
     backgroundColor: 'black',
-    width: '50%',
+    width: '70%',
   },
   container_EDITPROFILE: {
     backgroundColor: buttonColor,
@@ -58,5 +58,18 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'black'
   },
+  container_MESSAGE: {
+    backgroundColor: 'black',
+    width: '30%',
+    marginHorizontal: 5
+  },
+  text_MESSAGE: {
 
+  },
+  container_DELETE: {
+    backgroundColor: '#c61a09',
+  },
+  container_INFO: {
+    backgroundColor: 'black',
+  }
 })

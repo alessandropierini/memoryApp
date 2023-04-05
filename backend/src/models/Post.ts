@@ -25,10 +25,12 @@ export interface IPost extends Document {
     },
     owner: {
       type: String,
-      unique:true,
+      unique:false,
       required:true,
       trim:true,
     }
 });
 
     export default model<IPost>('Post', postSchema);
+
+    //change

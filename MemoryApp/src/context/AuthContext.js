@@ -1,3 +1,4 @@
+import { Alert } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import axios from 'axios'
 import React, { createContext, useState, useEffect } from 'react'
@@ -25,6 +26,13 @@ export const AuthProvider = ({ children }) => {
 
         }).catch(e => {
             console.log(`login error: ${e.response.data.msg}`)
+            Alert.alert(
+                'Sign In Error',
+                `${e.response.data.msg}`,
+                [{
+                  text: 'Close', style: 'cancel'
+                }]
+              )
         })
         setIsLoading(false)
     }
@@ -45,6 +53,13 @@ export const AuthProvider = ({ children }) => {
             AsyncStorage.setItem('userToken', res.data.token)
         }).catch(e => {
             console.log(`Register error: ${e.response.data.msg}`)
+            Alert.alert(
+                'Sign Up Error',
+                `${e.response.data.msg}`,
+                [{
+                  text: 'Close', style: 'cancel'
+                }]
+              )
         })
         setIsLoading(false)
     }
@@ -59,17 +74,17 @@ export const AuthProvider = ({ children }) => {
 
     const isLoggedIn = async () => {
         try {
-            setIsLoading(true)
             let userToken = await AsyncStorage.getItem('userToken')
             let userInfo = await AsyncStorage.getItem('userInfo')
             userInfo = JSON.parse(userInfo)
+            console.log(userToken)
+            console.log(userInfo)
 
             if (userInfo) {
                 setUserInfo(userInfo)
                 setUserToken(userToken)
             }
             setUserToken(userToken)
-            setIsLoading(false)
         } catch (e) {
             console.log(`isLogged error: ${e}`)
         }

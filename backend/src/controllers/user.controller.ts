@@ -3,7 +3,7 @@ import User, { IUser } from '../models/user'
 import jwt from 'jsonwebtoken'
 import config from '../config/config'
 import bcrypt from "bcrypt"
-import Post from '../models/post'
+import Post from '../models/Post'
 
 function createToken(user: IUser) {
     return jwt.sign({id: user.id, email: user.email}, config.jwtSecret, {

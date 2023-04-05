@@ -9,6 +9,7 @@ import SavedScreen from '../../screens/SharedScreens/SavedScreen'
 import logo from '../../../assets/m__mLogoColors.png'
 import { AuthContext } from '../../context/AuthContext'
 import { mainBackground } from '../../config/config'
+import EditInfoScreen from '../../screens/ProfileStackScreens/EditInfoScreen'
 
 
 const Stack = createStackNavigator()
@@ -21,6 +22,7 @@ const ProfileStack = () => {
     <Stack.Navigator screenOptions={{
       headerBackTitleVisible: true,
       headerTintColor: 'black',
+
     }}>
       <Stack.Screen name="Profile" component={ProfileScreen} options={{
         headerStyle: {
@@ -46,6 +48,16 @@ const ProfileStack = () => {
         },
       }} />
       <Stack.Screen name="ProfileSaved" component={SavedScreen} />
+      <Stack.Screen name="EditInfo" component={EditInfoScreen} options={{
+        title: "",
+        headerTitleStyle: {
+          fontWeight: 'bold',
+          fontSize: 24,
+          paddingRight: '50%'
+        },
+        headerStyle: {
+        },
+      }} />
     </Stack.Navigator>
   )
 }
