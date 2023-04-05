@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ScrollView } from 'react-native'
+import { StyleSheet, Text, View, ScrollView, Alert } from 'react-native'
 import React from 'react'
 
 import { mainBackground } from '../../config/config'
@@ -23,14 +23,18 @@ const EditInfoScreen = () => {
     }
   }
 
+  const onDeletePressed = () => {
+    console.log('delete')
+  }
+
   return (
     <ScrollView
       style={{ backgroundColor: mainBackground }}
       showsVerticalScrollIndicator={false}
       contentContainerStyle={styles.root}>
 
-      <View style={{marginBottom: '35%'}}>
-        <Text style={{fontWeight: 'bold', fontSize: 24}}>Update your Password</Text>
+      <View style={{marginBottom: '10%'}}>
+        <Text style={{fontWeight: 'bold', fontSize: 27}}>Update your Password</Text>
       </View>
 
       <CustomInput
@@ -62,8 +66,8 @@ const EditInfoScreen = () => {
       <View style={{ marginTop: 10, width: '100%', alignItems: 'center' }}>
         <CustomButton text="Update Now!" onPress={handleSubmit(onUpdatePressed)} type="INFO" />
       </View>
-      <View style={{ marginTop: '50%', width: '100%', alignItems: 'center' }}>
-        <CustomButton text="Delete account" onPress={handleSubmit(onUpdatePressed)} type="DELETE" />
+      <View style={{ marginTop: '80%', width: '100%', alignItems: 'center' }}>
+        <CustomButton text="Delete account" onPress={() => {onDeletePressed()}} type="DELETE" />
       </View>
 
     </ScrollView>
@@ -75,7 +79,6 @@ export default EditInfoScreen
 const styles = StyleSheet.create({
   root: {
     alignItems: 'center',
-    paddingTop: '15%',
-    margin: 20,
+    marginTop: '12%'
   },
 })

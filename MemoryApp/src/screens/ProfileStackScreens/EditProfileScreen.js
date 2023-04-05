@@ -136,7 +136,7 @@ const EditProfileScreen = ({ navigation }) => {
       <View style={{ marginTop: 10, width: '100%', alignItems: 'center' }}>
         <CustomButton text="Update Now!" onPress={handleSubmit(onUpdatePressed)}/>
       </View>
-      <View style={{width: '80%', alignItems: 'center', marginTop: '10%'}}>
+      <View style={{width: '80%', alignItems: 'center', marginTop: '50%'}}>
         <CustomButton text="Account Information" onPress={() => {navigation.navigate('EditInfo')}} type="FOLLOW2" />
       </View>
     </ScrollView>

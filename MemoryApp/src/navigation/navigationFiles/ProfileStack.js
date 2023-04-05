@@ -22,6 +22,7 @@ const ProfileStack = () => {
     <Stack.Navigator screenOptions={{
       headerBackTitleVisible: true,
       headerTintColor: 'black',
+
     }}>
       <Stack.Screen name="Profile" component={ProfileScreen} options={{
         headerStyle: {
@@ -47,7 +48,16 @@ const ProfileStack = () => {
         },
       }} />
       <Stack.Screen name="ProfileSaved" component={SavedScreen} />
-      <Stack.Screen name="EditInfo" component={EditInfoScreen} />
+      <Stack.Screen name="EditInfo" component={EditInfoScreen} options={{
+        title: "",
+        headerTitleStyle: {
+          fontWeight: 'bold',
+          fontSize: 24,
+          paddingRight: '50%'
+        },
+        headerStyle: {
+        },
+      }} />
     </Stack.Navigator>
   )
 }
