@@ -6,8 +6,8 @@ export interface IUser extends Document{
     name: string,
     email: string,
     password: string,
-    /*profilepic: string,*/
-    foto: string,
+    profilepic: string,
+    /*foto: string,*/
     comparePassword: (password: string) => Promise<boolean>
 }
 
@@ -35,14 +35,14 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
-    /*profilepic: {
-        type: String,
-        required: true
-    },*/
-    foto: {
+    profilepic: {
         type: String,
         required: false
-    }
+    },
+    /*foto: {
+        type: String,
+        required: false
+    }*/
 });
 
 //metodo para cifrar password
