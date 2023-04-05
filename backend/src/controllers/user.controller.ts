@@ -2,7 +2,7 @@ import { Request, Response} from 'express'
 import User, { IUser } from '../models/user'
 import jwt from 'jsonwebtoken'
 import config from '../config/config'
-import post from '../models/post'
+import post from '../models/Post'
 import bcrypt from "bcrypt"
 
 function createToken(user: IUser) {
