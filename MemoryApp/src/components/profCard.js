@@ -1,55 +1,64 @@
 import { StyleSheet, Text, View, Image } from 'react-native'
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+
+import axios from 'axios'
+
 import CustomButton from './customButton'
-import { mainColor, mainTextColor, defaultAvatar, mainBackground, detailsColor } from '../config/config'
+import { mainColor, mainTextColor, defaultAvatar, mainBackground, detailsColor, BASE_URL } from '../config/config'
 
 const ProfCard = ({ username, onPress, isLoggedUser = false }) => {
 
     return (
-        <View style={styles.userInfoSection}>
-            <View style={styles.container}>
-                <View style={{ paddingRight: 0 }}>
-                    <Image
-                        style={{ height: 100, width: 100, borderRadius: 100, borderColor: mainColor, borderWidth: 1 }}
-                        source={{ uri: defaultAvatar }}
-                    />
+        <View>
+
+            <View style={styles.userInfoSection}>
+                <View style={styles.container}>
+                    <View style={{ paddingRight: 0 }}>
+                        <Image
+                            style={{ height: 100, width: 100, borderRadius: 100, borderColor: mainColor, borderWidth: 1 }}
+                            source={{ uri: defaultAvatar }}
+                        />
+                    </View>
+                </View>
+
+                <View style={styles.rightCont}>
+                    <View style={styles.topCont}>
+                        <Text style={styles.idText}>@{username}</Text>
+                    </View>
+                </View>
+
+                <View style={{ flexDirection: 'row', marginBottom: 10, marginTop: 15, alignItems: 'center', justifyContent: 'space-evenly', marginHorizontal: -20 }}>
+
+                    <View style={styles.followInfo} >
+                        <Text style={{ fontWeight: 'bold', color: mainTextColor }}>Memories</Text>
+                        <Text style={{ color: mainTextColor }}>26</Text>
+                    </View>
+
+                    <View style={styles.followInfo} >
+                        <Text style={{ fontWeight: 'bold', color: mainTextColor }}>Following</Text>
+                        <Text style={{ color: mainTextColor }}>198</Text>
+                    </View>
+
+                    <View style={styles.followInfo}>
+                        <Text style={{ fontWeight: 'bold', color: mainTextColor }}>Followers</Text>
+                        <Text style={{ color: mainTextColor }}>8.3M</Text>
+                    </View>
+                </View>
+                <View style={{ alignItems: 'center', flex: 1, paddingBottom: 10 }}>
+                    {
+                        isLoggedUser
+                            ?
+                            <CustomButton text="Edit Profile" onPress={onPress} type="EDITPROFILE" />
+                            :
+                            <View style={{ flexDirection: 'row', }}>
+                                <CustomButton text="Message" onPress={onPress} type="MESSAGE" />
+                                <CustomButton text="Follow" onPress={onPress} type="FOLLOW2" />
+                            </View>
+                    }
                 </View>
             </View>
-
-            <View style={styles.rightCont}>
-                <View style={styles.topCont}>
-                    <Text style={styles.idText}>@{username}</Text>
-                </View>
-            </View>
-
-            <View style={{ flexDirection: 'row', marginBottom: 10, marginTop: 15, alignItems: 'center', justifyContent: 'space-evenly', marginHorizontal: -20 }}>
-
-                <View style={styles.followInfo} >
-                    <Text style={{ fontWeight: 'bold', color: mainTextColor }}>Memories</Text>
-                    <Text style={{ color: mainTextColor }}>26</Text>
-                </View>
-
-                <View style={styles.followInfo} >
-                    <Text style={{ fontWeight: 'bold', color: mainTextColor }}>Following</Text>
-                    <Text style={{ color: mainTextColor }}>198</Text>
-                </View>
-
-                <View style={styles.followInfo}>
-                    <Text style={{ fontWeight: 'bold', color: mainTextColor }}>Followers</Text>
-                    <Text style={{ color: mainTextColor }}>8.3M</Text>
-                </View>
-            </View>
-            <View style={{ alignItems: 'center', flex: 1, paddingBottom: 10 }}>
-                {
-                    isLoggedUser
-                        ?
-                        <CustomButton text="Edit Profile" onPress={onPress} type="EDITPROFILE" />
-                        :
-                        <View style={{flexDirection: 'row', }}>
-                            <CustomButton text="Message" onPress={onPress} type="MESSAGE" />
-                            <CustomButton text="Follow" onPress={onPress} type="FOLLOW2" />
-                        </View>
-                }
+            <View style={{}}>
+                    <Text>test</Text>
             </View>
         </View>
     )

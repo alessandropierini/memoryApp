@@ -2,9 +2,12 @@ import { View, Text, Image, StyleSheet, useWindowDimensions, ScrollView, Touchab
 import * as ImagePicker from 'expo-image-picker';
 import React, { useState, useContext } from 'react'
 import { useForm } from 'react-hook-form'
+
 import CustomButton from '../../components/customButton';
 import CustomInput from '../../components/customInput';
-import { defaultAvatar, mainBackground, mainColor, firebase, storageBucket_1, storageBucket_2 } from '../../config/config';
+
+import axios from 'axios';
+import { defaultAvatar, mainBackground, mainColor, firebase, storageBucket_1, storageBucket_2, BASE_URL } from '../../config/config';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { AuthContext } from '../../context/AuthContext'
 
@@ -16,23 +19,25 @@ const EditProfileScreen = ({ navigation }) => {
   const { userInfo, setIsLoading } = useContext(AuthContext)
   const imageSize = 120
 
-
   const { control, handleSubmit, formState: { errors }, watch } = useForm({
     defaultValues: {
       username: userInfo.username,
       name: userInfo.name,
       email: userInfo.email,
-      password: '',
-      passwordRepeat: ''
     }
   })
   const pwd = watch('password')
 
   const onUpdatePressed = (data) => {
     console.log(data)
-    if (errors) { } else {
-      console.warn('edited')
-    }
+    axios.post(`${BASE_URL}/edituser`, {
+      _id: userInfo._id,
+      username: data.username,
+      name: data.name,
+      email: data.email
+    }).then(res => {
+      console.log(res.data)
+    })
   }
 
   const [image, setImage] = useState(defaultAvatar)
@@ -132,12 +137,12 @@ const EditProfileScreen = ({ navigation }) => {
         }}
       />
 
-      
+
       <View style={{ marginTop: 10, width: '100%', alignItems: 'center' }}>
-        <CustomButton text="Update Now!" onPress={handleSubmit(onUpdatePressed)}/>
+        <CustomButton text="Update Now!" onPress={handleSubmit(onUpdatePressed)} />
       </View>
-      <View style={{width: '80%', alignItems: 'center', marginTop: '50%'}}>
-        <CustomButton text="Account Information" onPress={() => {navigation.navigate('EditInfo')}} type="FOLLOW2" />
+      <View style={{ width: '80%', alignItems: 'center', marginTop: '50%' }}>
+        <CustomButton text="Account Information" onPress={() => { navigation.navigate('EditInfo') }} type="FOLLOW2" />
       </View>
     </ScrollView>
   )

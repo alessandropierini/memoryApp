@@ -12,7 +12,7 @@ const HomeScreen = () => {
   const [posts, setPosts] = useState("")
   const pullPosts = async () => {
     await axios.post(`${BASE_URL}/allposts`).then(res => {
-      const sortedList = res.data.sort((a,b)=>
+      const sortedList = res.data.post.sort((a,b)=>
       b.time.localeCompare(a.time))
       setPosts(sortedList)
     }).catch(e => {

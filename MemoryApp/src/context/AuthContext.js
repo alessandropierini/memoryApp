@@ -1,3 +1,4 @@
+import { Alert } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import axios from 'axios'
 import React, { createContext, useState, useEffect } from 'react'
@@ -25,6 +26,13 @@ export const AuthProvider = ({ children }) => {
 
         }).catch(e => {
             console.log(`login error: ${e.response.data.msg}`)
+            Alert.alert(
+                'Sign In Error',
+                `${e.response.data.msg}`,
+                [{
+                  text: 'Close', style: 'cancel'
+                }]
+              )
         })
         setIsLoading(false)
     }
@@ -45,6 +53,13 @@ export const AuthProvider = ({ children }) => {
             AsyncStorage.setItem('userToken', res.data.token)
         }).catch(e => {
             console.log(`Register error: ${e.response.data.msg}`)
+            Alert.alert(
+                'Sign Up Error',
+                `${e.response.data.msg}`,
+                [{
+                  text: 'Close', style: 'cancel'
+                }]
+              )
         })
         setIsLoading(false)
     }
