@@ -28,6 +28,15 @@ export const signUp = async (req: Request, res: Response): Promise<Response> => 
     await Newuser.save();
     return res.status(201).json({Newuser, msg:'User registered succesfully', token: createToken(Newuser)});
 }
+//controlador para elegir profile photo
+export const ProfilePhoto = async (req: Request, res: Response): Promise<Response> => {
+    const user = await User.updateOne({_id:req.body._id},{profilepic:req.body.profilepic});
+    if(!user) {
+        return res.status(400).json({msg: "Error updating profile picture"})
+    }
+    //const posts = await post.updateMany({owner:req.body._id, username:req.body.username})
+    return res.status(201).json({user, msg:"Profile picture Saved Succesfully!"})
+}
 
 //controlador de login
 
