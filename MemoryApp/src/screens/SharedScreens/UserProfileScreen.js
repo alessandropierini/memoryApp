@@ -1,11 +1,20 @@
-import { StyleSheet, Text, View, ScrollView } from 'react-native'
+import { StyleSheet, Text, View, ScrollView, RefreshControl } from 'react-native'
 import React, { useEffect } from 'react'
 import ProfCard from '../../components/profCard'
-import { mainBackground } from '../../config/config'
+import { mainBackground, defaultAvatar, loaderColor } from '../../config/config'
+import MemoryCard from '../../components/memoryCard'
 
 const UserProfileScreen = ({ route, navigation }) => {
 
-  const { name, username } = route.params
+  const { name, username, posts } = route.params
+
+  const [refreshing, setRefreshing] = React.useState(false)
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true)
+    setTimeout(() => {
+      setRefreshing(false)
+    }, 1000)
+  }, [])
 
   useEffect(() => {
     navigation.setOptions({
@@ -23,8 +32,25 @@ const UserProfileScreen = ({ route, navigation }) => {
   }, [])
 
   return (
-    <ScrollView>
-      <ProfCard name={name} username={username}/>
+    <ScrollView
+      style={{ backgroundColor: mainBackground }}
+      showsVerticalScrollIndicator={false}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} style={{ backgroundColor: mainBackground }} title="Pull to refresh" tintColor={loaderColor} titleColor={loaderColor} />
+      }>
+      <ProfCard name={name} username={username} />
+        {posts && posts.map(dat =>
+          <MemoryCard
+            image={dat.image}
+            owner={dat.owner}
+            time={dat.time}
+            caption={dat.caption}
+            comment={14}
+            like={10}
+            prof={defaultAvatar}
+            isUser={false}
+            navigation={navigation}
+          />)}
     </ScrollView>
   )
 }

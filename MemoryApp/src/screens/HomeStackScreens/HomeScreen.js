@@ -1,24 +1,26 @@
-import { StyleSheet, Text, ScrollView, RefreshControl, View } from 'react-native'
+import { StyleSheet, Text, ScrollView, RefreshControl, View, TouchableOpacity } from 'react-native'
 import React, { useState, useEffect, } from 'react'
-import { defaultAvatar, loaderColor, mainBackground, mainColor } from '../../config/config'
+import { defaultAvatar, detailsColor, loaderColor, mainBackground, mainColor } from '../../config/config'
 
 import axios from 'axios'
 import { BASE_URL } from '../../config/config'
 import MemoryCard from '../../components/memoryCard'
 
-const HomeScreen = () => {
+import { Ionicons } from '@expo/vector-icons'
+
+const HomeScreen = ({ navigation }) => {
 
 
   const [posts, setPosts] = useState("")
   const pullPosts = async () => {
     await axios.post(`${BASE_URL}/allposts`).then(res => {
-      const sortedList = res.data.post.sort((a,b)=>
-      b.time.localeCompare(a.time))
+      const sortedList = res.data.post.sort((a, b) =>
+        b.time.localeCompare(a.time))
       setPosts(sortedList)
     }).catch(e => {
       console.log(`Posts error: ${e.response.data.msg}`)
     })
-    await console.log(posts)
+    // await console.log(posts)
   }
 
   useEffect(() => {
@@ -43,7 +45,14 @@ const HomeScreen = () => {
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} style={{ backgroundColor: mainBackground }} title="Pull to refresh" tintColor={loaderColor} titleColor={loaderColor} />
       }>
-
+      <View style={{ padding: 10, borderBottomColor: detailsColor, borderBottomWidth: 0.25 }}>
+        <TouchableOpacity style={{ backgroundColor: '#D3D3D3', height: 56, width: 56, borderRadius: 56, alignItems: 'center', justifyContent: 'center' }}>
+          <Ionicons
+            style={{ color: 'white', paddingRight: 0 }}
+            name='ios-hourglass-outline'
+            size={25} />
+        </TouchableOpacity>
+      </View>
       {posts && posts.map(dat =>
         <MemoryCard
           image={dat.image}
@@ -54,6 +63,7 @@ const HomeScreen = () => {
           like={10}
           prof={defaultAvatar}
           isUser={false}
+          navigation={navigation}
         />)}
     </ScrollView>
   )

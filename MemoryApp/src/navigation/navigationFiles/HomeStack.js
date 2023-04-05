@@ -26,7 +26,7 @@ const HomeStack = ({ navigation }) => {
       <Stack.Screen name="Home" component={HomeScreen} options={{
         title: "",
         headerLeft: () => (
-          <Image style={{ width: 130, marginLeft: 10 }} source={logo} resizeMode="contain" />
+          <Image style={{ width: 130, marginLeft: 10,  height: 130 }} source={logo} resizeMode="contain" />
         ),
         headerRight: () => (
           <TouchableOpacity onPress={onSavedPressed}>

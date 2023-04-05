@@ -39,7 +39,7 @@ const NewPostScreen = ({ navigation }) => {
       )
       )
     }
-    console.log(images[0])
+    // console.log(images[0])
   }
 
   const [caption, setCaption] = useState("")
@@ -85,14 +85,14 @@ const NewPostScreen = ({ navigation }) => {
       var trimmedCaption = caption.trim()
       var instant = moment()
       var imageURI = storageBucket_1 + filename + storageBucket_2
-      console.log({trimmedCaption, instant, imageURI})
+      // console.log({trimmedCaption, instant, imageURI})
       axios.post(`${BASE_URL}/newpost`, {
         image: imageURI,
         caption: trimmedCaption,
         time: instant,
         owner: userInfo._id
       }).then(res => {
-        console.log(res.data)
+        // console.log(res.data)
       }).catch(e => {
         console.log(`Post error: ${e.response.data.msg}`)
       })
@@ -100,7 +100,7 @@ const NewPostScreen = ({ navigation }) => {
       setUploading(false)
 
       // var imageURI2 = storageBucket_1 + filename2 + storageBucket_2
-      console.log({ trimmedCaption, instant, imageURI, userInfo })
+      // console.log({ trimmedCaption, instant, imageURI, userInfo })
       navigation.navigate('HomeStack', { screen: 'Home' })
       this.textInput.clear()
       setImage(null)

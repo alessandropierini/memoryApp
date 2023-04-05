@@ -7,9 +7,11 @@ import * as ImagePicker from 'expo-image-picker'
 import moment from 'moment'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import CustomButton from '../../components/customButton'
-import { mainColor, defaultAvatar, mainTextColor, mainBackground, loaderColor, detailsColor, ScreenHeight, firebase, storageBucket_1, storageBucket_2 } from '../../config/config'
+import { mainColor, defaultAvatar, mainTextColor, mainBackground, loaderColor, detailsColor, ScreenHeight, firebase, storageBucket_1, storageBucket_2, BASE_URL } from '../../config/config'
 import BottomSheetOptions from '../../components/BottomSheetOptions'
 import ProfCard from '../../components/profCard'
+import axios from 'axios'
+import MemoryCard from '../../components/memoryCard'
 
 const ProfileScreen = ({ navigation }) => {
 
@@ -52,7 +54,7 @@ const ProfileScreen = ({ navigation }) => {
       quality: 0.5,
     })
     setImage(result.assets[0].uri)
-    console.log(image)
+    // console.log(image)
     Alert.alert(
       'New Moment',
       'Do you want to upload this moment?',
@@ -82,13 +84,15 @@ const ProfileScreen = ({ navigation }) => {
     setIsLoading(false)
     var instant = moment()
     var imageURI = storageBucket_1 + filename + storageBucket_2
-    console.log({ instant, imageURI, userInfo })
+    // console.log({ instant, imageURI, userInfo })
     setImage(null)
   }
 
   const [refreshing, setRefreshing] = React.useState(false)
   const onRefresh = React.useCallback(() => {
     setRefreshing(true)
+    specificUser()
+
     setTimeout(() => {
       setRefreshing(false)
     }, 1000)
@@ -100,6 +104,7 @@ const ProfileScreen = ({ navigation }) => {
   }
 
   useEffect(() => {
+    specificUser()
     navigation.setOptions({
       headerRight: () => (
         <TouchableOpacity onPress={onMenuPressed}>
@@ -111,7 +116,25 @@ const ProfileScreen = ({ navigation }) => {
         </TouchableOpacity>
       )
     })
-  })
+  }, [])
+
+  const [username, setUsername] = useState(userInfo.username)
+  const [posts, setPosts] = useState(null)
+  const specificUser = async () => {
+    axios.post(`${BASE_URL}/specificuser`, {
+      _id: userInfo._id
+    }).then(res => {
+      const sortedList = res.data.post.sort((a, b) =>
+        b.time.localeCompare(a.time))
+      setPosts(sortedList)
+      console.log(res.data)
+
+    }).catch(e => {
+      console.log(`specific user error: ${e.response.data.msg}`)
+    })
+    await console.log(posts)
+  }
+
 
   return (
     <ScrollView
@@ -120,8 +143,22 @@ const ProfileScreen = ({ navigation }) => {
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} style={{ backgroundColor: mainBackground }} title="Pull to refresh" tintColor={loaderColor} titleColor={loaderColor} />
       }>
-      
-      <ProfCard username={userInfo.username} isLoggedUser={true} onPress={onEditPressed}/>
+
+      <ProfCard username={userInfo.username} isLoggedUser={true} onPress={onEditPressed} />
+
+      {posts && posts.map(dat =>
+        <MemoryCard
+          image={dat.image}
+          owner={dat.owner}
+          time={dat.time}
+          caption={dat.caption}
+          comment={14}
+          like={10}
+          prof={defaultAvatar}
+          isUser={false}
+          navigation={navigation}
+        />)}
+
 
       <BottomSheetModal
         ref={BottomSheetModalRef}
@@ -174,5 +211,5 @@ const styles = StyleSheet.create({
     shadowRadius: 16.00,
     elevation: 24,
   },
-  
+
 })

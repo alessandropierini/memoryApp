@@ -1,12 +1,23 @@
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { abbreviateNumber } from 'js-abbreviation-number'
 import moment from 'moment'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
-import { defaultAvatar, detailsColor, profSize, mainColor, } from '../config/config'
+import axios from 'axios'
 
-const MemoryCard = ({ caption, image, time, owner, isUser = false, comment, prof = null, like }) => {
+import { defaultAvatar, detailsColor, profSize, mainColor, BASE_URL } from '../config/config'
+import { AuthContext } from '../context/AuthContext'
+
+const MemoryCard = ({ caption, image, time, owner, comment, prof = null, like, navigation }) => {
+
+  const { userInfo, setIsLoading } = useContext(AuthContext)
+
+  const [username, setUsername] = useState('')
+  const [user, setUser] = useState(null)
+  const [posts, setPosts] = useState(null)
+  const [isUser, setIsUser] = useState(false)
+
 
   const [toggle, setToggle] = useState(true)
   const handleLike = () => {
@@ -19,10 +30,35 @@ const MemoryCard = ({ caption, image, time, owner, isUser = false, comment, prof
   }
 
   const onDeletePressed = () => {
-    console.warn('deleted')
+    console.warn('delete')
   }
 
+  const specificUser = async () => {
+    axios.post(`${BASE_URL}/specificuser`, {
+      _id: owner
+    }).then(res => {
+      setUsername(res.data.user.name)
+      setPosts(res.data.post)
+      setUser(res.data.user)
+      // console.log(res.data)
 
+    }).catch(e => {
+      console.log(`specific user error: ${e.response.data.msg}`)
+    })
+    await console.log(user)
+    await console.log(posts)
+  }
+
+  const checkIsUser = () => {
+    if(userInfo._id == owner){
+      setIsUser(true)
+    }
+  }
+
+  useEffect(() => {
+    specificUser()
+    checkIsUser()
+  }, [])
 
   return (
     <View style={styles.container}>
@@ -40,7 +76,9 @@ const MemoryCard = ({ caption, image, time, owner, isUser = false, comment, prof
       <View style={styles.rightCont}>
         <View style={styles.topCont}>
           <View style={styles.nameCont}>
-            <Text style={styles.nameText}>{owner}</Text>
+            <TouchableOpacity onPress={() => {isUser ? navigation.navigate('ProfileStack', { screen: 'Profile' }) : navigation.navigate('HomeUserProfile', {name: user.name, username: user.username, posts})}}>
+              <Text style={styles.nameText}>{username}</Text>
+            </TouchableOpacity>
             <Text style={styles.idText}>{moment(time).fromNow()}</Text>
           </View>
           {isUser && <View style={{ paddingRight: 15 }}>
@@ -95,7 +133,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingBottom: 5,
     borderBottomColor: detailsColor,
-    borderBottomWidth: 1
+    borderBottomWidth: 0.5,
   },
   rightCont: {
     flex: 1,

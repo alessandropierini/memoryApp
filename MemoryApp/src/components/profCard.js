@@ -57,9 +57,7 @@ const ProfCard = ({ username, onPress, isLoggedUser = false }) => {
                     }
                 </View>
             </View>
-            <View style={{}}>
-                    <Text>test</Text>
-            </View>
+
         </View>
     )
 }
