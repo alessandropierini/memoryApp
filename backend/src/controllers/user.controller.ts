@@ -2,8 +2,8 @@ import { Request, Response} from 'express'
 import User, { IUser } from '../models/user'
 import jwt from 'jsonwebtoken'
 import config from '../config/config'
-import post from '../models/post'
 import bcrypt from "bcrypt"
+import Post from '../models/post'
 
 function createToken(user: IUser) {
     return jwt.sign({id: user.id, email: user.email}, config.jwtSecret, {
@@ -44,7 +44,6 @@ export const signIn = async (req: Request, res: Response): Promise<Response> => 
     if (isMatch) {
         return res.status(200).json({token: createToken(user), user})
     }
-
     return res.status(400).json({
         msg: 'The user or password are incorrect'
     });
@@ -68,7 +67,18 @@ export const EditUser = async (req: Request, res: Response): Promise<Response> =
         return res.status(400).json({msg: "Error updating profile"})
     }
     //const posts = await post.updateMany({owner:req.body._id, username:req.body.username})
-    return res.status(201).json({msg:"Saved Succesfully!"})
+    return res.status(201).json({user, msg:"Saved Succesfully!"})
+}
+
+//controlador para encontrar usuario
+export const SpecificUser = async (req: Request, res: Response) => {
+    const user:any = await User.findOne({_id:req.body._id});
+    const post:any = await Post.find({owner:req.body._id})
+    console.log(req.body)
+    if (!user) {
+        return res.status(400).json({msg: "The user dont exists"});
+    }
+    res.status(200).json({user,post});
 }
 
 //editar password
@@ -104,9 +114,12 @@ export const EditPassword = async (req: Request, res: Response): Promise<Respons
 
 export const DeleteUser = async (req: Request, res: Response): Promise<Response> => {
     const user = await User.findOne({_id:req.body._id});
+    const post = await Post.find({owner:req.body._id});
     if(!user) {
         return res.status(400).json({ msg: 'The user dont exists'});
     }
     await User.deleteOne({_id:req.body._id})
-    return res.status(201).json({ msg: 'User deleted succesfully'});
+    await Post.deleteMany({owner:req.body._id})
+    
+    return res.status(201).json({ msg: 'User and post deleted succesfully'});
 }

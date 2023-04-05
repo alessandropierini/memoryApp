@@ -3,7 +3,7 @@ import {model, Schema, Document } from 'mongoose'
 export interface IPost extends Document {
     image: string,
     caption: string,
-    time: string,
+    time: Date,
     owner: string,
     }
     
@@ -21,10 +21,7 @@ export interface IPost extends Document {
       trim:true,
     },
     time: {
-      type: String,
-      unique:false,
-      required:true,
-      trim:true,
+      type: Date
     },
     owner: {
       type: String,
