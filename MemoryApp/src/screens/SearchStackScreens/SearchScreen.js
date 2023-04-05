@@ -8,17 +8,15 @@ import { BASE_URL, mainColor, ScreenWidth, mainBackground, loaderColor } from '.
 
 const SearchScreen = ({ navigation }) => {
 
-
-
   const [data, setData] = useState("")
   const [users, setUsers] = useState([])
-  const pullUsers = () => {
-    axios.post(`${BASE_URL}/searchuser`).then(res => {
+  const pullUsers = async () => {
+    await axios.post(`${BASE_URL}/searchuser`).then(res => {
       setData(res.data)
     }).catch(e => {
       console.log(`Search error: ${e.response.data.msg}`)
     })
-    console.log(data)
+    await console.log(data)
   }
 
   useEffect(() => {
@@ -46,10 +44,12 @@ const SearchScreen = ({ navigation }) => {
   }, [])
 
   const searchUser = (e) => {
-    if (e) {
-      setUsers(data.filter(dat => dat.name.toLowerCase().includes(e.toLowerCase())))
-    } else {
-      setUsers([])
+    if (data) {
+      if (e) {
+        setUsers(data.filter(dat => dat.name.toLowerCase().includes(e.toLowerCase())))
+      } else {
+        setUsers([])
+      }
     }
   }
 
@@ -61,7 +61,7 @@ const SearchScreen = ({ navigation }) => {
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} style={{ backgroundColor: mainBackground }} title="Pull to refresh" tintColor={loaderColor} titleColor={loaderColor} />
       }>
       {
-        users ?.map(dat => <SearchCard username = {dat.username} name= {dat.name} navigation={navigation}/>)
+        users?.map(dat => <SearchCard username={dat.username} name={dat.name} navigation={navigation} />)
       }
     </ScrollView>
   )

@@ -27,7 +27,7 @@ const NewPostScreen = ({ navigation }) => {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: false,
       aspect: [2, 3],
-      quality: 1,
+      quality: 0.25,
       allowsMultipleSelection: true,
       selectionLimit: 1
     })
@@ -85,7 +85,7 @@ const NewPostScreen = ({ navigation }) => {
       var trimmedCaption = caption.trim()
       var instant = moment()
       var imageURI = storageBucket_1 + filename + storageBucket_2
-
+      console.log({trimmedCaption, instant, imageURI})
       axios.post(`${BASE_URL}/newpost`, {
         image: imageURI,
         caption: trimmedCaption,

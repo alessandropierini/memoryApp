@@ -59,17 +59,17 @@ export const AuthProvider = ({ children }) => {
 
     const isLoggedIn = async () => {
         try {
-            setIsLoading(true)
             let userToken = await AsyncStorage.getItem('userToken')
             let userInfo = await AsyncStorage.getItem('userInfo')
             userInfo = JSON.parse(userInfo)
+            console.log(userToken)
+            console.log(userInfo)
 
             if (userInfo) {
                 setUserInfo(userInfo)
                 setUserToken(userToken)
             }
             setUserToken(userToken)
-            setIsLoading(false)
         } catch (e) {
             console.log(`isLogged error: ${e}`)
         }

@@ -83,7 +83,7 @@ const EditProfileScreen = ({ navigation }) => {
       <View>
         <TouchableOpacity style={{ position: 'relative' }} onPress={onImagePressed} >
           <Image
-            style={{ height: imageSize, width: imageSize, borderRadius: imageSize, borderColor: mainColor, borderWidth: 5, opacity: 1, marginBottom: imageChosen ? 16 : 40} }
+            style={{ height: imageSize, width: imageSize, borderRadius: imageSize, borderColor: mainColor, borderWidth: 5, opacity: 1, marginBottom: imageChosen ? 16 : 40 }}
             source={{ uri: image }}
           />
           <MaterialCommunityIcons name="image" size={40} color={mainColor} style={{ position: 'absolute', paddingLeft: 80, paddingTop: 84 }} />
@@ -132,33 +132,12 @@ const EditProfileScreen = ({ navigation }) => {
         }}
       />
 
-      <CustomInput
-        name="password"
-        placeholder="New password"
-        control={control}
-        secureTextEntry
-        rules={{
-          required: 'Password is required',
-          minLength: { value: 7, message: 'Password must be at least 7 characters long' },
-          maxLength: { value: 13, message: 'Password must be less than 13 characters long' }
-        }}
-      />
-
-      <CustomInput
-        name="passwordRepeat"
-        placeholder="Confirm new password"
-        control={control}
-        secureTextEntry
-        rules={{
-          required: 'Please confirm your password',
-          minLength: { value: 7, message: 'Password must be at least 7 characters long' },
-          maxLength: { value: 13, message: 'Password must be less than 13 characters long' },
-          validate: value =>
-            value === pwd || 'Passwords do not match'
-        }}
-      />
-      <View style={{ marginTop: 10, width: 250, alignItems: 'center' }}>
-        <CustomButton text="Update Now!" onPress={handleSubmit(onUpdatePressed)} />
+      
+      <View style={{ marginTop: 10, width: '100%', alignItems: 'center' }}>
+        <CustomButton text="Update Now!" onPress={handleSubmit(onUpdatePressed)}/>
+      </View>
+      <View style={{width: '80%', alignItems: 'center', marginTop: '10%'}}>
+        <CustomButton text="Account Information" onPress={() => {navigation.navigate('EditInfo')}} type="FOLLOW2" />
       </View>
     </ScrollView>
   )

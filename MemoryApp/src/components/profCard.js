@@ -10,7 +10,7 @@ const ProfCard = ({ username, onPress, isLoggedUser = false }) => {
             <View style={styles.container}>
                 <View style={{ paddingRight: 0 }}>
                     <Image
-                        style={{ height: 100, width: 100, borderRadius: 100, borderColor: 'white', borderWidth: 2 }}
+                        style={{ height: 100, width: 100, borderRadius: 100, borderColor: mainColor, borderWidth: 1 }}
                         source={{ uri: defaultAvatar }}
                     />
                 </View>
@@ -40,8 +40,16 @@ const ProfCard = ({ username, onPress, isLoggedUser = false }) => {
                 </View>
             </View>
             <View style={{ alignItems: 'center', flex: 1, paddingBottom: 10 }}>
-                {isLoggedUser ? <CustomButton text="Edit Profile" onPress={onPress} type="EDITPROFILE" /> : 
-                <CustomButton text="Follow" onPress={onPress} type="EDITPROFILE" />}
+                {
+                    isLoggedUser
+                        ?
+                        <CustomButton text="Edit Profile" onPress={onPress} type="EDITPROFILE" />
+                        :
+                        <View style={{flexDirection: 'row', }}>
+                            <CustomButton text="Message" onPress={onPress} type="MESSAGE" />
+                            <CustomButton text="Follow" onPress={onPress} type="FOLLOW2" />
+                        </View>
+                }
             </View>
         </View>
     )
