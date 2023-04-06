@@ -14,6 +14,6 @@ export const AddOrRemoveLike = async (req: Request, res: Response): Promise<Resp
 }
 
 export const Getlikes = async (req: Request, res: Response): Promise<Response> => {
-    const result = await like.find({idPost:req.body.idPost})
-    return res.status(201).json(result.length)
+    const result = await like.find({idUser:req.body.idUser})
+    return res.status(201).json(result)
 }
