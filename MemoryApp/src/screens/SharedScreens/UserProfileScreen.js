@@ -1,12 +1,12 @@
 import { StyleSheet, Text, View, ScrollView, RefreshControl } from 'react-native'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import ProfCard from '../../components/profCard'
 import { mainBackground, defaultAvatar, loaderColor } from '../../config/config'
 import MemoryCard from '../../components/memoryCard'
 
 const UserProfileScreen = ({ route, navigation }) => {
 
-  const { name, username, posts } = route.params
+  const { name, username, posts, profilepic } = route.params
 
   const [refreshing, setRefreshing] = React.useState(false)
   const onRefresh = React.useCallback(() => {
@@ -17,6 +17,7 @@ const UserProfileScreen = ({ route, navigation }) => {
   }, [])
 
   useEffect(() => {
+    setPostslegnth(posts.length)
     navigation.setOptions({
       title: `${name}`,
       headerTitleStyle: {
@@ -31,6 +32,9 @@ const UserProfileScreen = ({ route, navigation }) => {
     })
   }, [])
 
+  const [ postslength, setPostslegnth] = useState(0)
+
+
   return (
     <ScrollView
       style={{ backgroundColor: mainBackground }}
@@ -38,7 +42,7 @@ const UserProfileScreen = ({ route, navigation }) => {
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} style={{ backgroundColor: mainBackground }} title="Pull to refresh" tintColor={loaderColor} titleColor={loaderColor} />
       }>
-      <ProfCard postslength = { posts.length } name={name} username={username} />
+      <ProfCard postslength = { postslength } name={name} username={username} profilepic={profilepic} />
         {posts && posts.map(dat =>
           <MemoryCard
             image={dat.image}

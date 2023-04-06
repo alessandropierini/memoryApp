@@ -55,13 +55,13 @@ const HomeScreen = ({ navigation }) => {
       </ScrollView>
       {posts && posts.map(dat =>
         <MemoryCard
+          postID={dat._id}
           image={dat.image}
           owner={dat.owner}
           time={dat.time}
           caption={dat.caption}
           comment={14}
           like={10}
-          prof={defaultAvatar}
           isUser={false}
           navigation={navigation}
         />)}

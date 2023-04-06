@@ -1,14 +1,16 @@
 import { StyleSheet, Text, View, ScrollView, RefreshControl, Image, TouchableOpacity, Alert } from 'react-native'
 import React, { useState, useContext, useEffect, useRef } from 'react'
 import { AuthContext } from '../../context/AuthContext'
-import { BottomSheetModal } from '@gorhom/bottom-sheet'
 import { Ionicons } from '@expo/vector-icons'
 import * as ImagePicker from 'expo-image-picker'
 import moment from 'moment'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import CustomButton from '../../components/customButton'
 import { mainColor, defaultAvatar, mainTextColor, mainBackground, loaderColor, detailsColor, ScreenHeight, firebase, storageBucket_1, storageBucket_2, BASE_URL } from '../../config/config'
+
+import { BottomSheetModal } from '@gorhom/bottom-sheet'
 import BottomSheetOptions from '../../components/BottomSheetOptions'
+
 import ProfCard from '../../components/profCard'
 import axios from 'axios'
 import MemoryCard from '../../components/memoryCard'
@@ -120,6 +122,7 @@ const ProfileScreen = ({ navigation }) => {
 
   const [username, setUsername] = useState(userInfo.username)
   const [posts, setPosts] = useState(null)
+  const [ postslength, setPostslegnth] = useState(0)
   const specificUser = async () => {
     axios.post(`${BASE_URL}/specificuser`, {
       _id: userInfo._id
@@ -127,12 +130,12 @@ const ProfileScreen = ({ navigation }) => {
       const sortedList = res.data.post.sort((a, b) =>
         b.time.localeCompare(a.time))
       setPosts(sortedList)
-      console.log(res.data)
-
+      setPostslegnth(posts.length)
+      // console.log(res.data)
+      // console.log(posts)
     }).catch(e => {
       console.log(`specific user error: ${e.response.data.msg}`)
     })
-    await console.log(posts)
   }
 
 
@@ -144,7 +147,7 @@ const ProfileScreen = ({ navigation }) => {
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} style={{ backgroundColor: mainBackground }} title="Pull to refresh" tintColor={loaderColor} titleColor={loaderColor} />
       }>
 
-      <ProfCard postslength = { posts.length } profilepic = {userInfo.profilepic} username={userInfo.username} isLoggedUser={true} onPress={onEditPressed} />
+      <ProfCard postslength = { postslength } profilepic = {userInfo.profilepic} username={userInfo.username} isLoggedUser={true} onPress={onEditPressed} />
 
       {posts && posts.map(dat =>
         <MemoryCard
