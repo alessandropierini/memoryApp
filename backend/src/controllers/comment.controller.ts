@@ -15,11 +15,6 @@ export const getComments = async (req:Request, res:Response): Promise<Response> 
     return res.status(201).json(comments)
 }
 
-export const CommentsNumber = async (req:Request, res:Response): Promise<Response> => {
-    const result = await comment.find({idPost:req.body.idPost});
-    return res.status(201).json(result.length)
-}
-
 export const DeleteComment = async (req:Request, res:Response): Promise<Response> => {
     const description = await comment.findOne({_id:req.body.idPost});
     if (!description){
