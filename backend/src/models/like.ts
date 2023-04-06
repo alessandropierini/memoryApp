@@ -16,7 +16,8 @@ const LikeSchema = new Schema ({
         type: String,
         unique: false,
         required: true,
-        trim: true
+        trim: true,
+        boolean: true
     }
 });
 
