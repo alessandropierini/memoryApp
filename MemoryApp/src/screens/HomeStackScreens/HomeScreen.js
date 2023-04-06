@@ -45,14 +45,14 @@ const HomeScreen = ({ navigation }) => {
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} style={{ backgroundColor: mainBackground }} title="Pull to refresh" tintColor={loaderColor} titleColor={loaderColor} />
       }>
-      <View style={{ padding: 10, borderBottomColor: detailsColor, borderBottomWidth: 0.25 }}>
+      <ScrollView style={{ padding: 10, borderBottomColor: detailsColor, borderBottomWidth: 0.25 }} horizontal={true} >
         <TouchableOpacity style={{ backgroundColor: '#D3D3D3', height: 56, width: 56, borderRadius: 56, alignItems: 'center', justifyContent: 'center' }}>
           <Ionicons
             style={{ color: 'white', paddingRight: 0 }}
             name='ios-hourglass-outline'
             size={25} />
         </TouchableOpacity>
-      </View>
+      </ScrollView>
       {posts && posts.map(dat =>
         <MemoryCard
           image={dat.image}

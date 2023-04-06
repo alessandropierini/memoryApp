@@ -4,9 +4,9 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 
 import CustomButton from './customButton'
-import { mainColor, mainTextColor, defaultAvatar, mainBackground, detailsColor, BASE_URL } from '../config/config'
+import { mainColor, mainTextColor, defaultAvatar, mainBackground, detailsColor, BASE_URL,  } from '../config/config'
 
-const ProfCard = ({ username, onPress, isLoggedUser = false }) => {
+const ProfCard = ({ profilepic, username, onPress, isLoggedUser = false, postslength = 0}) => {
 
     return (
         <View>
@@ -15,8 +15,8 @@ const ProfCard = ({ username, onPress, isLoggedUser = false }) => {
                 <View style={styles.container}>
                     <View style={{ paddingRight: 0 }}>
                         <Image
-                            style={{ height: 100, width: 100, borderRadius: 100, borderColor: mainColor, borderWidth: 1 }}
-                            source={{ uri: defaultAvatar }}
+                            style={{ height: 100, width: 100, borderRadius: 100, borderColor: mainColor, borderWidth: 1, marginBottom: 15 }}
+                            source={{ uri: profilepic }}
                         />
                     </View>
                 </View>
@@ -31,7 +31,7 @@ const ProfCard = ({ username, onPress, isLoggedUser = false }) => {
 
                     <View style={styles.followInfo} >
                         <Text style={{ fontWeight: 'bold', color: mainTextColor }}>Memories</Text>
-                        <Text style={{ color: mainTextColor }}>26</Text>
+                        <Text style={{ color: mainTextColor }}>{postslength}</Text>
                     </View>
 
                     <View style={styles.followInfo} >

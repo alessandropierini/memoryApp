@@ -1,6 +1,6 @@
-import { View, Text, Image, StyleSheet, useWindowDimensions, ScrollView, TouchableOpacity, Alert } from 'react-native'
+import { View, Text, Image, StyleSheet, useWindowDimensions, ScrollView, TouchableOpacity, Alert, ActivityIndicator } from 'react-native'
 import * as ImagePicker from 'expo-image-picker';
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 
 import CustomButton from '../../components/customButton';
@@ -10,13 +10,14 @@ import axios from 'axios';
 import { defaultAvatar, mainBackground, mainColor, firebase, storageBucket_1, storageBucket_2, BASE_URL } from '../../config/config';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { AuthContext } from '../../context/AuthContext'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 
 const EMAIL_REGEX = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/
 
 const EditProfileScreen = ({ navigation }) => {
 
-  const { userInfo, setIsLoading } = useContext(AuthContext)
+  const { userInfo, setUserInfo } = useContext(AuthContext)
   const imageSize = 120
 
   const { control, handleSubmit, formState: { errors }, watch } = useForm({
@@ -37,8 +38,20 @@ const EditProfileScreen = ({ navigation }) => {
       email: data.email
     }).then(res => {
       console.log(res.data)
+      Alert.alert(
+        `Profile updated!`
+      )
     })
+    updateUserInfo()
   }
+
+  useEffect(() => {
+    if(userInfo.profilepic){
+      setImage(userInfo.profilepic)
+    } else {
+      setImage(defaultAvatar)
+    }
+  }, [])
 
   const [image, setImage] = useState(defaultAvatar)
   const [imageChosen, setImageChosen] = useState(false)
@@ -61,6 +74,7 @@ const EditProfileScreen = ({ navigation }) => {
   }
 
   const onUpdateImagePressed = async () => {
+    setIsLoading(true)
     const response = await fetch(image)
     const blob = await response.blob()
     const filename = image.substring(image.lastIndexOf('/') + 1)
@@ -71,10 +85,42 @@ const EditProfileScreen = ({ navigation }) => {
     } catch (e) {
       console.log(e)
     }
+
     var imageURI = storageBucket_1 + filename + storageBucket_2
     console.log(imageURI)
-    Alert.alert(
-      'Profile updated!'
+
+    axios.post(`${BASE_URL}/profilephoto`, {
+      _id: userInfo._id,
+      profilepic: storageBucket_1 + filename + storageBucket_2
+    }).then(res => {
+      Alert.alert(
+        `Profile picture updated!`
+      )
+    }).catch(e => {
+      console.log(`profile error: ${e.response.data.msg}`)
+    })
+    updateUserInfo()
+    setIsLoading(false)
+  }
+
+  const updateUserInfo = () => {
+    axios.post(`${BASE_URL}/specificuser`, {
+      _id: userInfo._id
+    }).then(res => {
+      console.log(res.data.user)
+      setUserInfo(res.data.user)
+      AsyncStorage.setItem('userInfo', JSON.stringify(userInfo))
+    }).catch(e => {
+      console.log(`specific user error: ${e.response.data.msg}`)
+    })
+  }
+
+  const [isLoading, setIsLoading] = useState(false)
+  if (isLoading) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: mainBackground }}>
+        <ActivityIndicator size={'large'} />
+      </View>
     )
   }
 

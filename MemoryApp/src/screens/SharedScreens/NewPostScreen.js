@@ -1,5 +1,5 @@
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Alert, Image, TextInput } from 'react-native'
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Alert, Image, TextInput, ActivityIndicator } from 'react-native'
 import Carousel from 'react-native-snap-carousel'
 import * as ImagePicker from 'expo-image-picker'
 import React, { useContext, useState } from 'react'
@@ -15,7 +15,7 @@ import { AuthContext } from '../../context/AuthContext'
 
 const NewPostScreen = ({ navigation }) => {
 
-  const { setIsLoading, userInfo } = useContext(AuthContext)
+  const { userInfo } = useContext(AuthContext)
 
   const [uploading, setUploading] = useState(false)
 
@@ -44,9 +44,9 @@ const NewPostScreen = ({ navigation }) => {
 
   const [caption, setCaption] = useState("")
   const onPostPressed = async () => {
-    setIsLoading(true)
+    setUploading(true)
     if (!caption.trim().length) {
-      setIsLoading(false)
+      setUploading(false)
       Alert.alert(
         'Error',
         'Empty caption!',
@@ -55,7 +55,7 @@ const NewPostScreen = ({ navigation }) => {
         ]
       )
     } else if (images.length < 1) {
-      setIsLoading(false)
+      setUploading(false)
       Alert.alert(
         'Error',
         `You haven't selected an image!`,
@@ -96,7 +96,6 @@ const NewPostScreen = ({ navigation }) => {
       }).catch(e => {
         console.log(`Post error: ${e.response.data.msg}`)
       })
-      setIsLoading(false)
       setUploading(false)
 
       // var imageURI2 = storageBucket_1 + filename2 + storageBucket_2
@@ -118,6 +117,14 @@ const NewPostScreen = ({ navigation }) => {
     setImage(false)
     setImages([])
   }
+
+  if (uploading) {
+    return (
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: mainBackground }}>
+            <ActivityIndicator size={'large'} />
+        </View>
+    )
+}
 
   return (
     <ScrollView

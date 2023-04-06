@@ -17,7 +17,7 @@ export const imageWidth = 1080 / 6
 export const profSize = 40
 
 //Default Avatar
-export const defaultAvatar = "https://png.pngtree.com/element_our/20200610/ourmid/pngtree-default-avatar-image_2238788.jpg"
+export const defaultAvatar = "https://images.are.na/eyJidWNrZXQiOiJhcmVuYV9pbWFnZXMiLCJrZXkiOiI4MDQwOTc0L29yaWdpbmFsX2ZmNGYxZjQzZDdiNzJjYzMxZDJlYjViMDgyN2ZmMWFjLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MTIwMCwiaGVpZ2h0IjoxMjAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9LCJ3ZWJwIjp7InF1YWxpdHkiOjkwfSwianBlZyI6eyJxdWFsaXR5Ijo5MH0sInJvdGF0ZSI6bnVsbH19?bc=0"
 
 //Axios config
 export const BASE_URL = "https://memoryapp-production.up.railway.app"

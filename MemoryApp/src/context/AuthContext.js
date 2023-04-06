@@ -2,7 +2,7 @@ import { Alert } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import axios from 'axios'
 import React, { createContext, useState, useEffect } from 'react'
-import { BASE_URL } from '../config/config'
+import { BASE_URL, defaultAvatar } from '../config/config'
 
 export const AuthContext = createContext()
 
@@ -43,7 +43,8 @@ export const AuthProvider = ({ children }) => {
             username,
             name,
             email,
-            password
+            password,
+            profilepic: defaultAvatar
         }).then(res => {
             console.log(res.data)
             let userInfo = res.data.Newuser
@@ -95,7 +96,7 @@ export const AuthProvider = ({ children }) => {
     }, [])
 
     return (
-        <AuthContext.Provider value={{ login, signup, logout, isLoading, userToken, userInfo, setIsLoading }}>
+        <AuthContext.Provider value={{ login, signup, logout, isLoading, userToken, userInfo, setIsLoading, setUserInfo }}>
             {children}
         </AuthContext.Provider>
     )
