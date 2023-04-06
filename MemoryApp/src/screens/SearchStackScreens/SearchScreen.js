@@ -1,12 +1,16 @@
 import { StyleSheet, Text, View, ScrollView, TextInput, RefreshControl } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import SearchCard from '../../components/SearchCard'
 
 import axios from 'axios'
 import { BASE_URL, mainColor, ScreenWidth, mainBackground, loaderColor } from '../../config/config'
+import { AuthContext } from '../../context/AuthContext'
 
 
 const SearchScreen = ({ navigation }) => {
+
+  const { userInfo } = useContext(AuthContext)
+
 
   const [data, setData] = useState("")
   const [users, setUsers] = useState([])
@@ -61,7 +65,7 @@ const SearchScreen = ({ navigation }) => {
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} style={{ backgroundColor: mainBackground }} title="Pull to refresh" tintColor={loaderColor} titleColor={loaderColor} />
       }>
       {
-        users?.map(dat => <SearchCard username={dat.username} name={dat.name} navigation={navigation} />)
+        users?.map(dat => <SearchCard currentUser={userInfo._id} _id={dat._id} username={dat.username} name={dat.name} navigation={navigation} profilepic={dat.profilepic} />)
       }
     </ScrollView>
   )

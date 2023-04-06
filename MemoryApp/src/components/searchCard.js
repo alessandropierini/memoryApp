@@ -1,21 +1,55 @@
 import { StyleSheet, Text, View, Image } from 'react-native'
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
-import { mainColor, defaultAvatar } from '../config/config'
+import { mainColor, defaultAvatar, BASE_URL } from '../config/config'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { AuthContext } from '../context/AuthContext'
 
-const SearchCard = ({ username, name, navigation }) => {
+import axios from 'axios'
+
+const SearchCard = ({ username, name, navigation, _id, profilepic, currentUser }) => {
 
   const { userInfo } = useContext(AuthContext)
 
+  const [user, setUser] = useState(null)
+  const [posts, setPosts] = useState(null)
+  const specificUser = async () => {
+    axios.post(`${BASE_URL}/specificuser`, {
+      _id: _id
+    }).then(res => {
+      setPosts(res.data.post)
+      setUser(res.data.user)
+      console.log(res.data)
+      if (userInfo._id == res.data.user_id) {
+        setIsUser(true)
+      }
+    }).catch(e => {
+      console.log(`specific user error: ${e.response.data.msg}`)
+    })
+    await console.log(user)
+    await console.log(posts)
+  }
+
+
+  const [isUser, setIsUser] = useState(false)
+  const checkIsUser = () => {
+    if (_id == currentUser) {
+      setIsUser(true)
+    }
+  }
+
+  useEffect(() => {
+    checkIsUser()
+      specificUser()
+  }, [])
+
   return (
-    <TouchableOpacity onPress={() => {navigation.navigate("SearchUserProfile", {name, username })}}>
+    <TouchableOpacity onPress={() => { isUser ? navigation.navigate('ProfileStack', { screen: 'Profile' }) : navigation.navigate('HomeUserProfile', { name: user.name, username: user.username, posts, profilepic: user.profilepic }) }}>
       <View style={styles.container}>
         <View style={styles.leftCont}>
           <Image
             style={{ height: 50, width: 50, borderRadius: 50, margin: 5 }}
-            source={{ uri: defaultAvatar }}
+            source={{ uri: profilepic }}
           />
         </View>
         <View style={styles.rightCont}>

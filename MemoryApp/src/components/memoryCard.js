@@ -1,15 +1,25 @@
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native'
-import React, { useState, useEffect, useContext } from 'react'
+import { StyleSheet, Text, View, TouchableOpacity, Image, Alert } from 'react-native'
+import React, { useState, useEffect, useContext, useRef } from 'react'
 import { abbreviateNumber } from 'js-abbreviation-number'
 import moment from 'moment'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import axios from 'axios'
 
-import { defaultAvatar, detailsColor, profSize, mainColor, BASE_URL } from '../config/config'
+import { defaultAvatar, detailsColor, profSize, mainColor, BASE_URL, ScreenWidth, mainBackground, buttonTextColor } from '../config/config'
 import { AuthContext } from '../context/AuthContext'
 
-const MemoryCard = ({ caption, image, time, owner, comment, like, navigation }) => {
+import { BottomSheetModal } from '@gorhom/bottom-sheet'
+import { ScrollView, TextInput } from 'react-native-gesture-handler'
+
+
+const MemoryCard = ({ caption, image, time, owner, like, navigation, postID }) => {
+
+  const BottomSheetModalRef = useRef(null)
+  const snapPoints = ['40%', '65%']
+  const onCommentPressed = () => {
+    BottomSheetModalRef.current?.present()
+  }
 
   const { userInfo, setIsLoading } = useContext(AuthContext)
 
@@ -17,7 +27,7 @@ const MemoryCard = ({ caption, image, time, owner, comment, like, navigation }) 
   const [user, setUser] = useState(null)
   const [posts, setPosts] = useState(null)
   const [isUser, setIsUser] = useState(false)
-
+  const [profilePic, setProfilePic] = useState(defaultAvatar)
 
   const [toggle, setToggle] = useState(true)
   const handleLike = () => {
@@ -30,7 +40,54 @@ const MemoryCard = ({ caption, image, time, owner, comment, like, navigation }) 
   }
 
   const onDeletePressed = () => {
-    console.warn('delete')
+    Alert.alert(
+      'WARNING',
+      'You are about to delete this memory. This cannot be undone.',
+      [{
+        text: 'Delete', style: 'destructive',
+        onPress: () =>
+          Alert.alert(
+            'DELETE MEMORY',
+            'Are you sure you want to delete this memory?',
+            [{
+              text: 'Delete', style: 'destructive',
+              onPress: () => deletePost()
+            },
+            {
+              text: 'Cancel', style: 'cancel'
+            }
+            ]
+          )
+      },
+      {
+        text: 'Cancel', style: 'cancel'
+      }
+      ]
+    )
+  }
+
+  const deletePost = () => {
+    axios.post(`${BASE_URL}/deletepost`, {
+      _id: postID
+    }).then(res => {
+      console.log(res.data.msg)
+      Alert.alert(
+        'Memory deleted',
+        `${res.data.msg}`,
+        [{
+          text: 'Close', style: 'cancel'
+        }]
+      )
+    }).catch(e => {
+      console.log(e.response.data.msg)
+      Alert.alert(
+        'Memory deleted',
+        `${e.response.data.msg}`,
+        [{
+          text: 'Close', style: 'cancel'
+        }]
+      )
+    })
   }
 
   const specificUser = async () => {
@@ -40,6 +97,7 @@ const MemoryCard = ({ caption, image, time, owner, comment, like, navigation }) 
       setUsername(res.data.user.name)
       setPosts(res.data.post)
       setUser(res.data.user)
+      setProfilePic(res.data.user.profilepic)
       // console.log(res.data)
 
     }).catch(e => {
@@ -65,13 +123,13 @@ const MemoryCard = ({ caption, image, time, owner, comment, like, navigation }) 
       <View style={styles.leftCont}>
         <Image
           style={{ height: profSize, width: profSize, borderRadius: profSize, margin: 8 }}
-          source={{ uri: defaultAvatar }}
+          source={{ uri: profilePic }}
         />
       </View>
       <View style={styles.rightCont}>
         <View style={styles.topCont}>
           <View style={styles.nameCont}>
-            <TouchableOpacity onPress={() => { isUser ? navigation.navigate('ProfileStack', { screen: 'Profile' }) : navigation.navigate('HomeUserProfile', { name: user.name, username: user.username, posts }) }}>
+            <TouchableOpacity onPress={() => { isUser ? navigation.navigate('ProfileStack', { screen: 'Profile' }) : navigation.navigate('HomeUserProfile', { name: user.name, username: user.username, posts, profilepic: user.profilepic }) }}>
               <Text style={styles.nameText}>{username}</Text>
             </TouchableOpacity>
             <Text style={styles.idText}>{moment(time).fromNow()}</Text>
@@ -94,29 +152,56 @@ const MemoryCard = ({ caption, image, time, owner, comment, like, navigation }) 
         </View>
         <View style={styles.actionCont}>
           <View style={styles.iconCont}>
-            {comment ?
-              <TouchableOpacity>
-                <MaterialCommunityIcons name="message-reply-outline" color="gray" size={20} />
-              </TouchableOpacity>
-              :
-              <TouchableOpacity>
-                <MaterialCommunityIcons name="message-reply-outline" color="gray" size={20} />
-              </TouchableOpacity>}
+            <TouchableOpacity onPress={onCommentPressed}>
+              <MaterialCommunityIcons name="message-reply-outline" color="gray" size={20} />
+            </TouchableOpacity>
             <Text style={styles.idText}>17</Text>
           </View>
           <View style={styles.iconCont}>
             {toggle ?
-              <TouchableOpacity>
-                <MaterialCommunityIcons name="heart-outline" color="gray" size={20} onPress={handleLike} />
+              <TouchableOpacity onPress={handleLike}>
+                <MaterialCommunityIcons name="heart-outline" color="gray" size={20} />
               </TouchableOpacity>
               :
-              <TouchableOpacity>
-                <MaterialCommunityIcons name="heart" color="#dd0000" size={20} onPress={handleLike} />
+              <TouchableOpacity onPress={handleLike}>
+                <MaterialCommunityIcons name="heart" color="#dd0000" size={20} />
               </TouchableOpacity>}
             <Text style={styles.idText}>{like}</Text>
           </View>
         </View>
       </View>
+
+      <BottomSheetModal
+        ref={BottomSheetModalRef}
+        index={0}
+        snapPoints={snapPoints}
+        style={styles.bottomsheet}
+        backgroundStyle={{ borderRadius: 10 }}
+        enablePanDownToClose={true}
+        enableTouchOutsideToClose={true}
+      >
+        <View style={{ alignItems: 'center', paddingBottom: 10, borderBottomColor: detailsColor, borderBottomWidth: 0.5 }}>
+          <Text style={{ fontWeight: 'bold', fontSize: 24 }}>Comments</Text>
+        </View>
+        <ScrollView
+          contentContainerStyle={{ alignItems: 'center', padding: 10, justifyContent: 'flex-end', flex: 1 }}
+          automaticallyAdjustKeyboardInsets={true}
+        >
+
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <TextInput
+              placeholder='Comment'
+              style={styles.searchText}
+              autoCorrect={false}
+              autoFocus={false}
+            />
+            <TouchableOpacity style={{ backgroundColor: mainColor, paddingVertical: 10, borderRadius: 25, marginHorizontal: 5, paddingHorizontal: 20 }}>
+              <MaterialCommunityIcons name="comment-plus-outline" color={buttonTextColor} size={20} />
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      </BottomSheetModal>
+
     </View>
   )
 }
@@ -124,6 +209,26 @@ const MemoryCard = ({ caption, image, time, owner, comment, like, navigation }) 
 export default MemoryCard
 
 const styles = StyleSheet.create({
+  bottomsheet: {
+    borderRadius: 25,
+    backgroundColor: mainBackground,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 12,
+    },
+    shadowOpacity: 0.58,
+    shadowRadius: 16.00,
+    elevation: 24,
+  },
+  searchText: {
+    textAlignVertical: 'center',
+    flex: 1,
+    borderColor: mainColor,
+    borderWidth: 1,
+    borderRadius: 20,
+    padding: 10
+  },
   container: {
     flexDirection: 'row',
     paddingBottom: 5,
