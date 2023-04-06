@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ScrollView, TextInput, RefreshControl } from 'react-native'
+import { StyleSheet, ScrollView, TextInput, RefreshControl } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import SearchCard from '../../components/SearchCard'
 

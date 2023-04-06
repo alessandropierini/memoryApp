@@ -4,6 +4,7 @@ const router = Router();
 
 import {signIn, signUp, SearchUser, DeleteUser, EditUser, EditPassword, SpecificUser, ProfilePhoto} from '../controllers/user.controller'
 import { DeletePost, allPosts, newPost } from '../controllers/post.controller';
+import { CommentsNumber, DeleteComment, NewComment, getComments } from '../controllers/comment.controller';
 
 //USER
 
@@ -22,5 +23,12 @@ router.post('/deleteuser', DeleteUser)
 router.post('/newpost', newPost)
 router.post('/allposts', allPosts)
 router.post('/deletepost', DeletePost)
+
+//COMMENTS
+
+router.post('/newcomment', NewComment)
+router.post('/getcomments', getComments)
+router.post('/commentsnumber', CommentsNumber)
+router.post('/deletecomment', DeleteComment)
 
 export default router;
