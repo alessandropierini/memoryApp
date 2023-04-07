@@ -5,8 +5,8 @@ export const FolloworUnfollow = async (req:Request, res:Response): Promise<Respo
     const result = await follow.find({FollowedUser:req.body.FollowedUser, FollowingUser:req.body.FollowingUser});
     console.log(result.length)
     if(result.length==0) {
-        const Newlike = new follow(req.body);
-        await Newlike.save();
+        const Newfollow = new follow(req.body);
+        await Newfollow.save();
         return res.status(201).json({msg: "You follow this user"})
     }
     await follow.deleteOne({FollowedUser:req.body.FollowedUser,FollowingUser:req.body.FollowingUser});
