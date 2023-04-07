@@ -135,10 +135,29 @@ const MemoryCard = ({ caption, image, time, owner, like, navigation, postID }) =
     }
   }
 
+  const [followingToggle, setFollowingToggle] = useState(false)
+  const checkIfFollowing = () => {
+    axios.post(`${BASE_URL}/getfollowers`, {
+        FollowedUser: owner
+    }).then(res => {
+        // console.log('followed')
+        // console.log(res.data.length)
+        
+        if (res.data.some(user => user.FollowingUser === userInfo._id)) {
+          setFollowingToggle(true)
+          } else {
+            setFollowingToggle(false)
+          }
+    }).catch(e => {
+        console.log(e.response.msg)
+    })
+}
+
   useEffect(() => {
     specificUser()
     checkIsUser()
     getLikes()
+    checkIfFollowing()
   }, [])
 
   return (
@@ -156,6 +175,7 @@ const MemoryCard = ({ caption, image, time, owner, like, navigation, postID }) =
               <Text style={styles.nameText}>{username}</Text>
             </TouchableOpacity>
             <Text style={styles.idText}>{moment(time).fromNow()}</Text>
+            {followingToggle && <Text style={{fontWeight: 'bold', color: detailsColor, fontStyle: 'italic',}}> • Following</Text>}
           </View>
           {isUser && <View style={{ paddingRight: 15 }}>
             <TouchableOpacity onPress={onDeletePressed}>
@@ -274,7 +294,7 @@ const styles = StyleSheet.create({
   nameText: {
     color: "black",
     fontWeight: 'bold',
-    marginRight: 5
+    marginRight: 0
   },
   idText: {
     marginLeft: 5,
