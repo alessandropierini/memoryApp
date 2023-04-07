@@ -6,7 +6,7 @@ import MemoryCard from '../../components/memoryCard'
 
 const UserProfileScreen = ({ route, navigation }) => {
 
-  const { name, username, posts, profilepic } = route.params
+  const { name, username, posts, profilepic, userID } = route.params
 
   const [refreshing, setRefreshing] = React.useState(false)
   const onRefresh = React.useCallback(() => {
@@ -42,7 +42,7 @@ const UserProfileScreen = ({ route, navigation }) => {
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} style={{ backgroundColor: mainBackground }} title="Pull to refresh" tintColor={loaderColor} titleColor={loaderColor} />
       }>
-      <ProfCard postslength={postslength} name={name} username={username} profilepic={profilepic} />
+      <ProfCard userID = {userID} postslength={postslength} name={name} username={username} profilepic={profilepic} />
       {posts && posts.map(dat =>
         <MemoryCard
           postID={dat._id}

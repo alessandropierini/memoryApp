@@ -147,7 +147,7 @@ const ProfileScreen = ({ navigation }) => {
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} style={{ backgroundColor: mainBackground }} title="Pull to refresh" tintColor={loaderColor} titleColor={loaderColor} />
       }>
 
-      <ProfCard postslength={postslength} profilepic={userInfo.profilepic} username={userInfo.username} isLoggedUser={true} onPress={onEditPressed} />
+      <ProfCard userID = {userInfo._id} postslength={postslength} profilepic={userInfo.profilepic} username={userInfo.username} isLoggedUser={true} onPress={onEditPressed} />
 
       {posts && posts.map(dat =>
         <MemoryCard

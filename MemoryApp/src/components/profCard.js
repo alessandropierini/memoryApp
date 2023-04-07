@@ -1,21 +1,69 @@
 import { StyleSheet, Text, View, Image } from 'react-native'
-import React, { useState, useEffect } from 'react'
-
-import axios from 'axios'
+import React, { useState, useEffect, useContext } from 'react'
 
 import CustomButton from './customButton'
 import { mainColor, mainTextColor, defaultAvatar, mainBackground, detailsColor, BASE_URL, } from '../config/config'
+import axios from 'axios'
+import { AuthContext } from '../context/AuthContext'
 
-const ProfCard = ({ profilepic, username, onPress, isLoggedUser = false, postslength = 0 }) => {
+const ProfCard = ({ profilepic, username, onPress, isLoggedUser = false, postslength = 0, userID }) => {
+
+    const { userInfo } = useContext(AuthContext)
+    
+    const [followingNum, setFollowingNum] = useState(0)
+    const [followersNum, setFollowersNum] = useState(0)
+
+    const getFollowersInfo = () => {
+        axios.post(`${BASE_URL}/getfollowers`, {
+            FollowedUser: userID
+        }).then(res => {
+            // console.log('followed')
+            // console.log(res.data.length)
+            setFollowersNum(res.data.length)
+            if (res.data.some(user => user.FollowingUser === userInfo._id)) {
+                setToggle(true)
+              } else {
+                setToggle(false)
+              }
+        }).catch(e => {
+            console.log(e.response.msg)
+        })
+    }
+
+    const getFollowingInfo = () => {
+        console.log(userID)
+        axios.post(`${BASE_URL}/getfollowing`, {
+            FollowingUser: userID
+        }).then(res => {
+            // console.log('following')
+            // console.log(res.data.length)
+            setFollowingNum(res.data.length)
+        }).catch(e => {
+            console.log(e.response.msg)
+        })
+    }
 
     const [toggle, setToggle] = useState(false)
-    const handleFollow = () => {
-        if (toggle == false) {
-            setToggle(true)
-        } else {
-            setToggle(false)
-        }
+
+    const FollowAction = () => {
+        axios.post(`${BASE_URL}/follow`, {
+            FollowingUser: userInfo._id,
+            FollowedUser: userID
+        }).then(res => {
+            console.log('followAction')
+            console.log(res.data)
+            getFollowersInfo()
+            getFollowingInfo()
+        }).catch(e => {
+            console.log('following error')
+        })
     }
+
+
+    useEffect(() => {
+        getFollowersInfo()
+        getFollowingInfo()
+    }, [])
 
     return (
         <View>
@@ -45,12 +93,12 @@ const ProfCard = ({ profilepic, username, onPress, isLoggedUser = false, postsle
 
                     <View style={styles.followInfo} >
                         <Text style={{ fontWeight: 'bold', color: mainTextColor }}>Following</Text>
-                        <Text style={{ color: mainTextColor }}>198</Text>
+                        <Text style={{ color: mainTextColor }}>{followingNum}</Text>
                     </View>
 
                     <View style={styles.followInfo}>
                         <Text style={{ fontWeight: 'bold', color: mainTextColor }}>Followers</Text>
-                        <Text style={{ color: mainTextColor }}>8.3M</Text>
+                        <Text style={{ color: mainTextColor }}>{followersNum}</Text>
                     </View>
                 </View>
                 <View style={{ alignItems: 'center', flex: 1, paddingBottom: 10 }}>
@@ -64,11 +112,11 @@ const ProfCard = ({ profilepic, username, onPress, isLoggedUser = false, postsle
                                 {toggle ?
                                     <View style={{ flexDirection: 'row', }}>
                                         <CustomButton text="Message" onPress={onPress} type="MESSAGE" />
-                                        <CustomButton text="Following" onPress={handleFollow} type="FOLLOWING" />
+                                        <CustomButton text="Following" onPress={FollowAction} type="FOLLOWING" />
                                     </View>
                                     :
                                     <View style={{ flexDirection: 'row', }}>
-                                        <CustomButton text="Follow" onPress={handleFollow} type="NOTFOLLOWED" />
+                                        <CustomButton text="Follow" onPress={FollowAction} type="NOTFOLLOWED" />
                                     </View>
                                 }
                             </View>

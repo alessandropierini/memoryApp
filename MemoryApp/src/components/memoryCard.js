@@ -152,7 +152,7 @@ const MemoryCard = ({ caption, image, time, owner, like, navigation, postID }) =
       <View style={styles.rightCont}>
         <View style={styles.topCont}>
           <View style={styles.nameCont}>
-            <TouchableOpacity onPress={() => { isUser ? navigation.navigate('ProfileStack', { screen: 'Profile' }) : navigation.navigate('HomeUserProfile', { name: user.name, username: user.username, posts, profilepic: user.profilepic }) }}>
+            <TouchableOpacity onPress={() => { isUser ? navigation.navigate('ProfileStack', { screen: 'Profile' }) : navigation.navigate('HomeUserProfile', { name: user.name, username: user.username, posts, profilepic: user.profilepic, userID: user._id }) }}>
               <Text style={styles.nameText}>{username}</Text>
             </TouchableOpacity>
             <Text style={styles.idText}>{moment(time).fromNow()}</Text>
