@@ -7,7 +7,7 @@ import { AuthContext } from '../context/AuthContext'
 
 import axios from 'axios'
 
-const SearchCard = ({ username, name, navigation, _id, profilepic, currentUser }) => {
+const SearchCard = ({ username, name, navigation, profilepic }) => {
 
   const { userInfo } = useContext(AuthContext)
 
@@ -19,15 +19,15 @@ const SearchCard = ({ username, name, navigation, _id, profilepic, currentUser }
     }).then(res => {
       setPosts(res.data.post)
       setUser(res.data.user)
-      console.log(res.data)
+      // console.log(res.data)
       if (userInfo._id == res.data.user_id) {
         setIsUser(true)
       }
     }).catch(e => {
       console.log(`specific user error: ${e.response.data.msg}`)
     })
-    await console.log(user)
-    await console.log(posts)
+    // await console.log(user)
+    // await console.log(posts)
   }
 
 

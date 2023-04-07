@@ -31,8 +31,8 @@ const HomeScreen = ({ navigation }) => {
 
   const [refreshing, setRefreshing] = React.useState(false)
   const onRefresh = React.useCallback(() => {
-    setRefreshing(true)
     pullPosts()
+    setRefreshing(true)
     setTimeout(() => {
       setRefreshing(false)
     }, 1000)

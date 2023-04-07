@@ -32,7 +32,7 @@ const UserProfileScreen = ({ route, navigation }) => {
     })
   }, [])
 
-  const [ postslength, setPostslegnth] = useState(0)
+  const [postslength, setPostslegnth] = useState(0)
 
 
   return (
@@ -42,19 +42,20 @@ const UserProfileScreen = ({ route, navigation }) => {
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} style={{ backgroundColor: mainBackground }} title="Pull to refresh" tintColor={loaderColor} titleColor={loaderColor} />
       }>
-      <ProfCard postslength = { postslength } name={name} username={username} profilepic={profilepic} />
-        {posts && posts.map(dat =>
-          <MemoryCard
-            image={dat.image}
-            owner={dat.owner}
-            time={dat.time}
-            caption={dat.caption}
-            comment={14}
-            like={10}
-            prof={defaultAvatar}
-            isUser={false}
-            navigation={navigation}
-          />)}
+      <ProfCard postslength={postslength} name={name} username={username} profilepic={profilepic} />
+      {posts && posts.map(dat =>
+        <MemoryCard
+          postID={dat._id}
+          image={dat.image}
+          owner={dat.owner}
+          time={dat.time}
+          caption={dat.caption}
+          comment={14}
+          like={10}
+          prof={defaultAvatar}
+          isUser={false}
+          navigation={navigation}
+        />)}
     </ScrollView>
   )
 }

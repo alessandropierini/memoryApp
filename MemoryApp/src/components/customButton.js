@@ -1,6 +1,6 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
-import { buttonColor, buttonTextColor, mainColor } from '../config/config'
+import { buttonColor, buttonTextColor, detailsColor, mainColor } from '../config/config'
 
 const CustomButton = ({ onPress, text, type = "PRIMARY" }) => {
   return (
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
   container_MESSAGE: {
     backgroundColor: 'black',
     width: '30%',
-    marginHorizontal: 5
+    marginRight: '2%'
   },
   text_MESSAGE: {
 
@@ -71,5 +71,17 @@ const styles = StyleSheet.create({
   },
   container_INFO: {
     backgroundColor: 'black',
+  },
+  container_NOTFOLLOWED: {
+    width: '100%',
+    backgroundColor: detailsColor,
+  },
+  text_NOTFOLLOWED: {
+    fontWeight: 'bold',
+    color: 'black'
+  },
+  container_FOLLOWING: {
+    backgroundColor: 'black',
+    width: '68%',
   }
 })

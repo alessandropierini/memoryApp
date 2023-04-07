@@ -5,7 +5,7 @@ export const mainBackground = 'white'
 export const loaderColor = 'gray'
 export const buttonColor = 'black'
 export const buttonTextColor = 'white'
-export const detailsColor = 'gray'
+export const detailsColor = '#D3D3D3'
 
 //Image data
 import { Dimensions } from 'react-native'

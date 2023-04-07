@@ -28,15 +28,37 @@ const MemoryCard = ({ caption, image, time, owner, like, navigation, postID }) =
   const [posts, setPosts] = useState(null)
   const [isUser, setIsUser] = useState(false)
   const [profilePic, setProfilePic] = useState(defaultAvatar)
+  const [likes, setLikes] = useState(0)
 
   const [toggle, setToggle] = useState(true)
   const handleLike = () => {
-    setToggle(!toggle)
-    if (toggle == true) {
-      console.log("trueeee")
-    } else {
-      console.log('falseeee')
-    }
+    axios.post(`${BASE_URL}/like`, {
+      idPost: postID,
+      idUser: userInfo._id
+    }).then(res => {
+      if (res.data.msg === "Like") {
+        setToggle(false)
+      } else {
+        setToggle(true)
+      }
+      getLikes()
+    }).catch(e => {
+      console.log(e.response.data.msg)
+    })
+  }
+
+  const getLikes = () => {
+    axios.post(`${BASE_URL}/getlikes`, {
+      idPost: postID
+    }).then(res => {
+      setLikes(res.data.length)
+      if (res.data.some(user => user.idUser === userInfo._id)) {
+        setToggle(false)
+      } else {
+        setToggle(true)
+      }
+      // console.log(res.data.includes(userInfo._id))
+    })
   }
 
   const onDeletePressed = () => {
@@ -103,8 +125,8 @@ const MemoryCard = ({ caption, image, time, owner, like, navigation, postID }) =
     }).catch(e => {
       console.log(`specific user error: ${e.response.data.msg}`)
     })
-    await console.log(user)
-    await console.log(posts)
+    // await console.log(user)
+    // await console.log(posts)
   }
 
   const checkIsUser = () => {
@@ -116,6 +138,7 @@ const MemoryCard = ({ caption, image, time, owner, like, navigation, postID }) =
   useEffect(() => {
     specificUser()
     checkIsUser()
+    getLikes()
   }, [])
 
   return (
@@ -166,7 +189,7 @@ const MemoryCard = ({ caption, image, time, owner, like, navigation, postID }) =
               <TouchableOpacity onPress={handleLike}>
                 <MaterialCommunityIcons name="heart" color="#dd0000" size={20} />
               </TouchableOpacity>}
-            <Text style={styles.idText}>{like}</Text>
+            <Text style={styles.idText}>{likes}</Text>
           </View>
         </View>
       </View>

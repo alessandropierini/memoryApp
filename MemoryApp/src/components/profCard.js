@@ -4,9 +4,18 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 
 import CustomButton from './customButton'
-import { mainColor, mainTextColor, defaultAvatar, mainBackground, detailsColor, BASE_URL,  } from '../config/config'
+import { mainColor, mainTextColor, defaultAvatar, mainBackground, detailsColor, BASE_URL, } from '../config/config'
 
-const ProfCard = ({ profilepic, username, onPress, isLoggedUser = false, postslength = 0}) => {
+const ProfCard = ({ profilepic, username, onPress, isLoggedUser = false, postslength = 0 }) => {
+
+    const [toggle, setToggle] = useState(false)
+    const handleFollow = () => {
+        if (toggle == false) {
+            setToggle(true)
+        } else {
+            setToggle(false)
+        }
+    }
 
     return (
         <View>
@@ -50,9 +59,18 @@ const ProfCard = ({ profilepic, username, onPress, isLoggedUser = false, postsle
                             ?
                             <CustomButton text="Edit Profile" onPress={onPress} type="EDITPROFILE" />
                             :
-                            <View style={{ flexDirection: 'row', }}>
-                                <CustomButton text="Message" onPress={onPress} type="MESSAGE" />
-                                <CustomButton text="Follow" onPress={onPress} type="FOLLOW2" />
+
+                            <View>
+                                {toggle ?
+                                    <View style={{ flexDirection: 'row', }}>
+                                        <CustomButton text="Message" onPress={onPress} type="MESSAGE" />
+                                        <CustomButton text="Following" onPress={handleFollow} type="FOLLOWING" />
+                                    </View>
+                                    :
+                                    <View style={{ flexDirection: 'row', }}>
+                                        <CustomButton text="Follow" onPress={handleFollow} type="NOTFOLLOWED" />
+                                    </View>
+                                }
                             </View>
                     }
                 </View>
