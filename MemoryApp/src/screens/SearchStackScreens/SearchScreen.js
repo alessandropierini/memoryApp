@@ -14,13 +14,13 @@ const SearchScreen = ({ navigation }) => {
 
   const [data, setData] = useState("")
   const [users, setUsers] = useState([])
-  const pullUsers = async () => {
-    await axios.post(`${BASE_URL}/searchuser`).then(res => {
-      setData(res.data.filter( obj => obj._id !== userInfo._id))
+  const pullUsers = () => {
+    axios.post(`${BASE_URL}/searchuser`).then(res => {
+      setData(res.data.filter(obj => obj._id !== userInfo._id))
     }).catch(e => {
       console.log(`Search error: ${e.response.data.msg}`)
     })
-    await console.log(data)
+    console.log(data)
   }
 
   useEffect(() => {
@@ -65,7 +65,7 @@ const SearchScreen = ({ navigation }) => {
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} style={{ backgroundColor: mainBackground }} title="Pull to refresh" tintColor={loaderColor} titleColor={loaderColor} />
       }>
       {
-        users?.map(dat => <SearchCard username={dat.username} name={dat.name} navigation={navigation} profilepic={dat.profilepic} />)
+        users?.map(dat => <SearchCard key={dat._id} username={dat.username} name={dat.name} navigation={navigation} profilepic={dat.profilepic} userID={dat._id} />)
       }
     </ScrollView>
   )

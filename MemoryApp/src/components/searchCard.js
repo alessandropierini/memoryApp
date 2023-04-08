@@ -7,7 +7,7 @@ import { AuthContext } from '../context/AuthContext'
 
 import axios from 'axios'
 
-const SearchCard = ({ username, name, navigation, profilepic }) => {
+const SearchCard = ({ username, name, navigation, profilepic, userID }) => {
 
   const { userInfo } = useContext(AuthContext)
 
@@ -15,14 +15,12 @@ const SearchCard = ({ username, name, navigation, profilepic }) => {
   const [posts, setPosts] = useState(null)
   const specificUser = async () => {
     axios.post(`${BASE_URL}/specificuser`, {
-      _id: _id
+      _id: userID
     }).then(res => {
       setPosts(res.data.post)
       setUser(res.data.user)
       // console.log(res.data)
-      if (userInfo._id == res.data.user_id) {
-        setIsUser(true)
-      }
+
     }).catch(e => {
       console.log(`specific user error: ${e.response.data.msg}`)
     })
@@ -30,21 +28,12 @@ const SearchCard = ({ username, name, navigation, profilepic }) => {
     // await console.log(posts)
   }
 
-
-  const [isUser, setIsUser] = useState(false)
-  const checkIsUser = () => {
-    if (_id == currentUser) {
-      setIsUser(true)
-    }
-  }
-
   useEffect(() => {
-    checkIsUser()
-      specificUser()
+    specificUser()
   }, [])
 
   return (
-    <TouchableOpacity onPress={() => { isUser ? navigation.navigate('ProfileStack', { screen: 'Profile' }) : navigation.navigate('HomeUserProfile', { name: user.name, username: user.username, posts, profilepic: user.profilepic }) }}>
+    <TouchableOpacity onPress={() => navigation.navigate('HomeUserProfile', { name: user.name, username: user.username, posts, profilepic: user.profilepic, userID: userID })}>
       <View style={styles.container}>
         <View style={styles.leftCont}>
           <Image

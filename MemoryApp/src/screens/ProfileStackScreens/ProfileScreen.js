@@ -123,7 +123,7 @@ const ProfileScreen = ({ navigation }) => {
   const [username, setUsername] = useState(userInfo.username)
   const [posts, setPosts] = useState(null)
   const [postslength, setPostslegnth] = useState(0)
-  const specificUser = async () => {
+  const specificUser = () => {
     axios.post(`${BASE_URL}/specificuser`, {
       _id: userInfo._id
     }).then(res => {
@@ -147,10 +147,11 @@ const ProfileScreen = ({ navigation }) => {
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} style={{ backgroundColor: mainBackground }} title="Pull to refresh" tintColor={loaderColor} titleColor={loaderColor} />
       }>
 
-      <ProfCard postslength={postslength} profilepic={userInfo.profilepic} username={userInfo.username} isLoggedUser={true} onPress={onEditPressed} />
+      <ProfCard userID={userInfo._id} postslength={postslength} profilepic={userInfo.profilepic} username={userInfo.username} isLoggedUser={true} onPress={onEditPressed} />
 
       {posts && posts.map(dat =>
         <MemoryCard
+          key={dat._id}
           postID={dat._id}
           image={dat.image}
           owner={dat.owner}
