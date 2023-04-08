@@ -7,7 +7,7 @@ import Post, { IPost } from '../models/Post';
 export const newPost = async (req: Request, res: Response): Promise<Response> => {
     const Newpost = new Post (req.body);
     await Newpost.save();
-    return res.status(201).json({Newpost, msg:'Post registered succesfully'})
+    return res.status(201).json({Newpost, msg:'Post registered successfully'})
 }
 
 export const DeletePost = async (req: Request, res: Response): Promise<Response> => {

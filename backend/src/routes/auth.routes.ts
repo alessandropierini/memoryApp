@@ -7,6 +7,7 @@ import { DeletePost, allPosts, newPost } from '../controllers/post.controller';
 import { DeleteComment, NewComment, getComments } from '../controllers/comment.controller';
 import { AddOrRemoveLike, Getlikes } from '../controllers/like.controller';
 import { FolloworUnfollow, GetFollowers, GetFollowing } from '../controllers/follow.controller';
+import { allStories, newStory } from '../controllers/stories.controller';
 
 //USER
 
@@ -42,5 +43,10 @@ router.post('/getlikes', Getlikes)
 router.post('/follow', FolloworUnfollow)
 router.post('/getfollowers', GetFollowers)
 router.post('/getfollowing', GetFollowing)
+
+//STORIES
+
+router.post('/newstorie', newStory)
+router.post('/allstories', allStories)
 
 export default router;
