@@ -1,16 +1,14 @@
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Alert, Image, TextInput, ActivityIndicator } from 'react-native'
-import Carousel from 'react-native-snap-carousel'
 import * as ImagePicker from 'expo-image-picker'
 import React, { useContext, useState } from 'react'
 import moment from 'moment'
 
 import axios from 'axios'
-import { BASE_URL } from '../../config/config'
+import { BASE_URL, ScreenHeight } from '../../config/config'
 
 import { mainBackground, ScreenWidth, imageWidth, imageHeight, firebase, storageBucket_1, storageBucket_2 } from '../../config/config'
 import CustomButton from '../../components/customButton'
-import ImageSlider from '../../components/ImageSlider'
 import { AuthContext } from '../../context/AuthContext'
 
 const NewPostScreen = ({ navigation }) => {
@@ -26,7 +24,7 @@ const NewPostScreen = ({ navigation }) => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: false,
-      aspect: [2, 3],
+      aspect: [1, 1],
       quality: 0.25,
       allowsMultipleSelection: true,
       selectionLimit: 1
@@ -120,11 +118,11 @@ const NewPostScreen = ({ navigation }) => {
 
   if (uploading) {
     return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: mainBackground }}>
-            <ActivityIndicator size={'large'} />
-        </View>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: mainBackground }}>
+        <ActivityIndicator size={'large'} />
+      </View>
     )
-}
+  }
 
   return (
     <ScrollView
@@ -134,21 +132,27 @@ const NewPostScreen = ({ navigation }) => {
 
       <View style={{ alignItems: 'center', position: 'relative' }}>
         {image ?
-          <View style={{ paddingTop: 25 }}>
-            <Carousel
-              ref={(c) => { this._carousel = c; }}
-              data={images}
-              renderItem={renderSlider}
-              sliderWidth={ScreenWidth}
-              itemWidth={ScreenWidth - 200}
+          <View style={{
+            borderRadius: 10,
+            marginLeft: 10,
+            marginRight: 10,
+            flex: 1,
+            alignItems: 'center',
+
+          }}>
+            <Image
+              source={{
+                uri: image
+              }}
+              style={styles.imageButton}
             />
             <TouchableOpacity
               onPress={onImagePressed}
               style={{
                 position: 'absolute',
                 alignSelf: 'flex-end',
-                paddingRight: 10,
-                paddingTop: 10
+                paddingRight: 40,
+                paddingTop: 40
 
               }}>
               <MaterialCommunityIcons name="close" size={30} color={'white'} style={{
@@ -168,7 +172,7 @@ const NewPostScreen = ({ navigation }) => {
           ref={input => { this.textInput = input }}
           placeholder='Caption your memory...'
           placeholderTextColor={'gray'}
-          maxLength={150}
+          maxLength={100}
           style={styles.searchText}
           multiline
           autoCorrect
@@ -217,10 +221,10 @@ const styles = StyleSheet.create({
     height: imageHeight,
     width: imageWidth,
     borderRadius: 10,
-    marginTop: 10,
-    marginLeft: 10,
-    marginRight: 10,
-    marginBottom: 15,
+    marginTop: '8%',
+    marginLeft: '8%',
+    marginRight: '8%',
+    marginBottom: '1%',
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center'

@@ -31,7 +31,6 @@ const ProfCard = ({ profilepic, username, onPress, isLoggedUser = false, postsle
     }
 
     const getFollowingInfo = () => {
-        console.log(userID)
         axios.post(`${BASE_URL}/getfollowing`, {
             FollowingUser: userID
         }).then(res => {

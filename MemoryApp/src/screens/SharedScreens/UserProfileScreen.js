@@ -45,6 +45,7 @@ const UserProfileScreen = ({ route, navigation }) => {
       <ProfCard userID = {userID} postslength={postslength} name={name} username={username} profilepic={profilepic} />
       {posts && posts.map(dat =>
         <MemoryCard
+          key={dat._id}
           postID={dat._id}
           image={dat.image}
           owner={dat.owner}
