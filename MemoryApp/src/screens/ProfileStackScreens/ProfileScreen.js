@@ -130,7 +130,7 @@ const ProfileScreen = ({ navigation }) => {
       const sortedList = res.data.post.sort((a, b) =>
         b.time.localeCompare(a.time))
       setPosts(sortedList)
-      setPostslegnth(posts.length)
+      setPostslegnth(res.data.post.length)
       // console.log(res.data)
       // console.log(posts)
     }).catch(e => {

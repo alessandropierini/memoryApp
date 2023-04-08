@@ -90,7 +90,7 @@ const NewPostScreen = ({ navigation }) => {
         time: instant,
         owner: userInfo._id
       }).then(res => {
-        // console.log(res.data)
+        console.log(`New post created by: ${userInfo.username}`)
       }).catch(e => {
         console.log(`Post error: ${e.response.data.msg}`)
       })
