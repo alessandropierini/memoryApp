@@ -4,7 +4,7 @@ const router = Router();
 
 import {signIn, signUp, SearchUser, DeleteUser, EditUser, EditPassword, SpecificUser, ProfilePhoto} from '../controllers/user.controller'
 import { DeletePost, allPosts, newPost } from '../controllers/post.controller';
-import { AddOrRemoveLikecomment, DeleteComment, NewComment, getComments } from '../controllers/comment.controller';
+import { AddOrRemoveLikecomment, DeleteComment, Getlikescomments, NewComment, getComments } from '../controllers/comment.controller';
 import { AddOrRemoveLike, Getlikes } from '../controllers/like.controller';
 import { FolloworUnfollow, GetFollowers, GetFollowing } from '../controllers/follow.controller';
 import { allStories, newStory } from '../controllers/stories.controller';
@@ -33,6 +33,7 @@ router.post('/newcomment', NewComment)
 router.post('/getcomments', getComments)
 router.post('/deletecomment', DeleteComment)
 router.post('/likecomments', AddOrRemoveLikecomment)
+router.post('/getlikecomments', Getlikescomments)
 
 //LIKES
 

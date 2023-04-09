@@ -23,6 +23,10 @@ export const AddOrRemoveLikecomment = async (req: Request, res: Response): Promi
     await like.deleteOne({idPost:req.body.idPost,idUser:req.body.idUser})
     return res.status(201).json({msg: "Not like comment "})
 }
+export const Getlikescomments = async (req: Request, res: Response): Promise<Response> => {
+    const result = await like.find({_id:req.body._id})
+    return res.status(201).json(result)
+}
 
 export const getComments = async (req:Request, res:Response): Promise<Response> => {
     const comments = await comment.find({idPost:req.body.idPost}).sort({time:'desc'});
