@@ -1,6 +1,7 @@
 import { json, Request, Response } from 'express';
 import comment from '../models/comment';
 import Post from '../models/Post';
+import like from '../models/like';
 
 export const NewComment = async (req: Request, res: Response): Promise<Response> => {
     if (!req.body.comment) {
@@ -9,6 +10,18 @@ export const NewComment = async (req: Request, res: Response): Promise<Response>
     const newComment = new comment(req.body)
     await newComment.save();
     return res.status(201).json(newComment)
+}
+
+export const AddOrRemoveLikecomment = async (req: Request, res: Response): Promise<Response> => {
+    const result = await like.find({_id:req.body._id, idPost:req.body.idPost, idUser:req.body.idUser});
+    console.log(result.length)
+    if (result.length==0) {
+        const Newlike = new like(req.body)
+        await Newlike.save();
+        return res.status(201).json({msg: "Like comment" });
+    }
+    await like.deleteOne({idPost:req.body.idPost,idUser:req.body.idUser})
+    return res.status(201).json({msg: "Not like comment "})
 }
 
 export const getComments = async (req:Request, res:Response): Promise<Response> => {
