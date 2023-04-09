@@ -13,11 +13,11 @@ export default function App() {
 
 
   return (
+
     <AuthProvider>
       <BottomSheetModalProvider>
-
         <StatusBar style="auto" />
-        <Navigation />
+          <Navigation />
       </BottomSheetModalProvider>
     </AuthProvider>
   );
