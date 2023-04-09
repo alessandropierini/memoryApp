@@ -1,5 +1,6 @@
 import { json, Request, Response } from 'express';
 import comment from '../models/comment';
+import Post from '../models/Post';
 
 export const NewComment = async (req: Request, res: Response): Promise<Response> => {
     if (!req.body.comment) {
@@ -12,7 +13,8 @@ export const NewComment = async (req: Request, res: Response): Promise<Response>
 
 export const getComments = async (req:Request, res:Response): Promise<Response> => {
     const comments = await comment.find({idPost:req.body.idPost}).sort({time:'desc'});
-    return res.status(201).json(comments)
+    const post:any = await Post.findOne({});
+    return res.status(201).json({comments, post})
 }
 
 export const DeleteComment = async (req:Request, res:Response): Promise<Response> => {

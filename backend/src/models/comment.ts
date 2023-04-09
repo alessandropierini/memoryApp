@@ -2,6 +2,7 @@ import {Model, Schema, Document, model} from 'mongoose';
 
 export interface comment extends Document {
     idPost:string,
+    postOwnerid:string,
     comment:string,
     time:Date,
     idUser:string,
@@ -10,6 +11,12 @@ export interface comment extends Document {
 const commentSchema = new Schema ({
     idPost: {
         type:String,
+        unique:false,
+        required:true,
+        trim:true,
+    },
+    postOwnerid: {
+        type: String,
         unique:false,
         required:true,
         trim:true,
