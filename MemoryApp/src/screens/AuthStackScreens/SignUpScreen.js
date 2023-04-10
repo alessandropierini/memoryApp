@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form'
 import { AuthContext } from '../../context/AuthContext'
 import { ScrollView } from 'react-native-gesture-handler'
 
-import { mainColor, defaultAvatar } from '../../config/config'
+import { mainColor, defaultAvatar, mainBackground } from '../../config/config'
 
 const EMAIL_REGEX = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/
 
@@ -36,10 +36,13 @@ const SignUpScreen = ({ navigation }) => {
   }
 
   return (
-    <ScrollView>
+    <ScrollView
+      style={{ backgroundColor: mainBackground }}
+      showsVerticalScrollIndicator={false}
+    >
 
       <View style={styles.root}>
-        <Image source={Logo} style={[styles.logo, { height: height * 0.15, marginTop: '5%', marginBottom: '5%' }]} resizeMode="contain" />
+        <Image source={Logo} style={[styles.logo, { height: height * 0.15, marginTop: '20%', marginBottom: '10%' }]} resizeMode="contain" />
 
         <CustomInput
           name="username"

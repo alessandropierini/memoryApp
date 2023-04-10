@@ -13,7 +13,7 @@ const SearchCard = ({ username, name, navigation, profilepic, userID }) => {
 
   const [user, setUser] = useState(null)
   const [posts, setPosts] = useState(null)
-  const specificUser = async () => {
+  const specificUser = () => {
     axios.post(`${BASE_URL}/specificuser`, {
       _id: userID
     }).then(res => {

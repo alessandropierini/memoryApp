@@ -19,7 +19,7 @@ const CommentCard = ({ userId, comment, time, like, postOwner, deleteComment, co
       _id: commentID,
       idPost: postID,
       idUser: userInfo._id
-    }).then ( res => {
+    }).then(res => {
       if (res.data.msg === "Like comment") {
         setToggle(false)
       } else {
@@ -34,7 +34,7 @@ const CommentCard = ({ userId, comment, time, like, postOwner, deleteComment, co
   const [likes, setLikes] = useState(0)
   const getCommentLikes = () => {
     axios.post(`${BASE_URL}/getlikecomments`, {
-        _id: commentID
+      _id: commentID
     }).then(res => {
       setLikes(res.data.length)
       if (res.data.some(user => user.idUser === userInfo._id)) {
@@ -109,21 +109,23 @@ const CommentCard = ({ userId, comment, time, like, postOwner, deleteComment, co
       <View style={styles.rightCont}>
         <View style={styles.topCont}>
           <View style={styles.nameCont}>
-            <Text style={styles.nameText} >{username}</Text>
+            <Text style={styles.nameText}>{username}</Text>
             <Text style={styles.idText}>{moment(time).fromNow()}</Text>
 
           </View>
           <View style={styles.actionCont}>
-            <Text style={styles.idText}>{likes}</Text>
-            {toggle ?
-              <TouchableOpacity onPress={handleLike} >
-                <MaterialCommunityIcons name="heart-outline" color={detailsColor} size={20} />
-              </TouchableOpacity>
-              :
-              <TouchableOpacity onPress={handleLike} >
-                <MaterialCommunityIcons name="heart" color="#dd0000" size={20} />
-              </TouchableOpacity>}
-            {isUser && <View style={{ paddingRight: 15 }}>
+            <Text style={[styles.idText,]}>{likes}</Text>
+            <View style={{paddingRight: 5}}>
+              {toggle ?
+                <TouchableOpacity onPress={handleLike} >
+                  <MaterialCommunityIcons name="heart-outline" color={detailsColor} size={20} />
+                </TouchableOpacity>
+                :
+                <TouchableOpacity onPress={handleLike} >
+                  <MaterialCommunityIcons name="heart" color="#dd0000" size={20} />
+                </TouchableOpacity>}
+            </View>
+            {isUser && <View style={{ paddingRight: 5 }}>
               <TouchableOpacity onPress={onDeleteCommentPressed}>
                 <MaterialCommunityIcons name="trash-can-outline" color={detailsColor} size={20} />
               </TouchableOpacity>
@@ -188,6 +190,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    alignItems: 'center'
+    alignItems: 'center',
+    position: 'relative'
   },
 })

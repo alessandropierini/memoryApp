@@ -124,13 +124,9 @@ const MemoryCard = ({ caption, image, time, owner, like, navigation, postID }) =
       setPosts(res.data.post)
       setUser(res.data.user)
       setProfilePic(res.data.user.profilepic)
-      // console.log(res.data)
-
     }).catch(e => {
       console.log(`specific user error: ${e.response.data.msg}`)
     })
-    // await console.log(user)
-    // await console.log(posts)
   }
 
   const checkIsUser = () => {
@@ -233,7 +229,8 @@ const MemoryCard = ({ caption, image, time, owner, like, navigation, postID }) =
               <Text style={styles.nameText}>{username}</Text>
             </TouchableOpacity>
             <Text style={styles.idText}>{moment(time).fromNow()}</Text>
-            {followingToggle && <Text style={{ fontWeight: 'bold', color: detailsColor, fontStyle: 'italic', }}> • Following</Text>}
+            {followingToggle && <Text style={{ fontWeight: 'bold', color: detailsColor, fontStyle: 'italic', }}> | Following</Text>}
+            {/* { isUser && <Text style={{ fontWeight: 'bold', color: detailsColor, fontStyle: 'italic', }}> | Me</Text>} */}
           </View>
           {isUser && <View style={{ paddingRight: 15 }}>
             <TouchableOpacity onPress={onDeletePressed}>
@@ -418,7 +415,7 @@ const styles = StyleSheet.create({
   },
   iconCont: {
     flexDirection: 'row',
-    paddingHorizontal: 5
-
+    paddingHorizontal: 5,
+    alignItems: 'center'
   }
 })

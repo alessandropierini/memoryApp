@@ -9,6 +9,7 @@ import { Ionicons } from '@expo/vector-icons'
 
 import logo from '../../../assets/m__memoryLogoColors.png'
 import { TouchableOpacity } from 'react-native-gesture-handler'
+import StoryScreen from '../../screens/HomeStackScreens/StoryScreen'
 
 const Stack = createStackNavigator()
 
@@ -26,7 +27,7 @@ const HomeStack = ({ navigation }) => {
       <Stack.Screen name="Home" component={HomeScreen} options={{
         title: "",
         headerLeft: () => (
-          <Image style={{ width: 130, marginLeft: 10,  height: 130 }} source={logo} resizeMode="contain" />
+          <Image style={{ width: 130, marginLeft: 10, height: 130 }} source={logo} resizeMode="contain" />
         ),
         headerRight: () => (
           <TouchableOpacity onPress={onSavedPressed}>
@@ -50,6 +51,7 @@ const HomeStack = ({ navigation }) => {
         headerStyle: {
         },
       }} />
+      <Stack.Screen name="Story" component={StoryScreen} />
     </Stack.Navigator>
   )
 }
