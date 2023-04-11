@@ -38,6 +38,7 @@ const EditProfileScreen = ({ navigation }) => {
       email: data.email
     }).then(res => {
       console.log(res.data)
+      AsyncStorage.setItem('userInfo', JSON.stringify(res.data.user))
       Alert.alert(
         `Profile updated!`
       )
