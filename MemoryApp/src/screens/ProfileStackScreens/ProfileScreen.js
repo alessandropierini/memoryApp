@@ -57,7 +57,7 @@ const ProfileScreen = ({ navigation }) => {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [9, 16],
-      quality: 0.25,
+      quality: 0.1,
     })
 
     if (!result.canceled) {

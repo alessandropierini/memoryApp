@@ -12,15 +12,15 @@ const SearchScreen = ({ navigation }) => {
   const { userInfo } = useContext(AuthContext)
 
 
-  const [data, setData] = useState("")
+  const [data, setData] = useState([])
   const [users, setUsers] = useState([])
   const pullUsers = () => {
     axios.post(`${BASE_URL}/searchuser`).then(res => {
       setData(res.data.filter(obj => obj._id !== userInfo._id))
+      console.log(data)
     }).catch(e => {
       console.log(`Search error: ${e.response.data.msg}`)
     })
-    console.log(data)
   }
 
   const searchUser = (e) => {

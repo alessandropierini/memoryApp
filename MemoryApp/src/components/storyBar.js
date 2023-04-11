@@ -37,7 +37,7 @@ const StoryBar = ({ navigation }) => {
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
             aspect: [9, 16],
-            quality: 0.25,
+            quality: 0.1,
         })
         if (!result.canceled) {
             setImage(result.assets[0].uri)

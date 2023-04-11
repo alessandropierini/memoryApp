@@ -12,7 +12,7 @@ const StoryIcon = ({ navigation, idUser, image, time }) => {
         compareTime()
     }, [])
 
-    
+
 
     const [userPic, setUserPic] = useState(defaultAvatar)
     const [username, setUsername] = useState("")
@@ -30,7 +30,9 @@ const StoryIcon = ({ navigation, idUser, image, time }) => {
     const [visible, setVisible] = useState(false)
     const compareTime = () => {
         const timeSince = moment(time).fromNow()
-        if (timeSince.includes("minute")) {
+        if (timeSince.includes('seconds')) {
+            setVisible(true)
+        } else if (timeSince.includes("minute")) {
             setVisible(true)
         } else if (timeSince.includes('hour')) {
             setVisible(true)
