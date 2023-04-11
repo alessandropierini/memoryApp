@@ -23,6 +23,16 @@ const SearchScreen = ({ navigation }) => {
     console.log(data)
   }
 
+  const searchUser = (e) => {
+    if (data) {
+      if (e) {
+        setUsers(data.filter(dat => dat.name.toLowerCase().includes(e.toLowerCase())))
+      } else {
+        setUsers([])
+      }
+    }
+  }
+
   useEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
@@ -46,16 +56,6 @@ const SearchScreen = ({ navigation }) => {
       setRefreshing(false)
     }, 1000)
   }, [])
-
-  const searchUser = (e) => {
-    if (data) {
-      if (e) {
-        setUsers(data.filter(dat => dat.name.toLowerCase().includes(e.toLowerCase())))
-      } else {
-        setUsers([])
-      }
-    }
-  }
 
   return (
     <ScrollView

@@ -49,8 +49,8 @@ const ProfCard = ({ profilepic, username, onPress, isLoggedUser = false, postsle
             FollowingUser: userInfo._id,
             FollowedUser: userID
         }).then(res => {
-            console.log('followAction')
-            console.log(res.data)
+            // console.log('followAction')
+            // console.log(res.data)
             getFollowersInfo()
             getFollowingInfo()
         }).catch(e => {
@@ -132,7 +132,6 @@ export default ProfCard
 const styles = StyleSheet.create({
     userInfoSection: {
         paddingHorizontal: 30,
-        marginBottom: 25,
         backgroundColor: mainBackground,
         borderBottomColor: detailsColor,
         borderBottomWidth: 0.25

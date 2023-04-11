@@ -10,6 +10,9 @@ import StoryBar from '../../components/storyBar'
 
 const HomeScreen = ({ navigation }) => {
 
+  useEffect(() => {
+    pullPosts()
+  }, [])
 
   const [posts, setPosts] = useState("")
   const pullPosts = async () => {
@@ -22,12 +25,6 @@ const HomeScreen = ({ navigation }) => {
     })
     // await console.log(posts)
   }
-
-  useEffect(() => {
-    pullPosts()
-  }, [])
-
-
 
   const [refreshing, setRefreshing] = React.useState(false)
   const onRefresh = React.useCallback(() => {
@@ -45,7 +42,9 @@ const HomeScreen = ({ navigation }) => {
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} style={{ backgroundColor: mainBackground }} title="Pull to refresh" tintColor={loaderColor} titleColor={loaderColor} />
       }>
-      <StoryBar />
+      <StoryBar 
+        navigation={navigation}
+      />
       {posts && posts.map(dat =>
         <MemoryCard
           key={dat._id}

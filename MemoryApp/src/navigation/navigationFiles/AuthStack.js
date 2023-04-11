@@ -5,6 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 import LaunchScreen from '../../screens/AuthStackScreens/LaunchScreen'
 import SignInScreen from '../../screens/AuthStackScreens/SignInScreen'
 import SignUpScreen from '../../screens/AuthStackScreens/SignUpScreen'
+import ForgotPassScreen from '../../screens/AuthStackScreens/ForgotPassScreen'
 
 const Stack = createStackNavigator()
 
@@ -14,6 +15,7 @@ const AuthStack = () => {
             <Stack.Screen name="Launch" component={LaunchScreen} options={{title: "Launch"}}/>
             <Stack.Screen name="SignIn" component={SignInScreen}/>
             <Stack.Screen name="SignUp" component={SignUpScreen}/>
+            <Stack.Screen name="ForgotPass" component={ForgotPassScreen}/>
         </Stack.Navigator>
     )
 }

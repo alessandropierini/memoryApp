@@ -16,7 +16,7 @@ const CustomInput = ({ control, name, rules = {}, placeholder, secureTextEntry, 
                         borderColor: error ? 'red' : mainColor,
                         borderWidth: error ? 2 : 1,
                         backgroundColor: error ? '#ffdcd1' : 'white',
-                        marginVertical: error ? 4 : 14,
+                        marginVertical: error ? 4 : 5,
 
                     }]}>
                         <TextInput
@@ -30,9 +30,9 @@ const CustomInput = ({ control, name, rules = {}, placeholder, secureTextEntry, 
                             keyboardType={keyboardType}
                         />
                     </View>
-                    {error && (
+                    {error ? (
                         <Text style={{ color: 'red', alignSelf: 'center' }}>{error.message || 'Error'}</Text>
-                    )}
+                    ) : <Text style={{ color: 'red', alignSelf: 'center' }}></Text>}
                 </>
             )}
         />

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ScrollView, RefreshControl, Image, TouchableOpacity, Alert } from 'react-native'
+import { StyleSheet, Text, View, ScrollView, RefreshControl, Image, TouchableOpacity, Alert, } from 'react-native'
 import React, { useState, useContext, useEffect, useRef } from 'react'
 import { AuthContext } from '../../context/AuthContext'
 import { Ionicons } from '@expo/vector-icons'
@@ -17,7 +17,11 @@ import MemoryCard from '../../components/memoryCard'
 
 const ProfileScreen = ({ navigation }) => {
 
-  const { userInfo, logout, setIsLoading } = useContext(AuthContext)
+  const { userInfo, logout } = useContext(AuthContext)
+
+
+
+
 
   const BottomSheetModalRef = useRef(null)
   const snapPoints = ["40%"]
@@ -53,27 +57,27 @@ const ProfileScreen = ({ navigation }) => {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [9, 16],
-      quality: 0.5,
+      quality: 0.25,
     })
-    setImage(result.assets[0].uri)
-    // console.log(image)
-    Alert.alert(
-      'New Moment',
-      'Do you want to upload this moment?',
-      [{
-        text: 'Yes',
-        onPress: () => imageUpload(),
-        style: 'close',
-      }, {
-        text: 'No',
-        style: 'close'
-      }]
 
-    )
+    if (!result.canceled) {
+      setImage(result.assets[0].uri)
+      Alert.alert(
+        'New Moment',
+        'Do you want to upload this moment?',
+        [{
+          text: 'Yes',
+          onPress: () => imageUpload(),
+          style: 'close',
+        }, {
+          text: 'No',
+          style: 'close'
+        }]
+      )
+    }
   }
-
+  
   const imageUpload = async () => {
-    setIsLoading(true)
     const response = await fetch(image)
     const blob = await response.blob()
     const filename = image.substring(image.lastIndexOf('/') + 1)
@@ -83,11 +87,19 @@ const ProfileScreen = ({ navigation }) => {
     } catch (e) {
       console.log(e)
     }
-    setIsLoading(false)
-    var instant = moment()
-    var imageURI = storageBucket_1 + filename + storageBucket_2
-    // console.log({ instant, imageURI, userInfo })
+
+    axios.post(`${BASE_URL}/newstorie`, {
+      idUser: userInfo._id,
+      time: moment(),
+      image: storageBucket_1 + filename + storageBucket_2
+    }).then(res => {
+      console.log(res.data)
+    }).catch(e => {
+      console.log(e.response.data.msg)
+      console.log('error')
+    })
     setImage(null)
+    BottomSheetModalRef.current?.close()
   }
 
   const [refreshing, setRefreshing] = React.useState(false)
@@ -184,6 +196,9 @@ const ProfileScreen = ({ navigation }) => {
           text="New Moment"
           onPress={onNewMomentPressed}
         />
+        <View style={{ alignItems: 'center', padding: 2 }}>
+          <Text style={{ fontWeight: 'bold', fontSize: 12, fontStyle: 'italic' }}>Moments will disappear after 24 hours</Text>
+        </View>
         <View style={{ paddingTop: "30%" }}>
           <BottomSheetOptions
             icon="ios-exit-outline"

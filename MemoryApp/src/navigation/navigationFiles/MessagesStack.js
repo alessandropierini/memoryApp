@@ -10,11 +10,12 @@ import logo from '../../../assets/m__mLogoColors.png'
 const Stack = createStackNavigator()
 
 const MessagesStack = () => {
+
   return (
     <Stack.Navigator>
       <Stack.Screen name="Messages" component={MessagesScreen} options={{
         headerLeft: () => (
-            <Image style={{ width: 30, marginLeft: 13, marginBottom: 6 }} source={logo} resizeMode="contain" />
+          <Image style={{ width: 30, marginLeft: 13, marginBottom: 6 }} source={logo} resizeMode="contain" />
         ),
         title: "Chats",
         headerTitleStyle: {
@@ -22,7 +23,15 @@ const MessagesStack = () => {
           fontSize: 24,
         },
       }} />
-      <Stack.Screen name="Chat" component={ChatScreen} />
+      <Stack.Screen name="Chat" component={ChatScreen} options={({ route }) => ({
+        tabBarStyle: { display: 'none' }, 
+        title: route.params.username,
+        headerTitleStyle: {
+          fontWeight: 'bold',
+          fontSize: 24,
+        },
+        headerTintColor: 'black'
+      })} />
       <Stack.Screen name="ChatUserProfile" component={UserProfileScreen} />
     </Stack.Navigator>
   )

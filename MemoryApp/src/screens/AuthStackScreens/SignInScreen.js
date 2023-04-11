@@ -5,7 +5,7 @@ import LogoCompleto from '../../../assets/m__memoryLogoColors.png'
 import CustomButton from '../../components/customButton'
 import CustomInput from '../../components/customInput'
 import { useForm } from 'react-hook-form'
-import { mainColor, defaultAvatar } from '../../config/config'
+import { mainColor, defaultAvatar, mainBackground } from '../../config/config'
 import { AuthContext } from '../../context/AuthContext'
 import { ScrollView } from 'react-native-gesture-handler'
 
@@ -26,7 +26,10 @@ const SignInScreen = ({ navigation }) => {
   }
 
   return (
-    <ScrollView>
+    <ScrollView
+      style={{ backgroundColor: mainBackground }}
+      showsVerticalScrollIndicator={false}
+    >
       <View style={styles.root}>
 
         <Image source={Logo} style={[styles.logo, { height: height * 0.3, marginBottom: '1%', marginTop: '15%' }]} resizeMode="contain" />
@@ -55,7 +58,7 @@ const SignInScreen = ({ navigation }) => {
 
 
         <TouchableOpacity onPress={onSignUpPressed}>
-          <Text style={{ color: mainColor, padding: 5, marginBottom: '3%' }}>Don't have an account? <Text style={styles.text}>Sign Up here!</Text></Text>
+          <Text style={{ color: mainColor, padding: 5, marginBottom: '40%' }}>Don't have an account? <Text style={styles.text}>Sign Up here!</Text></Text>
         </TouchableOpacity>
 
         <Image source={LogoCompleto} style={[styles.logo, { height: height * 0.2 }]} resizeMode="contain" />
