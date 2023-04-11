@@ -26,11 +26,11 @@ const StoryScreen = ({ navigation, route }) => {
         </Text>,
       headerTransparent: true,
       animationEnabled: false,
-      headerLeft: null
+      headerLeft: null,
     })
     setTimeout(() => {
       navigation.navigate('Home')
-    }, 5000)
+    }, 12000)
   }, [])
 
   const back = () => {

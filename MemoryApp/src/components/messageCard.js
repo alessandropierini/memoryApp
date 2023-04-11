@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
-const messageCard = () => {
+const MessageCard = () => {
   return (
     <View>
       <Text>messageCard</Text>
@@ -9,6 +9,9 @@ const messageCard = () => {
   )
 }
 
-export default messageCard
+export default MessageCard
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+
+})
+

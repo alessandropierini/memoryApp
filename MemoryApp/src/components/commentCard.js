@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, Alert } from 'react-native'
+import { StyleSheet, Text, View, Image, Alert, TouchableOpacity } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
@@ -6,10 +6,9 @@ import { abbreviateNumber } from 'js-abbreviation-number'
 import moment from 'moment'
 import { BASE_URL, defaultAvatar, detailsColor, mainColor, profSize } from '../config/config'
 import axios from 'axios'
-import { TouchableOpacity } from 'react-native-gesture-handler'
 import { AuthContext } from '../context/AuthContext'
 
-const CommentCard = ({ userId, comment, time, like, postOwner, deleteComment, commentID, postID }) => {
+const CommentCard = ({ userId, comment, time, like, postOwner, deleteComment, commentID, postID, navigation, CloseBottomSheet }) => {
 
   const { userInfo } = useContext(AuthContext)
 
@@ -57,6 +56,7 @@ const CommentCard = ({ userId, comment, time, like, postOwner, deleteComment, co
     }).then(res => {
       setUsername(res.data.user.name)
       setUser(res.data.user)
+      setPosts(res.data.post)
       setProfilePic(res.data.user.profilepic)
       // console.log(res.data)
 
@@ -98,24 +98,35 @@ const CommentCard = ({ userId, comment, time, like, postOwner, deleteComment, co
     getCommentLikes()
   }, [])
 
+  onUserPressed = () => {
+    CloseBottomSheet()
+    if(isUser){
+      navigation.navigate('ProfileStack', { screen: 'Profile' })
+    } else {
+      navigation.navigate('HomeUserProfile', { name: user.name, username: user.username, posts, profilepic: user.profilepic, userID: user._id })
+    }
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.leftCont}>
         <Image
-          style={{ height: profSize, width: profSize, borderRadius: profSize, margin: 8 }}
+          style={{ height: profSize, width: profSize, borderRadius: profSize, margin: 3, marginTop: 8 }}
           source={{ uri: profilePic }}
         />
       </View>
       <View style={styles.rightCont}>
         <View style={styles.topCont}>
           <View style={styles.nameCont}>
-            <Text style={styles.nameText}>{username}</Text>
+            <TouchableOpacity onPress={onUserPressed}>
+              <Text style={styles.nameText}>{username}</Text>
+            </TouchableOpacity>
             <Text style={styles.idText}>{moment(time).fromNow()}</Text>
 
           </View>
           <View style={styles.actionCont}>
             <Text style={[styles.idText,]}>{likes}</Text>
-            <View style={{paddingRight: 5}}>
+            <View style={{ paddingRight: 5 }}>
               {toggle ?
                 <TouchableOpacity onPress={handleLike} >
                   <MaterialCommunityIcons name="heart-outline" color={detailsColor} size={20} />

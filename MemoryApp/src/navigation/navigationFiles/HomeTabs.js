@@ -16,6 +16,7 @@ const TabIconSize = 32
 const mainColor = '#1B6094'
 
 const HomeTabs = () => {
+
     return (
         <Tabs.Navigator initialRouteName='HomeStack' screenOptions={{
             headerShown: false,
@@ -58,14 +59,14 @@ const HomeTabs = () => {
                         size={TabIconSize} />
                 ),
             }} />
-            <Tabs.Screen name="InboxStack" component={MessagesStack} options={{
+            <Tabs.Screen name="InboxStack" component={MessagesStack} options={(route) => ({
                 tabBarIcon: ({ focused }) => (
                     <Ionicons
                         style={{ color: 'black' }}
                         name={focused ? "ios-chatbubbles-sharp" : "ios-chatbubbles-outline"}
                         size={TabIconSize} />
                 ),
-            }} />
+            })} />
             <Tabs.Screen name="ProfileStack" component={ProfileStack} options={{
                 tabBarIcon: ({ focused }) => (
                     <Ionicons

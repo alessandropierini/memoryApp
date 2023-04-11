@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ScrollView, RefreshControl, Image, TouchableOpacity, Alert,  } from 'react-native'
+import { StyleSheet, Text, View, ScrollView, RefreshControl, Image, TouchableOpacity, Alert, } from 'react-native'
 import React, { useState, useContext, useEffect, useRef } from 'react'
 import { AuthContext } from '../../context/AuthContext'
 import { Ionicons } from '@expo/vector-icons'
@@ -20,7 +20,7 @@ const ProfileScreen = ({ navigation }) => {
   const { userInfo, logout } = useContext(AuthContext)
 
 
-  
+
 
 
   const BottomSheetModalRef = useRef(null)
@@ -59,23 +59,24 @@ const ProfileScreen = ({ navigation }) => {
       aspect: [9, 16],
       quality: 0.25,
     })
-    setImage(result.assets[0].uri)
-    // console.log(image)
-    Alert.alert(
-      'New Moment',
-      'Do you want to upload this moment?',
-      [{
-        text: 'Yes',
-        onPress: () => imageUpload(),
-        style: 'close',
-      }, {
-        text: 'No',
-        style: 'close'
-      }]
 
-    )
+    if (!result.canceled) {
+      setImage(result.assets[0].uri)
+      Alert.alert(
+        'New Moment',
+        'Do you want to upload this moment?',
+        [{
+          text: 'Yes',
+          onPress: () => imageUpload(),
+          style: 'close',
+        }, {
+          text: 'No',
+          style: 'close'
+        }]
+      )
+    }
   }
-
+  
   const imageUpload = async () => {
     const response = await fetch(image)
     const blob = await response.blob()
@@ -98,6 +99,7 @@ const ProfileScreen = ({ navigation }) => {
       console.log('error')
     })
     setImage(null)
+    BottomSheetModalRef.current?.close()
   }
 
   const [refreshing, setRefreshing] = React.useState(false)
@@ -194,6 +196,9 @@ const ProfileScreen = ({ navigation }) => {
           text="New Moment"
           onPress={onNewMomentPressed}
         />
+        <View style={{ alignItems: 'center', padding: 2 }}>
+          <Text style={{ fontWeight: 'bold', fontSize: 12, fontStyle: 'italic' }}>Moments will disappear after 24 hours</Text>
+        </View>
         <View style={{ paddingTop: "30%" }}>
           <BottomSheetOptions
             icon="ios-exit-outline"

@@ -39,21 +39,22 @@ const StoryBar = ({ navigation }) => {
             aspect: [9, 16],
             quality: 0.25,
         })
-        setImage(result.assets[0].uri)
-        // console.log(image)
-        Alert.alert(
-            'New Moment',
-            'Do you want to upload this moment?',
-            [{
-                text: 'Yes',
-                onPress: () => imageUpload(),
-                style: 'close',
-            }, {
-                text: 'No',
-                style: 'close'
-            }]
+        if (!result.canceled) {
+            setImage(result.assets[0].uri)
+            Alert.alert(
+                'New Moment',
+                'Do you want to upload this moment?',
+                [{
+                    text: 'Yes',
+                    onPress: () => imageUpload(),
+                    style: 'close',
+                }, {
+                    text: 'No',
+                    style: 'close'
+                }]
 
-        )
+            )
+        }
     }
 
     const imageUpload = async () => {
@@ -62,23 +63,23 @@ const StoryBar = ({ navigation }) => {
         const filename = image.substring(image.lastIndexOf('/') + 1)
         var ref = firebase.storage().ref().child(filename).put(blob)
         try {
-          await ref
+            await ref
         } catch (e) {
-          console.log(e)
+            console.log(e)
         }
-    
+
         axios.post(`${BASE_URL}/newstorie`, {
-          idUser: userInfo._id,
-          time: moment(),
-          image: storageBucket_1 + filename + storageBucket_2
+            idUser: userInfo._id,
+            time: moment(),
+            image: storageBucket_1 + filename + storageBucket_2
         }).then(res => {
-          console.log(res.data)
+            console.log(res.data)
         }).catch(e => {
-          console.log(e.response.data.msg)
-          console.log('error')
+            console.log(e.response.data.msg)
+            console.log('error')
         })
         setImage(null)
-      }
+    }
 
     return (
         <ScrollView

@@ -1,14 +1,17 @@
 import { StyleSheet, Text, View, ScrollView } from 'react-native'
 import React from 'react'
 import { mainBackground } from '../../config/config'
+import ChatCard from '../../components/chatCard'
 
-const MessagesScreen = () => {
+const MessagesScreen = ({ navigation }) => {
   return (
     <ScrollView
       style={{ backgroundColor: mainBackground }}
       showsVerticalScrollIndicator={false}
     >
-      <Text>MessagesScreen</Text>
+      <ChatCard 
+        navigation={navigation}
+      />
     </ScrollView>
   )
 }

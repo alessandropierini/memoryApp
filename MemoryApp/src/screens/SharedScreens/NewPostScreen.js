@@ -133,7 +133,6 @@ const NewPostScreen = ({ navigation }) => {
       <View style={{ alignItems: 'center', position: 'relative' }}>
         {image ?
           <View style={{
-            borderRadius: 10,
             marginLeft: 10,
             marginRight: 10,
             flex: 1,
@@ -220,7 +219,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#d9d9d9',
     height: imageHeight,
     width: imageWidth,
-    borderRadius: 10,
     marginTop: '8%',
     marginLeft: '8%',
     marginRight: '8%',

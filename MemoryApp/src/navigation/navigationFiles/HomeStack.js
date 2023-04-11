@@ -51,7 +51,9 @@ const HomeStack = ({ navigation }) => {
         headerStyle: {
         },
       }} />
-      <Stack.Screen name="Story" component={StoryScreen} />
+      <Stack.Screen name="Story" component={StoryScreen} options={{
+        tabBarStyle: { display: 'none' }
+      }} />
     </Stack.Navigator>
   )
 }

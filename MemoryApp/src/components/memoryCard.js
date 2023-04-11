@@ -25,6 +25,10 @@ const MemoryCard = ({ caption, image, time, owner, like, navigation, postID }) =
     BottomSheetModalRef.current?.present()
   }
 
+  const CloseBottomSheet = () => {
+    BottomSheetModalRef.current?.close()
+  }
+
   const { userInfo } = useContext(AuthContext)
 
   const [username, setUsername] = useState('')
@@ -215,56 +219,56 @@ const MemoryCard = ({ caption, image, time, owner, like, navigation, postID }) =
   }
 
   return (
-    <View style={styles.container}>
-      <View style={styles.leftCont}>
-        <Image
-          style={{ height: profSize, width: profSize, borderRadius: profSize, margin: 8 }}
-          source={{ uri: profilePic }}
-        />
-      </View>
-      <View style={styles.rightCont}>
-        <View style={styles.topCont}>
-          <View style={styles.nameCont}>
-            <TouchableOpacity onPress={() => { isUser ? navigation.navigate('ProfileStack', { screen: 'Profile' }) : navigation.navigate('HomeUserProfile', { name: user.name, username: user.username, posts, profilepic: user.profilepic, userID: user._id }) }}>
-              <Text style={styles.nameText}>{username}</Text>
-            </TouchableOpacity>
-            <Text style={styles.idText}>{moment(time).fromNow()}</Text>
-            {followingToggle && <Text style={{ fontWeight: 'bold', color: detailsColor, fontStyle: 'italic', }}> | Following</Text>}
-            {/* { isUser && <Text style={{ fontWeight: 'bold', color: detailsColor, fontStyle: 'italic', }}> | Me</Text>} */}
-          </View>
-          {isUser && <View style={{ paddingRight: 15 }}>
-            <TouchableOpacity onPress={onDeletePressed}>
-              <MaterialCommunityIcons name="trash-can-outline" color={detailsColor} size={20} />
-            </TouchableOpacity>
-          </View>}
+    <View>
+      <Image
+        style={{ width: "100%", aspectRatio: 1, }}
+        source={{ uri: image }}
+      />
+      <View style={styles.container}>
+        <View style={styles.leftCont}>
+          <Image
+            style={{ height: profSize, width: profSize, borderRadius: profSize, margin: 8 }}
+            source={{ uri: profilePic }}
+          />
         </View>
-        <View style={styles.nowCont}>
-          <Text style={styles.nowText}>{caption}</Text>
-          {image && <Image style={{
-            height: 300,
-            width: "100%",
-            borderRadius: 10,
-            marginTop: 10,
-          }}
-            source={{ uri: image }} />}
-        </View>
-        <View style={styles.actionCont}>
-          <View style={styles.iconCont}>
-            <TouchableOpacity onPress={onCommentPressed}>
-              <MaterialCommunityIcons name="message-reply-outline" color="gray" size={20} />
-            </TouchableOpacity>
-            <Text style={styles.idText}>{commentsLength}</Text>
-          </View>
-          <View style={styles.iconCont}>
-            {toggle ?
-              <TouchableOpacity onPress={handleLike}>
-                <MaterialCommunityIcons name="heart-outline" color="gray" size={20} />
+        <View style={styles.rightCont}>
+          <View style={styles.topCont}>
+            <View style={styles.nameCont}>
+              <TouchableOpacity onPress={() => { isUser ? navigation.navigate('ProfileStack', { screen: 'Profile' }) : navigation.navigate('HomeUserProfile', { name: user.name, username: user.username, posts, profilepic: user.profilepic, userID: user._id }) }}>
+                <Text style={styles.nameText}>{username}</Text>
               </TouchableOpacity>
-              :
-              <TouchableOpacity onPress={handleLike}>
-                <MaterialCommunityIcons name="heart" color="#dd0000" size={20} />
-              </TouchableOpacity>}
-            <Text style={styles.idText}>{likes}</Text>
+              <Text style={styles.idText}>{moment(time).fromNow()}</Text>
+              {followingToggle && <Text style={{ fontWeight: 'bold', color: detailsColor, fontStyle: 'italic', }}> | Following</Text>}
+              {/* { isUser && <Text style={{ fontWeight: 'bold', color: detailsColor, fontStyle: 'italic', }}> | Me</Text>} */}
+            </View>
+            {isUser && <View style={{ paddingRight: 15 }}>
+              <TouchableOpacity onPress={onDeletePressed}>
+                <MaterialCommunityIcons name="trash-can-outline" color={detailsColor} size={20} />
+              </TouchableOpacity>
+            </View>}
+          </View>
+          <View style={styles.nowCont}>
+            <Text style={styles.nowText}>{caption}</Text>
+
+          </View>
+          <View style={styles.actionCont}>
+            <View style={styles.iconCont}>
+              <TouchableOpacity onPress={onCommentPressed}>
+                <MaterialCommunityIcons name="message-reply-outline" color="gray" size={20} />
+              </TouchableOpacity>
+              <Text style={styles.idText}>{commentsLength}</Text>
+            </View>
+            <View style={styles.iconCont}>
+              {toggle ?
+                <TouchableOpacity onPress={handleLike}>
+                  <MaterialCommunityIcons name="heart-outline" color="gray" size={20} />
+                </TouchableOpacity>
+                :
+                <TouchableOpacity onPress={handleLike}>
+                  <MaterialCommunityIcons name="heart" color="#dd0000" size={20} />
+                </TouchableOpacity>}
+              <Text style={styles.idText}>{likes}</Text>
+            </View>
           </View>
         </View>
       </View>
@@ -331,6 +335,8 @@ const MemoryCard = ({ caption, image, time, owner, like, navigation, postID }) =
               postOwner={postOwner}
               deleteComment={deleteComment}
               postID={postID}
+              navigation={navigation}
+              CloseBottomSheet={CloseBottomSheet}
             />
           )}
         </ScrollView>
