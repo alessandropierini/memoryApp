@@ -25,19 +25,19 @@ const NewPostScreen = ({ navigation }) => {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: false,
       aspect: [1, 1],
-      quality: 0.25,
+      quality: 0.1,
       allowsMultipleSelection: true,
       selectionLimit: 1
     })
-    setImage(result.assets[0].uri); //check if obsolete
-    // console.log(result.assets[0].uri); //check if obsolete
-    {
-      result.assets.map((image) => (
-        images.push(image.uri)
-      )
-      )
+    if (!result.canceled) {
+      {
+        setImage(result.assets[0].uri); //check if obsolete
+        result.assets.map((image) => (
+          images.push(image.uri)
+        )
+        )
+      }
     }
-    // console.log(images[0])
   }
 
   const [caption, setCaption] = useState("")

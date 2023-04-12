@@ -26,6 +26,10 @@ const StoryBar = ({ navigation }) => {
         })
     }
 
+    const onReloadStoriesPressed = () => {
+        pullStories()
+    }
+
     useEffect(() => {
         pullStories()
     }, [])
@@ -37,7 +41,7 @@ const StoryBar = ({ navigation }) => {
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
             aspect: [9, 16],
-            quality: 0.25,
+            quality: 0.1,
         })
         if (!result.canceled) {
             setImage(result.assets[0].uri)
@@ -74,9 +78,9 @@ const StoryBar = ({ navigation }) => {
             image: storageBucket_1 + filename + storageBucket_2
         }).then(res => {
             console.log(res.data)
+
         }).catch(e => {
             console.log(e.response.data.msg)
-            console.log('error')
         })
         setImage(null)
     }
@@ -86,24 +90,26 @@ const StoryBar = ({ navigation }) => {
             style={{ padding: 10, borderBottomColor: detailsColor, borderBottomWidth: 0.25 }}
             horizontal={true}
         >
-            <View style={{ paddingHorizontal: 5, alignItems: 'center', justifyContent: 'center', }}>
+            <View style={{ paddingHorizontal: 5, alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
                 <TouchableOpacity
-                    style={{ backgroundColor: '#D3D3D3', height: 56, width: 56, borderRadius: 56, alignItems: 'center', justifyContent: 'center', position: 'relative' }}
-                    onPress={onNewMomentPressed}
+                    style={{ backgroundColor: '#D3D3D3', height: 56, width: 56, borderRadius: 56, alignItems: 'center', justifyContent: 'center', }}
+                    onPress={onReloadStoriesPressed}
                 >
                     <Ionicons
                         style={{ color: 'white', paddingRight: 0, position: 'absolute' }}
                         name='ios-hourglass-outline'
                         size={25} />
-                    <View>
-                        <View style={{ backgroundColor: mainColor, height: 20, width: 20, borderRadius: 20, borderColor: 'white', borderWidth: 2, top: 20, left: 20 }}>
-                            <Ionicons
-                                style={{ color: 'white', top: -2.5, right: 1.25 }}
-                                name="add"
-                                size={20}
-                            />
-                        </View>
-                    </View>
+                    <View style={{ backgroundColor: 'white', height: 20, width: 20, borderRadius: 20, borderColor: 'white', borderWidth: 2, top: 20, left: 20 }} />
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={{ position: 'absolute', backgroundColor: mainColor, height: 20, width: 20, borderRadius: 20, borderColor: 'white', borderWidth: 2, top: 38, left: 42 }}
+                    onPress={onNewMomentPressed}
+                >
+                    <Ionicons
+                        style={{ color: 'white', top: -2.5, right: 1.25 }}
+                        name="add"
+                        size={20}
+                    />
                 </TouchableOpacity>
                 <Text style={{ fontWeight: 'bold', paddingTop: 5, fontSize: 12, color: 'gray' }}>Moments</Text>
             </View>

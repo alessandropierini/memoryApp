@@ -4,6 +4,8 @@ import jwt from 'jsonwebtoken'
 import config from '../config/config'
 import bcrypt from "bcrypt"
 import Post from '../models/Post'
+import like from '../models/like'
+import follow from '../models/follow'
 
 function createToken(user: IUser) {
     return jwt.sign({id: user.id, email: user.email}, config.jwtSecret, {
@@ -147,8 +149,10 @@ export const DeleteUser = async (req: Request, res: Response): Promise<Response>
     if(!user) {
         return res.status(400).json({ msg: 'The user dont exists'});
     }
-    await User.deleteOne({_id:req.body._id})
-    await Post.deleteMany({owner:req.body._id})
-    
+    await User.deleteOne({_id: req.body._id})
+    await Post.deleteMany({owner: req.body._id})
+    await like.deleteMany({idUser: req.body._id})
+    await follow.deleteMany({FollowedUser: req.body._id, FollowingUser: req.body._id})
+
     return res.status(201).json({ msg: 'User and post deleted succesfully'});
 }

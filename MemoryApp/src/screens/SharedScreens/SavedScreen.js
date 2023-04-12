@@ -6,9 +6,20 @@ const SavedScreen = () => {
   return (
     <ScrollView
       style={{ backgroundColor: mainBackground }}
+      contentContainerStyle={{ flexGrow: 1 }}
       showsVerticalScrollIndicator={false}
+    >
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
       >
-      <Text>SavedScreen</Text>
+        <Text style={{ fontWeight: 'bold', fontSize: 24, color: 'gray' }}>
+          No memories saved
+        </Text>
+      </View>
     </ScrollView>
   )
 }

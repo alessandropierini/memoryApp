@@ -42,7 +42,7 @@ const SearchCard = ({ username, name, navigation, profilepic, userID }) => {
           />
         </View>
         <View style={styles.rightCont}>
-          <View style={styles.topCont}>
+          <View style={{}}>
             <View style={styles.nameCont}>
               <Text style={styles.nameText}>{name}</Text>
             </View>
@@ -57,16 +57,14 @@ const SearchCard = ({ username, name, navigation, profilepic, userID }) => {
   )
 }
 
-//{ nav.navigate("UserProfileScreen", { id, name, verified, prof, bio, followers, following }
-
 export default SearchCard
 
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    padding: 10,
+    padding: 5,
     borderBottomColor: 'gray',
-    borderBottomWidth: 1
+    borderBottomWidth: 0.25
   },
   rightCont: {
     flex: 1,
@@ -80,13 +78,8 @@ const styles = StyleSheet.create({
   nameCont: {
     flexDirection: 'row',
     marginLeft: 5,
-
   },
-  topCont: {
-    flex: 1,
 
-
-  },
   nameText: {
     color: "black",
     fontWeight: 'bold',

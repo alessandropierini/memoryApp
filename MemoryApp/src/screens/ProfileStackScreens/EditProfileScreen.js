@@ -37,7 +37,8 @@ const EditProfileScreen = ({ navigation }) => {
       name: data.name,
       email: data.email
     }).then(res => {
-      console.log(res.data)
+      // console.log(res.data)
+      AsyncStorage.setItem('userInfo', JSON.stringify(res.data.user))
       Alert.alert(
         `Profile updated!`
       )
@@ -46,7 +47,7 @@ const EditProfileScreen = ({ navigation }) => {
   }
 
   useEffect(() => {
-    if(userInfo.profilepic){
+    if (userInfo.profilepic) {
       setImage(userInfo.profilepic)
     } else {
       setImage(defaultAvatar)
@@ -63,9 +64,11 @@ const EditProfileScreen = ({ navigation }) => {
       aspect: [1, 1],
       quality: 1,
     })
-    setImage(result.assets[0].uri)
-    setImageChosen(true)
-    console.log(image)
+    if (!result.canceled) {
+      setImage(result.assets[0].uri)
+      setImageChosen(true)
+      console.log(image)
+    }
   }
 
   const onCancelImagePressed = () => {
@@ -93,13 +96,13 @@ const EditProfileScreen = ({ navigation }) => {
       _id: userInfo._id,
       profilepic: storageBucket_1 + filename + storageBucket_2
     }).then(res => {
+    AsyncStorage.setItem(`@memoryapp:userInfo`, JSON.stringify({profilepic:storageBucket_1 + filename + storageBucket_2}))
       Alert.alert(
         `Profile picture updated!`
       )
     }).catch(e => {
       console.log(`profile error: ${e.response.data.msg}`)
     })
-    updateUserInfo()
     setIsLoading(false)
   }
 
@@ -107,9 +110,9 @@ const EditProfileScreen = ({ navigation }) => {
     axios.post(`${BASE_URL}/specificuser`, {
       _id: userInfo._id
     }).then(res => {
-      console.log(res.data.user)
+      // console.log(res.data.user)
       setUserInfo(res.data.user)
-      AsyncStorage.setItem('userInfo', JSON.stringify(userInfo))
+      AsyncStorage.setItem('userInfo', JSON.stringify(res.data.user))
     }).catch(e => {
       console.log(`specific user error: ${e.response.data.msg}`)
     })

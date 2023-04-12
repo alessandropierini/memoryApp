@@ -25,6 +25,10 @@ const SignInScreen = ({ navigation }) => {
     navigation.navigate("SignUp")
   }
 
+  const onForgotPressed = () => {
+    navigation.navigate("ForgotPass")
+  }
+
   return (
     <ScrollView
       style={{ backgroundColor: mainBackground }}
@@ -58,7 +62,11 @@ const SignInScreen = ({ navigation }) => {
 
 
         <TouchableOpacity onPress={onSignUpPressed}>
-          <Text style={{ color: mainColor, padding: 5, marginBottom: '40%' }}>Don't have an account? <Text style={styles.text}>Sign Up here!</Text></Text>
+          <Text style={{ color: mainColor, margin: '4%' }}>Don't have an account? <Text style={styles.text}>Sign Up here!</Text></Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={onForgotPressed}>
+          <Text style={{ color: mainColor, padding: 5, marginBottom: '33%', fontStyle: 'italic', fontWeight: 'bold' }}>Forgot password</Text>
         </TouchableOpacity>
 
         <Image source={LogoCompleto} style={[styles.logo, { height: height * 0.2 }]} resizeMode="contain" />

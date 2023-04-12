@@ -30,7 +30,7 @@ const LaunchScreen = ({ navigation }) => {
         <CustomButton text="Sign In" onPress={onSignInPressed} />
         <CustomButton text="Sign Up" type="SECONDARY" onPress={onSignUpPressed} />
         <View style={{
-          marginBottom: '33%'
+          marginBottom: '35%'
         }} />
         <Image source={LogoCompleto} style={[styles.logo, { height: height * 0.2 }]} resizeMode="contain" />
       </View>

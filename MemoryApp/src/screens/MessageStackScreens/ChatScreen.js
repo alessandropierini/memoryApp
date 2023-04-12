@@ -11,7 +11,6 @@ const ChatScreen = ({ route, navigation }) => {
 
   const { username } = route.params
 
-
   const [messages, setMessages] = useState([])
   useEffect(() => {
     setMessages([

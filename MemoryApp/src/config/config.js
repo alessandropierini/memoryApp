@@ -7,6 +7,9 @@ export const buttonColor = 'black'
 export const buttonTextColor = 'white'
 export const detailsColor = '#D3D3D3'
 
+const EMAIL_REGEX = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/
+
+
 //Image data
 import { Dimensions } from 'react-native'
 export const ScreenWidth = Dimensions.get('window').width
