@@ -3,7 +3,7 @@ import React, { useEffect, useState, useContext } from 'react'
 import SearchCard from '../../components/SearchCard'
 
 import axios from 'axios'
-import { BASE_URL, mainColor, ScreenWidth, mainBackground, loaderColor } from '../../config/config'
+import { BASE_URL, mainColor, ScreenWidth, mainBackground, loaderColor, ScreenHeight } from '../../config/config'
 import { AuthContext } from '../../context/AuthContext'
 
 
@@ -36,13 +36,15 @@ const SearchScreen = ({ navigation }) => {
 
     navigation.setOptions({
       headerTitle: () => (
-        <TextInput
-          placeholder='Search'
-          style={styles.searchText}
-          onChangeText={searchUser}
-          autoCorrect={false}
-          autoFocus={true}
-        />
+        <View style={{flex: 1, alignItems: 'center', padding: 10}}>
+          <TextInput
+            placeholder='Search'
+            style={styles.searchText}
+            onChangeText={searchUser}
+            autoCorrect={false}
+            autoFocus={true}
+          />
+        </View>
       )
     })
     pullUsers()
@@ -77,12 +79,10 @@ const styles = StyleSheet.create({
   searchText: {
     flex: 1,
     textAlignVertical: 'center',
-    width: ScreenWidth - 65,
+    width: ScreenWidth / 1.3,
     borderColor: mainColor,
     borderWidth: 1,
-    paddingLeft: 10,
-    marginLeft: 20,
-    marginBottom: 8,
-    borderRadius: 20
+    paddingLeft: 20,
+    borderRadius: 50
   },
 })
