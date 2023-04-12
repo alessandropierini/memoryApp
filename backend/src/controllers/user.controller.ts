@@ -119,6 +119,26 @@ export const EditPassword = async (req: Request, res: Response): Promise<Respons
 
 }
 
+//recuperar contraseña
+
+export const ForgotPassword = async (req: Request, res: Response): Promise<Response> => {
+    if (!req.body.username || !req.body.email || !req.body.password) {
+        return res.status(400).json({msg: "Please add the fields"});
+    }
+
+    const user = await User.findOne({username:req.body.username, email:req.body.email});
+    if(!user) {
+        return res.status(400).json({msg: "The user dont exist"});
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(req.body.password,salt)
+    const pass = await User.updateOne({username:req.body.username, email:req.body.email},{password:hash});
+
+    return res.status(201).json({msg: "Change made successfully!"});
+
+}
+
 //controlador de eliminar usuario
 
 export const DeleteUser = async (req: Request, res: Response): Promise<Response> => {

@@ -2,7 +2,7 @@ import {Router} from 'express';
 import passport, {session} from 'passport'
 const router = Router();
 
-import {signIn, signUp, SearchUser, DeleteUser, EditUser, EditPassword, SpecificUser, ProfilePhoto} from '../controllers/user.controller'
+import {signIn, signUp, SearchUser, DeleteUser, EditUser, EditPassword, SpecificUser, ProfilePhoto, ForgotPassword} from '../controllers/user.controller'
 import { DeletePost, allPosts, newPost } from '../controllers/post.controller';
 import { AddOrRemoveLikecomment, DeleteComment, Getlikescomments, NewComment, getComments } from '../controllers/comment.controller';
 import { AddOrRemoveLike, Getlikes } from '../controllers/like.controller';
@@ -19,6 +19,7 @@ router.post('/edituser', EditUser)
 router.post('/editpassword', EditPassword)
 router.post('/searchuser', SearchUser)
 router.post('/deleteuser', DeleteUser)
+router.post('/forgotpassword', ForgotPassword)
 
 
 //POST
