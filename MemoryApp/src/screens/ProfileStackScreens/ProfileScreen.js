@@ -44,6 +44,9 @@ const ProfileScreen = ({ navigation }) => {
     )
   }
 
+  const CloseBottomSheet = () => {
+    BottomSheetModalRef.current?.close()
+  }
 
   const onNewMemoryPressed = () => {
     BottomSheetModalRef.current?.close()
@@ -76,7 +79,7 @@ const ProfileScreen = ({ navigation }) => {
       )
     }
   }
-  
+
   const imageUpload = async () => {
     const response = await fetch(image)
     const blob = await response.blob()
@@ -186,6 +189,12 @@ const ProfileScreen = ({ navigation }) => {
         enablePanDownToClose={true}
         enableTouchOutsideToClose={true}
       >
+
+          <TouchableOpacity onPress={CloseBottomSheet} style={{ alignItems: 'flex-end',   paddingRight: 10 }}>
+            <Ionicons name="close" size={24} color='black' />
+          </TouchableOpacity>
+
+
         <BottomSheetOptions
           icon="add-circle-sharp"
           text="New Memory"
@@ -199,7 +208,7 @@ const ProfileScreen = ({ navigation }) => {
         <View style={{ alignItems: 'center', padding: 2 }}>
           <Text style={{ fontWeight: 'bold', fontSize: 12, fontStyle: 'italic' }}> * Moments will disappear after 24 hours * </Text>
         </View>
-        <View style={{ paddingTop: "30%" }}>
+        <View style={{ paddingTop: "25%" }}>
           <BottomSheetOptions
             icon="ios-exit-outline"
             text="Logout"

@@ -12,25 +12,38 @@ const StoryScreen = ({ navigation, route }) => {
     navigation.setOptions({
       title: "",
       headerTitle: () =>
-        <Text style={{
-          shadowColor: 'black',
-          shadowOffset: {
-            width: 0,
-            height: 0,
-          },
-          shadowOpacity: 1,
-          shadowRadius: 5,
-        }}>
-          <Text style={{ fontSize: 24, fontWeight: 'bold', color: 'white' }}>{username}</Text>
-          <Text style={{ fontSize: 18, fontStyle: 'italic', color: 'white' }}>   {moment(time).fromNow()}</Text>
-        </Text>,
+        <View style={{ flexDirection: 'column', alignItems: 'center', paddingTop: 20 }}>
+          <Text style={{
+            shadowColor: 'black',
+            shadowOffset: {
+              width: 0,
+              height: 0,
+            },
+            shadowOpacity: 1,
+            shadowRadius: 5,
+            paddingBottom: 15
+          }}>
+            <Text style={{ fontSize: 24, fontWeight: 'bold', color: 'white' }}>{username}</Text>
+            <Text style={{ fontSize: 18, fontStyle: 'italic', color: 'white' }}>   {moment(time).fromNow()}</Text>
+          </Text>
+          <Text style={{
+            shadowColor: 'black',
+            shadowOffset: {
+              width: 0,
+              height: 0,
+            },
+            shadowOpacity: 1,
+            shadowRadius: 5,
+            fontWeight: 'bold',
+            fontSize: 12,
+            color: 'white'
+          }}
+          >Tap to close</Text>
+        </View>,
       headerTransparent: true,
       animationEnabled: false,
       headerLeft: null,
     })
-    setTimeout(() => {
-      navigation.navigate('Home')
-    }, 12000)
   }, [])
 
   const back = () => {

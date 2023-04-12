@@ -1,12 +1,14 @@
-import { StyleSheet, Text, View, ScrollView, useWindowDimensions, TouchableOpacity, Image } from 'react-native'
+import { StyleSheet, Text, View, ScrollView, useWindowDimensions, TouchableOpacity, Image, Alert, ActivityIndicator } from 'react-native'
 import { useForm } from 'react-hook-form'
-import React from 'react'
+import React,{ useState } from 'react'
 
 import CustomButton from '../../components/customButton'
 import CustomInput from '../../components/customInput'
 import LogoCompleto from '../../../assets/m__memoryLogoColors.png'
 import Logo from '../../../assets/m__mLogoColors.png'
-import { mainBackground, mainColor, EMAIL_REGEX } from '../../config/config'
+import { mainBackground, mainColor, EMAIL_REGEX, BASE_URL } from '../../config/config'
+
+import axios from 'axios'
 
 const ForgotPassScreen = ({ navigation }) => {
 
@@ -15,12 +17,47 @@ const ForgotPassScreen = ({ navigation }) => {
   const { control, handleSubmit, formState: { errors }, watch } = useForm()
   const pwd = watch('password')
 
-  const onUpdatePassword = () => {
-    console.log('test')
+  const [loading, setLoading] = useState(false)
+
+  const onUpdatePassword = (data) => {
+    setLoading(true)
+    axios.post(`${BASE_URL}/forgotpassword`, {
+      username: data.username,
+      email: data.email,
+      password: data.password
+    }).then(res => {
+      Alert.alert(
+        'Forgot Password',
+        `Password updated successfully!`,
+        [{
+          text: 'Back to Sign In',
+          style: 'cancel',
+          onPress: () => { onBackPressed() }
+        }]
+      )
+      setLoading(false)
+    }).catch(e => {
+      Alert.alert(
+        'Forgot Password Error',
+        `${e.response.data.msg}`,
+        [{
+          text: 'Close', style: 'cancel'
+        }]
+      )
+      setLoading(false)
+    })
   }
 
   const onBackPressed = () => {
     navigation.goBack()
+  }
+
+  if (loading) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: mainBackground }}>
+        <ActivityIndicator size={'large'} />
+      </View>
+    )
   }
 
   return (
@@ -84,7 +121,7 @@ const ForgotPassScreen = ({ navigation }) => {
           }}
         />
 
-<View style={{ marginTop: '15%' }} />
+        <View style={{ marginTop: '15%' }} />
         <CustomButton text="Reset password" onPress={handleSubmit(onUpdatePassword)} />
 
         <TouchableOpacity onPress={onBackPressed}>
@@ -92,7 +129,6 @@ const ForgotPassScreen = ({ navigation }) => {
         </TouchableOpacity>
 
         <Image source={LogoCompleto} style={[styles.logo, { height: height * 0.2 }]} resizeMode="contain" />
-
       </View>
     </ScrollView>
   )
