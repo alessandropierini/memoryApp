@@ -1,6 +1,7 @@
 import { Request, Response} from 'express'
 import User from '../models/user'
 import Post, { IPost } from '../models/Post';
+import comment from '../models/comment';
 
 
 
@@ -16,6 +17,7 @@ export const DeletePost = async (req: Request, res: Response): Promise<Response>
         return res.status(400).json({ msg: 'The user dont exists'});
     }
     await Post.deleteOne({_id:req.body._id})
+    await comment.deleteMany({})
 
     return res.status(201).json({ msg: 'Post deleted succesfully'});
 }
