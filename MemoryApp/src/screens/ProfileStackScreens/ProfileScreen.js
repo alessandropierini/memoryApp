@@ -197,7 +197,7 @@ const ProfileScreen = ({ navigation }) => {
           onPress={onNewMomentPressed}
         />
         <View style={{ alignItems: 'center', padding: 2 }}>
-          <Text style={{ fontWeight: 'bold', fontSize: 12, fontStyle: 'italic' }}>Moments will disappear after 24 hours</Text>
+          <Text style={{ fontWeight: 'bold', fontSize: 12, fontStyle: 'italic' }}> * Moments will disappear after 24 hours * </Text>
         </View>
         <View style={{ paddingTop: "30%" }}>
           <BottomSheetOptions

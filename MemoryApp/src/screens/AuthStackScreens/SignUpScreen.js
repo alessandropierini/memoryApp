@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity, useWindowDimensions, Image } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, useWindowDimensions, Image, ScrollView } from 'react-native'
 import Logo from '../../../assets/m__mLogoColors.png'
 import LogoCompleto from '../../../assets/m__memoryLogoColors.png'
 import React, { useContext } from 'react'
@@ -6,11 +6,9 @@ import CustomButton from '../../components/customButton'
 import CustomInput from '../../components/customInput'
 import { useForm } from 'react-hook-form'
 import { AuthContext } from '../../context/AuthContext'
-import { ScrollView } from 'react-native-gesture-handler'
 
-import { mainColor, defaultAvatar, mainBackground } from '../../config/config'
+import { mainColor, mainBackground, EMAIL_REGEX } from '../../config/config'
 
-const EMAIL_REGEX = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/
 
 const SignUpScreen = ({ navigation }) => {
   const { signup } = useContext(AuthContext)
@@ -108,10 +106,10 @@ const SignUpScreen = ({ navigation }) => {
         <CustomButton text="Sign Up" onPress={handleSubmit(onSignUpPressed)} />
 
         <TouchableOpacity onPress={onSignInPressed}>
-          <Text style={{ color: mainColor, padding: 5, marginBottom: 0 }}>Have an account? <Text style={styles.text}>Sign In here!</Text></Text>
+          <Text style={{ color: mainColor, padding: '2%', marginBottom: '14%' }}>Have an account? <Text style={styles.text}>Sign In here!</Text></Text>
         </TouchableOpacity>
 
-        {/* <Image source={LogoCompleto} style={[styles.logo, { height: height * 0.2 }]} resizeMode="contain" /> */}
+        <Image source={LogoCompleto} style={[styles.logo, { height: height * 0.2 }]} resizeMode="contain" />
       </View>
     </ScrollView>
   )

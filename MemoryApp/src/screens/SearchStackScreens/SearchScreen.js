@@ -11,7 +11,6 @@ const SearchScreen = ({ navigation }) => {
 
   const { userInfo } = useContext(AuthContext)
 
-
   const [data, setData] = useState([])
   const [users, setUsers] = useState([])
   const pullUsers = () => {
@@ -34,6 +33,7 @@ const SearchScreen = ({ navigation }) => {
   }
 
   useEffect(() => {
+
     navigation.setOptions({
       headerTitle: () => (
         <TextInput

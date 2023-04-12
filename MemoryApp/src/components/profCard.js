@@ -6,10 +6,10 @@ import { mainColor, mainTextColor, defaultAvatar, mainBackground, detailsColor, 
 import axios from 'axios'
 import { AuthContext } from '../context/AuthContext'
 
-const ProfCard = ({ profilepic, username, onPress, isLoggedUser = false, postslength = 0, userID }) => {
+const ProfCard = ({ profilepic, username, onPress, isLoggedUser = false, postslength = 0, userID, navigation }) => {
 
     const { userInfo } = useContext(AuthContext)
-    
+
     const [followingNum, setFollowingNum] = useState(0)
     const [followersNum, setFollowersNum] = useState(0)
 
@@ -22,9 +22,9 @@ const ProfCard = ({ profilepic, username, onPress, isLoggedUser = false, postsle
             setFollowersNum(res.data.length)
             if (res.data.some(user => user.FollowingUser === userInfo._id)) {
                 setToggle(true)
-              } else {
+            } else {
                 setToggle(false)
-              }
+            }
         }).catch(e => {
             console.log(e.response.msg)
         })
@@ -58,6 +58,12 @@ const ProfCard = ({ profilepic, username, onPress, isLoggedUser = false, postsle
         })
     }
 
+    const onMessagePressed = () => {
+        navigation.navigate('InboxStack', {
+            screen: 'Messages',
+            params: {username}
+        })
+    }
 
     useEffect(() => {
         getFollowersInfo()
@@ -110,7 +116,7 @@ const ProfCard = ({ profilepic, username, onPress, isLoggedUser = false, postsle
                             <View>
                                 {toggle ?
                                     <View style={{ flexDirection: 'row', }}>
-                                        <CustomButton text="Message" onPress={onPress} type="MESSAGE" />
+                                        <CustomButton text="Message" onPress={onMessagePressed} type="MESSAGE" />
                                         <CustomButton text="Following" onPress={FollowAction} type="FOLLOWING" />
                                     </View>
                                     :
