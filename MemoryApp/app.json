@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "MemoryApp",
-    "slug": "MemoryApp",
+    "slug": "memoryapp",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -29,7 +29,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "1b7ff608-fc97-4782-a9df-f87b817dcc73"
+        "projectId": "8fef8aa7-0fa8-4a4f-a37a-1d5d109f2c17"
       }
     }
   }

@@ -6,6 +6,7 @@ import bcrypt from "bcrypt"
 import Post from '../models/Post'
 import like from '../models/like'
 import follow from '../models/follow'
+import stories from '../models/stories'
 
 function createToken(user: IUser) {
     return jwt.sign({id: user.id, email: user.email}, config.jwtSecret, {
@@ -153,6 +154,7 @@ export const DeleteUser = async (req: Request, res: Response): Promise<Response>
     await Post.deleteMany({owner: req.body._id})
     await like.deleteMany({idUser: req.body._id})
     await follow.deleteMany({FollowedUser: req.body._id, FollowingUser: req.body._id})
+    await stories.deleteMany({idUser: req.body._id, image: req.body._id})
 
-    return res.status(201).json({ msg: 'User and post deleted succesfully'});
+    return res.status(201).json({ msg: 'User deleted succesfully'});
 }
