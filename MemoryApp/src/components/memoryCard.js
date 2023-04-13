@@ -4,6 +4,7 @@ import { abbreviateNumber } from 'js-abbreviation-number'
 import moment from 'moment'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import Feather from 'react-native-vector-icons/Feather'
+import { Ionicons } from '@expo/vector-icons'
 
 import axios from 'axios'
 
@@ -285,8 +286,11 @@ const MemoryCard = ({ caption, image, time, owner, like, navigation, postID }) =
         enableDismissOnClose={true}
       >
 
-        <View style={{ alignItems: 'center', paddingBottom: 10, borderBottomColor: detailsColor, borderBottomWidth: 0.5 }}>
-          <Text style={{ fontWeight: 'bold', fontSize: 24 }}>Comments</Text>
+        <View style={{ justifyContent: 'center',  paddingBottom: 10, borderBottomColor: detailsColor, borderBottomWidth: 0.5, flexDirection: 'row', position: 'relative', }}>
+          <Text style={{ fontWeight: 'bold', fontSize: 24, position: 'absolute' }}>Comments</Text>
+          <TouchableOpacity onPress={CloseBottomSheet} style={{ alignItems: 'flex-end', flex: 1, justifyContent: 'center', paddingRight: 10}}>
+            <Ionicons name="close" size={24} color= 'black' />
+          </TouchableOpacity>
         </View>
 
         <View style={{ alignItems: 'center', position: 'relative' }}>
